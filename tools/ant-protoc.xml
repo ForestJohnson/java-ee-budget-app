@@ -6,9 +6,9 @@
   <target name="proto">
   	<mkdir dir="src/restart/protobufs"/>
     <exec executable="C:\Users\Forest\eclipse-work\Test\tools\protoc.exe" failonerror="true">
-        <arg value="--java_out=src/restart" />
+        <arg value="--java_out=src" />
         <arg value="--proto_path=${proto.source}" />
-        <arg line="${proto.source}/Test.proto" />
+        <arg line="${proto.source}/Restart.proto" />
     </exec>
   </target>
   

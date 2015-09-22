@@ -8,6 +8,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import restart.data.ILevelDB;
+import restart.protobufs.Restart.*;
 
 @Default
 @Stateless
@@ -16,30 +17,32 @@ public class RestartService implements IRestartService {
   @Inject private ILevelDB levelDb;
   
   @Override
-  public String getData() {
+  public Test getData() {
     
-    String result = "";
+    Test test;
+	
     try {
-      result = levelDb.transaction(
-          (db) -> {
-                byte[] resultBytes = db.get("test".getBytes());
-                return resultBytes != null && resultBytes.length > 0 ? new String(resultBytes) : "";
-             }
-          );
-    } catch (IOException e) {
-      result = "ERROR";
+      test = Test.parseFrom(
+    		  levelDb.transaction( (db) -> db.get("test".getBytes()) )
+    		 );
+    } catch (Exception e) {
+      test = Test.newBuilder().setGreeting("Error Getting").build();
     }
     
-    final String output = result + " :)";
+    final Test modified = Test.newBuilder(test)
+    		.setGreeting(test.getGreeting() + " :) ")
+    		.setTimesGreeted(test.getTimesGreeted() + 1)
+    		.build();
+    
     try {
       levelDb.transaction(
-        (db) -> { db.put("test".getBytes(), output.getBytes()); return null;}
+        (db) -> { db.put("test".getBytes(), modified.toByteArray()); return null; }
       );
     } catch (IOException e) {
-      return "WRITE ERROR";
+      return Test.newBuilder().setGreeting("Error Setting").build();
     }
     
-    return output;
+    return modified;
   }
   
   @Override
