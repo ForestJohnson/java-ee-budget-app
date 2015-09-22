@@ -13,37 +13,38 @@ import restart.data.ILevelDB;
 @Stateless
 public class RestartService implements IRestartService {
 
-	@Inject private ILevelDB levelDb;
-	
-	@Override
-	public String getData() {
-		
-		String result = "";
-		try {
-			result = levelDb.snapshot(
-					(db, readOptions) -> Arrays.toString(
-								db.get("test".getBytes(), readOptions)
-							)
-					);
-		} catch (IOException e) {
-			result = "ERROR";
-		}
-		
-		final String output = result + " :)";
-		try {
-			levelDb.atomicWrite(
-				(writeBatch) -> writeBatch.put("test".getBytes(), output.getBytes())
-			);
-		} catch (IOException e) {
-			return "WRITE ERROR";
-		}
-		
-		return output;
-	}
-	
-	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
+  @Inject private ILevelDB levelDb;
+  
+  @Override
+  public String getData() {
+    
+    String result = "";
+    try {
+      result = levelDb.transaction(
+          (db) -> {
+                byte[] resultBytes = db.get("test".getBytes());
+                return resultBytes != null && resultBytes.length > 0 ? new String(resultBytes) : "";
+             }
+          );
+    } catch (IOException e) {
+      result = "ERROR";
+    }
+    
+    final String output = result + " :)";
+    try {
+      levelDb.transaction(
+        (db) -> { db.put("test".getBytes(), output.getBytes()); return null;}
+      );
+    } catch (IOException e) {
+      return "WRITE ERROR";
+    }
+    
+    return output;
+  }
+  
+  @Override
+  public void close() throws Exception {
+    // TODO Auto-generated method stub
 
-	}
+  }
 }
