@@ -1,7 +1,6 @@
 package restart.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
@@ -23,8 +22,8 @@ public class RestartService implements IRestartService {
 	
     try {
       test = Test.parseFrom(
-    		  levelDb.transaction( (db) -> db.get("test".getBytes()) )
-    		 );
+        levelDb.transaction( (db) -> db.get("test".getBytes()) )
+      );
     } catch (Exception e) {
       test = Test.newBuilder().setGreeting("Error Getting").build();
     }
