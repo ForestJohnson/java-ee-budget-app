@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Default
 public class LevelDB implements ILevelDB {
 
-  private String fileName = "testLevelDb3";
+  private String fileName = "testLevelDb4";
   
   public <R> R transaction(Function<DB, R> action) throws IOException {
     Options options = new Options();

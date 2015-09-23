@@ -1,11 +1,22 @@
 package restart.data;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
-public interface IProtobufRepository<K, V extends com.google.protobuf.GeneratedMessage> {
-	public void configureIndex(String name, Function<V, K> getKeyFromValue, Function <K, byte[]> getKeyBytesFromKey);
-	public IProtobufQuery<K, V> by(String indexName);
+import org.iq80.leveldb.DB;
+
+import com.google.protobuf.Parser;
+
+public interface IProtobufRepository<V extends com.google.protobuf.GeneratedMessage> {
+	public <K> void configureIndex(String name, Parser<V> parser, Function<V, K> getKeyFromValue, Function <K, byte[]> getKeyBytesFromKey);
+	public void put(DB db, V value);
+	public void delete(DB db, V value);
+	
+	public interface IProtobufIndex<K, V extends com.google.protobuf.GeneratedMessage> {
+		public IProtobufQuery<K, V> query(DB db);
+	}
 	
 	public interface IProtobufQuery<K, V extends com.google.protobuf.GeneratedMessage> {
 		
@@ -15,10 +26,12 @@ public interface IProtobufRepository<K, V extends com.google.protobuf.GeneratedM
 		
 		public IProtobufQuery<K, V> atKey (K key);
 		
+		public IProtobufQuery<K, V> where (Predicate<V> predicate);
+		
 		public IProtobufQuery<K, V> limit(int n);
 		
-		public V firstOrDefault();
+		public V firstOrDefault() throws IOException ;
 		
-		public V[] toArray();
+		public List<V> toArray() throws IOException ;
 	}
 }
