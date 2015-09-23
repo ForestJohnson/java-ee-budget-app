@@ -13,27 +13,27 @@ public final class Restart {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional int32 id = 1;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    int getId();
+
+    /**
+     * <code>optional string greeting = 2;</code>
      */
     boolean hasGreeting();
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional string greeting = 2;</code>
      */
     java.lang.String getGreeting();
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional string greeting = 2;</code>
      */
     com.google.protobuf.ByteString
         getGreetingBytes();
-
-    /**
-     * <code>optional int32 times_greeted = 2;</code>
-     */
-    boolean hasTimesGreeted();
-    /**
-     * <code>optional int32 times_greeted = 2;</code>
-     */
-    int getTimesGreeted();
   }
   /**
    * Protobuf type {@code Test}
@@ -87,15 +87,15 @@ public final class Restart {
               }
               break;
             }
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 8: {
               bitField0_ |= 0x00000001;
-              greeting_ = bs;
+              id_ = input.readInt32();
               break;
             }
-            case 16: {
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              timesGreeted_ = input.readInt32();
+              greeting_ = bs;
               break;
             }
           }
@@ -138,16 +138,31 @@ public final class Restart {
     }
 
     private int bitField0_;
-    public static final int GREETING_FIELD_NUMBER = 1;
-    private java.lang.Object greeting_;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional int32 id = 1;</code>
      */
-    public boolean hasGreeting() {
+    public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int GREETING_FIELD_NUMBER = 2;
+    private java.lang.Object greeting_;
+    /**
+     * <code>optional string greeting = 2;</code>
+     */
+    public boolean hasGreeting() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string greeting = 2;</code>
      */
     public java.lang.String getGreeting() {
       java.lang.Object ref = greeting_;
@@ -164,7 +179,7 @@ public final class Restart {
       }
     }
     /**
-     * <code>optional string greeting = 1;</code>
+     * <code>optional string greeting = 2;</code>
      */
     public com.google.protobuf.ByteString
         getGreetingBytes() {
@@ -180,24 +195,9 @@ public final class Restart {
       }
     }
 
-    public static final int TIMES_GREETED_FIELD_NUMBER = 2;
-    private int timesGreeted_;
-    /**
-     * <code>optional int32 times_greeted = 2;</code>
-     */
-    public boolean hasTimesGreeted() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 times_greeted = 2;</code>
-     */
-    public int getTimesGreeted() {
-      return timesGreeted_;
-    }
-
     private void initFields() {
+      id_ = 0;
       greeting_ = "";
-      timesGreeted_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -213,10 +213,10 @@ public final class Restart {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getGreetingBytes());
+        output.writeInt32(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, timesGreeted_);
+        output.writeBytes(2, getGreetingBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -229,11 +229,11 @@ public final class Restart {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getGreetingBytes());
+          .computeInt32Size(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, timesGreeted_);
+          .computeBytesSize(2, getGreetingBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -352,9 +352,9 @@ public final class Restart {
 
       public Builder clear() {
         super.clear();
-        greeting_ = "";
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        timesGreeted_ = 0;
+        greeting_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -387,11 +387,11 @@ public final class Restart {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.greeting_ = greeting_;
+        result.id_ = id_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.timesGreeted_ = timesGreeted_;
+        result.greeting_ = greeting_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -408,13 +408,13 @@ public final class Restart {
 
       public Builder mergeFrom(restart.protobufs.Restart.Test other) {
         if (other == restart.protobufs.Restart.Test.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
         if (other.hasGreeting()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           greeting_ = other.greeting_;
           onChanged();
-        }
-        if (other.hasTimesGreeted()) {
-          setTimesGreeted(other.getTimesGreeted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -443,15 +443,47 @@ public final class Restart {
       }
       private int bitField0_;
 
-      private java.lang.Object greeting_ = "";
+      private int id_ ;
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional int32 id = 1;</code>
        */
-      public boolean hasGreeting() {
+      public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object greeting_ = "";
+      /**
+       * <code>optional string greeting = 2;</code>
+       */
+      public boolean hasGreeting() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string greeting = 2;</code>
        */
       public java.lang.String getGreeting() {
         java.lang.Object ref = greeting_;
@@ -468,7 +500,7 @@ public final class Restart {
         }
       }
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional string greeting = 2;</code>
        */
       public com.google.protobuf.ByteString
           getGreetingBytes() {
@@ -484,69 +516,37 @@ public final class Restart {
         }
       }
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional string greeting = 2;</code>
        */
       public Builder setGreeting(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         greeting_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional string greeting = 2;</code>
        */
       public Builder clearGreeting() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         greeting_ = getDefaultInstance().getGreeting();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string greeting = 1;</code>
+       * <code>optional string greeting = 2;</code>
        */
       public Builder setGreetingBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         greeting_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int timesGreeted_ ;
-      /**
-       * <code>optional int32 times_greeted = 2;</code>
-       */
-      public boolean hasTimesGreeted() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 times_greeted = 2;</code>
-       */
-      public int getTimesGreeted() {
-        return timesGreeted_;
-      }
-      /**
-       * <code>optional int32 times_greeted = 2;</code>
-       */
-      public Builder setTimesGreeted(int value) {
-        bitField0_ |= 0x00000002;
-        timesGreeted_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 times_greeted = 2;</code>
-       */
-      public Builder clearTimesGreeted() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        timesGreeted_ = 0;
         onChanged();
         return this;
       }
@@ -576,9 +576,8 @@ public final class Restart {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rRestart.proto\"/\n\004Test\022\020\n\010greeting\030\001 \001(" +
-      "\t\022\025\n\rtimes_greeted\030\002 \001(\005B\023\n\021restart.prot" +
-      "obufs"
+      "\n\rRestart.proto\"$\n\004Test\022\n\n\002id\030\001 \001(\005\022\020\n\010g" +
+      "reeting\030\002 \001(\tB\023\n\021restart.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -597,7 +596,7 @@ public final class Restart {
     internal_static_Test_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Test_descriptor,
-        new java.lang.String[] { "Greeting", "TimesGreeted", });
+        new java.lang.String[] { "Id", "Greeting", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

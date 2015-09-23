@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import restart.protobufs.Restart.Test;
+import restart.protobufs.Restart.TestOrBuilder;
 import restart.service.IRestartService;
 
 /**
@@ -35,7 +36,7 @@ public class Restart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		Test state = restartService.getData();
+		TestOrBuilder state = restartService.getData();
 		
 		response.getWriter().append("Test: ").append( state.toString() );
 	}

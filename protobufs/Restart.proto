@@ -3,6 +3,7 @@ syntax = "proto2";
 option java_package = "restart.protobufs";
 
 message Test {
-  optional string greeting = 1;
-  optional int32 times_greeted = 2;
+  optional int32 id = 1;
+  optional string greeting = 2;
+  
 }
