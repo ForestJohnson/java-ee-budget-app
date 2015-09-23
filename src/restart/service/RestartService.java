@@ -1,6 +1,5 @@
 package restart.service;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +11,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import restart.data.IProtobufRepository;
 import restart.data.IProtobufRepository.IProtobufIndex;
-import restart.protobufs.Restart.*;
+import restart.protobufs.Restart.Test;
+import restart.protobufs.Restart.TestOrBuilder;
 
 @Default
 @Stateless
