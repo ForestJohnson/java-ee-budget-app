@@ -18,15 +18,14 @@ public class LevelDB implements ILevelDB {
   public <R> R transaction(Function<DB, R> action) throws IOException {
     Options options = new Options();
     options.createIfMissing(true);
+    options.compressionType(CompressionType.NONE);
     DB db = null;
     try {
       db = factory.open(new File(fileName), options);
-      System.out.println("The DB is open.");
       return action.apply(db);
     } finally {
       // Make sure you close the DB.
       db.close();
-      System.out.println("The DB is closed.");
     }
   }
   
