@@ -1,5 +1,6 @@
 
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 var Builder = require('systemjs-builder');
 var ngAnnotate = require('gulp-ng-annotate');
 var templateCache = require('gulp-angular-templatecache');
@@ -21,7 +22,18 @@ var watchTemplates = '**/*.tmpl.html';
 //       .pipe(gulp.dest(pathToSrc));
 // });
 
-gulp.task('bundle-js', [], function () {
+gulp.task('bundle-templates', [], function() {
+  return gulp.src(pathToSrc+watchTemplates)
+        .pipe(templateCache({
+                module: 'template-cache',
+                standalone: true,
+                root: 'app/',
+                moduleSystem: 'Browserify'
+            }))
+        .pipe(gulp.dest(pathToSrc));
+});
+
+gulp.task('bundle-js', ['bundle-templates'], function () {
   var builder = new Builder('./', 'config.js')
 
   return builder.buildStatic(pathToSrc+'index.js', pathToDist+'index.js', {
@@ -39,11 +51,6 @@ gulp.task('copy-html', [], function() {
         .pipe(gulp.dest(pathToDist));
 });
 
-gulp.task('bundle-templates', [], function() {
-  return gulp.src(pathToSrc+watchTemplates)
-        .pipe(templateCache())
-        .pipe(gulp.dest(pathToDist));
-});
 
 gulp.task('copy-css', [], function() {
   return gulp.src(bootstrap)
@@ -54,7 +61,14 @@ gulp.task('build', ['copy-html', 'bundle-templates', 'copy-css', 'bundle-js'], f
 
 gulp.task('watch', [], function() {
   gulp.watch(pathToSrc+html, ['copy-html']);
-  gulp.watch(pathToSrc+watchTemplates, ['bundle-templates']);
-  gulp.watch(pathToSrc+watchJs, ['bundle-js']);
+  gulp.watch([pathToSrc+watchJs, pathToSrc+watchTemplates], ['bundle-js']);
   //gulp.watch(pathToSrc+watchLess, ['copy-css']);
+});
+
+gulp.task('serve', ['watch'], function() {
+  browserSync.init({
+      server: {
+          baseDir: pathToDist
+      }
+  });
 });

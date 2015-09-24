@@ -32,9 +32,11 @@
     }
   },
   "devDependencies": {
+    "browser-sync": "^2.9.6",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-ng-annotate": "^1.1.0",
+    "gulp-serve": "^1.2.0",
     "jspm": "^0.16.10",
     "systemjs-builder": "^0.14.6"
   }

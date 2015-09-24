@@ -13968,6 +13968,19 @@ $__System.registerDynamic("b", ["a"], true, function(require, exports, module) {
   return module.exports;
 });
 
+$__System.registerDynamic("d", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  module.exports = angular.module("template-cache", []).run(["$templateCache", function($templateCache) {
+    $templateCache.put("app/routes/home.tmpl.html", "\r\n<div>\r\n  Hello World\r\n</div>\r\n");
+  }]);
+  global.define = __define;
+  return module.exports;
+});
+
 $__System.register('9', [], function (_export) {
   'use strict';
 
@@ -13980,7 +13993,9 @@ $__System.register('9', [], function (_export) {
       controllerAs: 'vm'
     });
 
-    module.controller('HomeController', ['$scope', function HomeController($scope) {}]);
+    module.controller('HomeController', ['$scope', function HomeController($scope) {
+      console.log('loaded HomeController');
+    }]);
   }
 
   return {
@@ -14009,20 +14024,24 @@ $__System.register('c', ['8', '9', 'b'], function (_export) {
                 RegisterHome($stateProvider, routes);
             }]);
 
+            console.log('loaded routes');
+
             _export('default', routes);
         }
     };
 });
-$__System.register('1', ['8', 'c'], function (_export) {
+$__System.register('1', ['8', 'c', 'd'], function (_export) {
   'use strict';
 
-  var angular, app;
+  var angular, templateCache, app;
   return {
     setters: [function (_) {
       angular = _['default'];
-    }, function (_c) {}],
+    }, function (_c) {}, function (_d) {
+      templateCache = _d['default'];
+    }],
     execute: function () {
-      app = angular.module('client', ['client.routes']);
+      app = angular.module('client', [templateCache.name, 'client.routes']);
     }
   };
 });
