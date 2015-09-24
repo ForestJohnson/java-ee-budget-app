@@ -1,8 +1,7 @@
 'use strict';
 
-
-
-var HomeController = ['$scope', 'TestBuilder', function HomeController($scope, TestBuilder) {
+var HomeController = ['$scope', 'TestBuilder',
+function HomeController($scope, TestBuilder) {
   this.transactions = [];
 
   debugger;
