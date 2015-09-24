@@ -18,14 +18,14 @@ import org.iq80.leveldb.DBIterator;
 
 @Default
 @Stateless
-public class ProtobufRepository<V extends com.google.protobuf.GeneratedMessage> implements IProtobufRepository<V> {
+public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMessage> implements IProtobufRepository<V> {
 
 	@Inject private ILevelDBManager levelDb;
 	
 	private final Map<String, IProtobufIndex<?, V>> indexes;
 	private Function<byte[], V> parserFunction;
 	
-	private ProtobufRepository() 
+	private ProtobufLevelDBRepository() 
 	{
 		this.indexes = new HashMap<String, IProtobufIndex<?, V>>();
 		System.out.println("protobuf repo goin up");

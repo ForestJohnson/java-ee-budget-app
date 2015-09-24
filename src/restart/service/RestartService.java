@@ -25,12 +25,12 @@ public class RestartService implements IRestartService {
 	public void configure() {
 		tests.configure( 
 			(x) -> {
-					try {
-						return Test.parseFrom(x);
-					} catch (InvalidProtocolBufferException ex){
-						return Test.newBuilder().build();
-					}
+				try {
+					return Test.parseFrom(x);
+				} catch (InvalidProtocolBufferException ex){
+					return Test.newBuilder().build();
 				}
+			}
 		);
 		
 		testById = tests.configureIndex(
