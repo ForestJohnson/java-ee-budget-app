@@ -6,7 +6,7 @@ export default function registerDirective(module) {
     function transactionList() {
       return {
         restrict: 'E',
-        templateUrl: "app/shared/transactionList/transactionList.tmpl.html",
+        templateUrl: "app/directives/transactionList/transactionList.tmpl.html",
         controllerAs: "vm",
         controller: [function() {
           this.getDateString = (date) => 'null';
@@ -21,4 +21,3 @@ export default function registerDirective(module) {
     }
   );
 }
-  

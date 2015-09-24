@@ -10,7 +10,7 @@ export default function registerRouteAndController($stateProvider, module) {
       controller: [
         '$scope',
         function HomeController($scope) {
-          console.log('loaded HomeController');
+          this.transactions = []; 
         }
       ],
       controllerAs: 'vm'

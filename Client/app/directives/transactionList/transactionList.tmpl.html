@@ -1,9 +1,15 @@
 
 <div class="panel panel-default">
-  <div class="panel-heading"> 
+  <div class="panel-heading">
     Transactions
   </div>
-  <table class="table">
+  <div class="panel-body" ng-if='vm.transactions.loading'>
+    Loading...
+  </div>
+  <div class="panel-body" ng-if='!vm.transactions.length && !vm.transactions.loading'>
+    No Transactions to display.
+  </div>
+  <table class="table" ng-if='vm.transactions.length'>
     <thead>
       <tr>
         <th>Date</th>

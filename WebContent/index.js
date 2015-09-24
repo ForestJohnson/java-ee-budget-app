@@ -13980,7 +13980,7 @@ $__System.register('9', [], function (_export) {
       url: '/',
       templateUrl: 'app/routes/home.tmpl.html',
       controller: ['$scope', function HomeController($scope) {
-        console.log('loaded HomeController');
+        this.transactions = [];
       }],
       controllerAs: 'vm'
     });
@@ -14031,7 +14031,7 @@ $__System.register('d', [], function (_export) {
     module.directive('transactionList', function transactionList() {
       return {
         restrict: 'E',
-        templateUrl: "app/shared/transactionList/transactionList.tmpl.html",
+        templateUrl: "app/directives/transactionList/transactionList.tmpl.html",
         controllerAs: "vm",
         controller: [function () {
           this.getDateString = function (date) {

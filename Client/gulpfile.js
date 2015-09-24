@@ -22,6 +22,7 @@ var watchTemplates = '**/*.tmpl.html';
 //       .pipe(gulp.dest(pathToSrc));
 // });
 
+
 gulp.task('bundle-templates', [], function() {
   return gulp.src(pathToSrc+watchTemplates)
         .pipe(templateCache({
@@ -59,10 +60,14 @@ gulp.task('copy-css', [], function() {
 
 gulp.task('build', ['copy-html', 'copy-css', 'bundle-templates', 'bundle-js'], function(){});
 
-gulp.task('watch', [], function() {
-  gulp.watch(pathToSrc+html, ['copy-html']);
-  gulp.watch(pathToSrc+watchJs, ['bundle-js']);
-  gulp.watch(pathToSrc+watchTemplates, ['bundle-templates']);
+gulp.task('bundle-templates-watch', ['bundle-templates'], browserSync.reload);
+gulp.task('copy-html-watch', ['copy-html'], browserSync.reload);
+gulp.task('bundle-js-watch', ['bundle-js'], browserSync.reload);
+
+gulp.task('watch', ['build'], function() {
+  gulp.watch(pathToSrc+html, ['copy-html-watch']);
+  gulp.watch(pathToSrc+watchJs, ['bundle-js-watch']);
+  gulp.watch(pathToSrc+watchTemplates, ['bundle-templates-watch']);
   //gulp.watch(pathToSrc+watchLess, ['copy-css']);
 });
 
