@@ -1,4 +1,4 @@
-package restart.web;
+package com.ilmservice.personalbudget.web;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import restart.service.IRestartService;
+import com.ilmservice.personalbudget.service.IRestartService;
 
 @Stateless
 @Path("test")
@@ -21,7 +21,7 @@ public class TestController {
     public String get(@PathParam("testId") int testId) {
         return "<html lang=\"en\"><body><h1>"
         		+ restartService.getData(testId).toString()
-        		+"</h1></body></html>";
+        		+ "</h1></body></html>";
     }
 	
 }

@@ -1,4 +1,4 @@
-package restart.data;
+package com.ilmservice.personalbudget.data;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;

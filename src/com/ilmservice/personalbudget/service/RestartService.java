@@ -1,4 +1,4 @@
-package restart.service;
+package com.ilmservice.personalbudget.service;
 
 import java.nio.ByteBuffer;
 
@@ -8,11 +8,10 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-
-import restart.data.IProtobufRepository;
-import restart.data.IProtobufRepository.IProtobufIndex;
-import restart.protobufs.Restart.Test;
-import restart.protobufs.Restart.TestOrBuilder;
+import com.ilmservice.personalbudget.data.IProtobufRepository;
+import com.ilmservice.personalbudget.data.IProtobufRepository.IProtobufIndex;
+import com.ilmservice.personalbudget.protobufs.Restart.Test;
+import com.ilmservice.personalbudget.protobufs.Restart.TestOrBuilder;
 
 @Default
 @Stateless
