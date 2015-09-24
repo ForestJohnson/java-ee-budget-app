@@ -5,6 +5,8 @@ var Builder = require('systemjs-builder');
 var gulpProtobuf = require('gulp-protobufjs');
 var ngAnnotate = require('gulp-ng-annotate');
 var templateCache = require('gulp-angular-templatecache');
+var less = require('gulp-less');
+var concatCss = require('gulp-concat-css');
 
 var pathToDist = '../WebContent/';
 var pathToSrc = 'app/';
@@ -50,17 +52,6 @@ gulp.task('bundle-js', [], function () {
   });
 });
 
-gulp.task('copy-html', [], function() {
-  return gulp.src(html)
-        .pipe(gulp.dest(pathToDist));
-});
-
-
-gulp.task('copy-css', [], function() {
-  return gulp.src(bootstrap)
-        .pipe(gulp.dest(pathToDist));
-});
-
 gulp.task('protobufs', function () {
   return gulp.src(watchProtobuf)
     .pipe(gulpProtobuf({
@@ -69,12 +60,40 @@ gulp.task('protobufs', function () {
     .pipe(gulp.dest(outputProtobuf));
 });
 
+gulp.task('bundle-less', function () {
+ return gulp.src(watchLess)
+   .pipe(less({
+
+   }))
+   .pipe(concatCss("bundle.css"))
+   .pipe(gulp.dest(pathToDist))
+   .pipe(browserSync.stream());
+});
+
+gulp.task('copy-css', [], function() {
+  return gulp.src(bootstrap)
+        .pipe(gulp.dest(pathToDist));
+});
+
+gulp.task('copy-html', [], function() {
+  return gulp.src(html)
+        .pipe(gulp.dest(pathToDist));
+});
+
 gulp.task('copy-js-debug', [], function() {
   return gulp.src('app/**/*.js')
         .pipe(gulp.dest(pathToDist+'Client/app'));
 });
 
-gulp.task('build', ['copy-html', 'copy-css', 'bundle-templates', 'protobufs', 'bundle-js', 'copy-js-debug'], function(){});
+gulp.task('build', [
+  'copy-html',
+  'copy-css',
+  'bundle-templates',
+  'bundle-less',
+  'protobufs',
+  'bundle-js',
+  'copy-js-debug'
+], function(){});
 
 gulp.task('bundle-templates-watch', ['bundle-templates'], browserSync.reload);
 gulp.task('copy-html-watch', ['copy-html'], browserSync.reload);
@@ -85,7 +104,7 @@ gulp.task('watch', ['build'], function() {
   gulp.watch(watchProtobuf, ['protobufs']);
   gulp.watch(watchJs, ['bundle-js-watch']);
   gulp.watch(watchTemplates, ['bundle-templates-watch']);
-  //gulp.watch(watchLess, ['copy-css']);
+  gulp.watch(watchLess, ['bundle-less']);
 });
 
 gulp.task('serve', ['watch'], function() {
@@ -95,3 +114,5 @@ gulp.task('serve', ['watch'], function() {
       }
   });
 });
+
+gulp.task('default', ['serve'], function(){});
