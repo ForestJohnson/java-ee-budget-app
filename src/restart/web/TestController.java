@@ -4,6 +4,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import restart.service.IRestartService;
@@ -16,9 +17,10 @@ public class TestController {
 	
     @GET
     @Produces("text/html")
-    public String getHtml() {
+    @Path("{testId}")
+    public String get(@PathParam("testId") int testId) {
         return "<html lang=\"en\"><body><h1>"
-        		+ restartService.getData().toString()
+        		+ restartService.getData(testId).toString()
         		+"</h1></body></html>";
     }
 	

@@ -42,8 +42,8 @@ public class RestartService implements IRestartService {
 	}
 	
 	@Override
-	public TestOrBuilder getData() {
-		Test test = testById.query().atKey(1).firstOrDefault();
+	public TestOrBuilder getData(int testId) {
+		Test test = testById.query().atKey(testId).firstOrDefault();
 		
 		test = tests.put(Test.newBuilder(test).setGreeting(test.getGreeting()+" :) ").build());
 		

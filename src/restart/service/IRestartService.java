@@ -4,5 +4,5 @@ import restart.protobufs.Restart.Test;
 import restart.protobufs.Restart.TestOrBuilder;
 
 public interface IRestartService extends AutoCloseable {
-	public TestOrBuilder getData();
+	public TestOrBuilder getData(int testId);
 }
