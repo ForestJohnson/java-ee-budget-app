@@ -4,7 +4,7 @@
   <!-- Generates protocol buffers. -->
   <property name="proto.source" value="protobufs" />
   <target name="proto">
-  	<mkdir dir="src/restart/protobufs"/>
+  	<mkdir dir="src/com/ilmservice/personalbudget/protobufs"/>
     <exec executable="C:\Users\Forest\eclipse-work\Test\tools\protoc.exe" failonerror="true">
         <arg value="--java_out=src" />
         <arg value="--proto_path=${proto.source}" />

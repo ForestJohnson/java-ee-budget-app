@@ -332,7 +332,7 @@ public final class Restart {
                 com.ilmservice.personalbudget.protobufs.Restart.Test.class, com.ilmservice.personalbudget.protobufs.Restart.Test.Builder.class);
       }
 
-      // Construct using restart.protobufs.Restart.Test.newBuilder()
+      // Construct using com.ilmservice.personalbudget.protobufs.Restart.Test.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -577,7 +577,8 @@ public final class Restart {
   static {
     java.lang.String[] descriptorData = {
       "\n\rRestart.proto\"$\n\004Test\022\n\n\002id\030\001 \001(\005\022\020\n\010g" +
-      "reeting\030\002 \001(\tB\023\n\021restart.protobufs"
+      "reeting\030\002 \001(\tB)\n\'com.ilmservice.personal" +
+      "budget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

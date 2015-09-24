@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-option java_package = "restart.protobufs";
+option java_package = "com.ilmservice.personalbudget.protobufs";
 
 message Test {
   optional int32 id = 1;

@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.ilmservice</groupId>
-  <artifactId>Restart2</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <groupId>com.ilmservice.personalbudget</groupId>
+  <artifactId>Personal-Budget-Example-App</artifactId>
+  <version>0.0.1</version>
   <packaging>war</packaging>
-  <name>Restart2</name>
-  <description>Restart2</description>
+  <name>Personal Budget Example App</name>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
