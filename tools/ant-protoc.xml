@@ -5,7 +5,7 @@
   <property name="proto.source" value="protobufs" />
   <target name="proto">
   	<mkdir dir="src/com/ilmservice/personalbudget/protobufs"/>
-    <exec executable="C:\Users\Forest\eclipse-work\Test\tools\protoc.exe" failonerror="true">
+    <exec executable="C:\Users\Forest\eclipse-ws\com.ilmservice.personalbudget\tools\protoc.exe" failonerror="true">
         <arg value="--java_out=src" />
         <arg value="--proto_path=${proto.source}" />
         <arg line="${proto.source}/Restart.proto" />

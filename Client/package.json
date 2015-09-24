@@ -1,0 +1,41 @@
+{
+  "name": "com.ilmservice.personalbudget",
+  "version": "0.0.1",
+  "description": "Java Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/forestjohnsonilm/JavaWebApp"
+  },
+  "author": "Forest Johnson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/forestjohnsonilm/JavaWebApp/issues"
+  },
+  "homepage": "https://github.com/forestjohnsonilm/JavaWebApp",
+  "jspm": {
+    "dependencies": {
+      "angular": "npm:angular@^1.5.0-beta.0",
+      "angular-ui-router": "npm:angular-ui-router@^0.2.15",
+      "angular-ui/bootstrap": "github:angular-ui/bootstrap@^0.13.4",
+      "bootstrap": "npm:bootstrap@^3.3.5",
+      "protobufjs": "npm:protobufjs@^4.0.0",
+      "twbs/bootstrap": "github:twbs/bootstrap@^3.3.5"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-angular-templatecache": "^1.7.0",
+    "gulp-ng-annotate": "^1.1.0",
+    "jspm": "^0.16.10",
+    "systemjs-builder": "^0.14.6"
+  }
+}
