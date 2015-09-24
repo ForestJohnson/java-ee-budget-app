@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+option java_package = "com.ilmservice.personalbudget.protobufs";
+
+message UploadSpreadsheetEvent {
+  optional int32 userId = 1;
+  optional int64 timestamp = 2;
+  optional string filename = 3;
+  optional SpreadsheetRow = 4;
+}
+
+message SpreadsheetRow {
+  repeated string fields = 1;
+}

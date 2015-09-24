@@ -8,7 +8,9 @@
     <exec executable="C:\Users\Forest\eclipse-ws\com.ilmservice.personalbudget\tools\protoc.exe" failonerror="true">
         <arg value="--java_out=src" />
         <arg value="--proto_path=${proto.source}" />
-        <arg line="${proto.source}/Restart.proto" />
+    	  <arg line="${proto.source}/Data.proto" />
+        <arg line="${proto.source}/Events.proto" />
+        <arg line="${proto.source}/Views.proto" />
     </exec>
   </target>
   

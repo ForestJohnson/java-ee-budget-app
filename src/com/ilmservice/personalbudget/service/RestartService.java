@@ -10,41 +10,40 @@ import javax.inject.Inject;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.ilmservice.personalbudget.data.IProtobufRepository;
 import com.ilmservice.personalbudget.data.IProtobufRepository.IProtobufIndex;
-import com.ilmservice.personalbudget.protobufs.Restart.Test;
-import com.ilmservice.personalbudget.protobufs.Restart.TestOrBuilder;
+import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 
 @Default
 @Stateless
 public class RestartService implements IRestartService {
 
-	@Inject private IProtobufRepository<Test> tests;
-	private IProtobufIndex<Integer, Test> testById;
+	@Inject private IProtobufRepository<Transaction> tests;
+	private IProtobufIndex<Integer, Transaction> testById;
 	
 	@PostConstruct
 	public void configure() {
 		tests.configure( 
 			(x) -> {
 				try {
-					return Test.parseFrom(x);
+					return Transaction.parseFrom(x);
 				} catch (InvalidProtocolBufferException ex){
-					return Test.newBuilder().build();
+					return Transaction.newBuilder().build();
 				}
 			}
 		);
 		
 		testById = tests.configureIndex(
 			"id",
-			(k) -> Test.newBuilder().setId(k).build(),
-			(v) -> v.getId(),
+			(k) -> Transaction.newBuilder().setTransactionId(k).build(),
+			(v) -> v.getTransactionId(),
 			(k) -> ByteBuffer.allocate(4).putInt(k).array()
 		);
 	}
 	
 	@Override
-	public TestOrBuilder getData(int testId) {
-		Test test = testById.query().atKey(testId).firstOrDefault();
+	public Transaction getData(int testId) {
+		Transaction test = testById.query().atKey(testId).firstOrDefault();
 		
-		test = tests.put(Test.newBuilder(test).setGreeting(test.getGreeting()+" :) ").build());
+		test = tests.put(Transaction.newBuilder(test).setDescription(test.getDescription()+" :) ").build());
 		
 		return test;
 	}

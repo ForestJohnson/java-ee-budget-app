@@ -1,8 +1,7 @@
 package com.ilmservice.personalbudget.service;
 
-import com.ilmservice.personalbudget.protobufs.Restart.Test;
-import com.ilmservice.personalbudget.protobufs.Restart.TestOrBuilder;
+import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 
 public interface IRestartService extends AutoCloseable {
-	public TestOrBuilder getData(int testId);
+	public Transaction getData(int testId);
 }
