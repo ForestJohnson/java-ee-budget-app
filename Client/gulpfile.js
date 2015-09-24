@@ -10,13 +10,14 @@ var concatCss = require('gulp-concat-css');
 
 var pathToDist = '../WebContent/';
 var pathToSrc = 'app/';
+var pathToProtobuf = '../protobufs';
 
 var html = pathToSrc+'index.html';
 var bootstrap = 'jspm_packages/github/twbs/bootstrap@3.3.5/css/bootstrap.css'
 var watchJs = pathToSrc+'**/*.js';
 var watchLess = pathToSrc+'**/*.less';
 var watchTemplates = pathToSrc+'**/*.tmpl.html';
-var watchProtobuf = '../protobufs/*.proto';
+var watchProtobuf = pathToProtobuf+'/*.proto';
 var outputProtobuf = 'app/protobufs/fakeDir';
 
 // gulp.task('ng-annotate', [], function() {
@@ -56,9 +57,11 @@ gulp.task('bundle-js', [], function () {
 gulp.task('protobufs', function () {
   return gulp.src(watchProtobuf)
     .pipe(gulpProtobuf({
-
+      path: pathToProtobuf
     }))
-    .pipe(gulp.dest(outputProtobuf));
+    .on('error', console.log)
+    .pipe(gulp.dest(outputProtobuf))
+    ;
 });
 
 gulp.task('bundle-less', function () {

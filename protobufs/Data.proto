@@ -14,3 +14,4 @@ message Transaction {
   optional sint32 dollars = 6;
   optional string description = 7;
 }
+ 
