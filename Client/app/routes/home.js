@@ -4,8 +4,6 @@ var HomeController = ['$scope', 'TestBuilder',
 function HomeController($scope, TestBuilder) {
   this.transactions = [];
 
-  debugger;
-
 }];
 
 export default function registerRouteAndController($stateProvider, module) {

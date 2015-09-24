@@ -44,6 +44,7 @@ gulp.task('bundle-js', [], function () {
 
   return builder.buildStatic(pathToSrc+'index.js', pathToDist+'index.js', {
 	  runtime: false,
+    //minify: true,
 	  sourceMaps: true
   })
   .catch(function(err) {

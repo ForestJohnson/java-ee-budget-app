@@ -3,3 +3,10 @@
 /target/
 
 /WebContent/Client/
+
+/WebContent/bootstrap.css
+/WebContent/bundle.css
+/WebContent/index.html
+/WebContent/index.js
+/WebContent/index.js.map
+/WebContent/templates.js
