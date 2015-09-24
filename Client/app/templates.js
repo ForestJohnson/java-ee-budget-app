@@ -1,1 +1,0 @@
-'use strict'; module.exports = angular.module("template-cache", []).run(["$templateCache", function($templateCache) {$templateCache.put("app/routes/home.tmpl.html","\r\n<div>\r\n  Hello World\r\n</div>\r\n");}]);

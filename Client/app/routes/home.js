@@ -1,24 +1,24 @@
 'use strict';
 
 /*@ngInject*/
-function registerRouteAndController($stateProvider, module) {
+export default function registerRouteAndController($stateProvider, module) {
   $stateProvider.state(
     'home',
     {
       url: '/',
       templateUrl: 'app/routes/home.tmpl.html',
-      controller: 'HomeController',
+      controller: [
+        '$scope',
+        function HomeController($scope) {
+          console.log('loaded HomeController');
+        }
+      ],
       controllerAs: 'vm'
     }
   );
 
-  module.controller('HomeController',
-  [
-    '$scope',
-    function HomeController($scope) {
-      console.log('loaded HomeController');
-    }
-  ]);
+  // module.controller('HomeController',
+  // );
 }
 
-export default registerRouteAndController;
+registerRouteAndController;

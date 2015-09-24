@@ -28,12 +28,12 @@ gulp.task('bundle-templates', [], function() {
                 module: 'template-cache',
                 standalone: true,
                 root: 'app/',
-                moduleSystem: 'Browserify'
+                moduleSystem: 'IIFE'
             }))
-        .pipe(gulp.dest(pathToSrc));
+        .pipe(gulp.dest(pathToDist));
 });
 
-gulp.task('bundle-js', ['bundle-templates'], function () {
+gulp.task('bundle-js', [], function () {
   var builder = new Builder('./', 'config.js')
 
   return builder.buildStatic(pathToSrc+'index.js', pathToDist+'index.js', {
@@ -57,11 +57,12 @@ gulp.task('copy-css', [], function() {
         .pipe(gulp.dest(pathToDist));
 });
 
-gulp.task('build', ['copy-html', 'bundle-templates', 'copy-css', 'bundle-js'], function(){});
+gulp.task('build', ['copy-html', 'copy-css', 'bundle-templates', 'bundle-js'], function(){});
 
 gulp.task('watch', [], function() {
   gulp.watch(pathToSrc+html, ['copy-html']);
-  gulp.watch([pathToSrc+watchJs, pathToSrc+watchTemplates], ['bundle-js']);
+  gulp.watch(pathToSrc+watchJs, ['bundle-js']);
+  gulp.watch(pathToSrc+watchTemplates, ['bundle-templates']);
   //gulp.watch(pathToSrc+watchLess, ['copy-css']);
 });
 

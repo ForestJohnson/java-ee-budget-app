@@ -3,10 +3,12 @@
 import angular from 'angular'
 
 import './routes/index'
+import './directives/index'
 
-import templateCache from './templates'
+//import templateCache from '../templates'
 
 var app = angular.module('client', [
-  templateCache.name,
+  'template-cache',
+  'client.directives',
   'client.routes'
 ]);

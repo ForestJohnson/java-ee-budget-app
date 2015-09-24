@@ -13968,40 +13968,32 @@ $__System.registerDynamic("b", ["a"], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("d", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  module.exports = angular.module("template-cache", []).run(["$templateCache", function($templateCache) {
-    $templateCache.put("app/routes/home.tmpl.html", "\r\n<div>\r\n  Hello World\r\n</div>\r\n");
-  }]);
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.register('9', [], function (_export) {
   'use strict';
 
   /*@ngInject*/
+
+  _export('default', registerRouteAndController);
+
   function registerRouteAndController($stateProvider, module) {
     $stateProvider.state('home', {
       url: '/',
       templateUrl: 'app/routes/home.tmpl.html',
-      controller: 'HomeController',
+      controller: ['$scope', function HomeController($scope) {
+        console.log('loaded HomeController');
+      }],
       controllerAs: 'vm'
     });
 
-    module.controller('HomeController', ['$scope', function HomeController($scope) {
-      console.log('loaded HomeController');
-    }]);
+    // module.controller('HomeController',
+    // );
   }
 
   return {
     setters: [],
     execute: function () {
-      _export('default', registerRouteAndController);
+
+      registerRouteAndController;
     }
   };
 });
@@ -14030,18 +14022,74 @@ $__System.register('c', ['8', '9', 'b'], function (_export) {
         }
     };
 });
-$__System.register('1', ['8', 'c', 'd'], function (_export) {
+$__System.register('d', [], function (_export) {
+  "use strict";
+
+  _export('default', registerDirective);
+
+  function registerDirective(module) {
+    module.directive('transactionList', function transactionList() {
+      return {
+        restrict: 'E',
+        templateUrl: "app/shared/transactionList/transactionList.tmpl.html",
+        controllerAs: "vm",
+        controller: [function () {
+          this.getDateString = function (date) {
+            return 'null';
+          };
+          this.getDollarsString = function (dollars) {
+            return 'null';
+          };
+          this.getDescriptionString = function (transaction) {
+            return 'null';
+          };
+        }],
+        bindToController: true,
+        scope: {
+          transactions: '='
+        }
+      };
+    });
+  }
+
+  return {
+    setters: [],
+    execute: function () {}
+  };
+});
+$__System.register('e', ['8', 'd'], function (_export) {
   'use strict';
 
-  var angular, templateCache, app;
+  var angular, registerTransactionList, _module;
+
   return {
     setters: [function (_) {
       angular = _['default'];
-    }, function (_c) {}, function (_d) {
-      templateCache = _d['default'];
+    }, function (_d) {
+      registerTransactionList = _d['default'];
     }],
     execute: function () {
-      app = angular.module('client', [templateCache.name, 'client.routes']);
+      _module = angular.module('client.directives', []);
+
+      registerTransactionList(_module);
+
+      _export('default', _module);
+    }
+  };
+});
+$__System.register('1', ['8', 'c', 'e'], function (_export) {
+  'use strict';
+
+  var angular, app;
+  return {
+    setters: [function (_) {
+      angular = _['default'];
+    }, function (_c) {}, function (_e) {}],
+    execute: function () {
+
+      //import templateCache from '../templates'
+
+      app = angular.module('client', ['template-cache', 'client.directives', 'client.routes']);
     }
   };
 });
