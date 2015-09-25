@@ -5,10 +5,43 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 
-public interface IProtobufRepository<V extends com.google.protobuf.GeneratedMessage> {
+public interface IProtobufRepository<V extends com.google.protobuf.Message> {
+	/**
+	 * @param parser a function that returns an instance of <V> given a byte array.
+	 * <pre>
+	 * tests.configure( 
+	 * 	(x) -> {
+	 * 		try {
+	 * 			return Transaction.parseFrom(x);
+	 * 		} catch (InvalidProtocolBufferException ex){
+	 * 			return Transaction.newBuilder().build();
+	 * 		}
+	 * 	}
+	 * );
+	 * </pre>
+	 */
 	public void configure(
 		Function<byte[], V> parser
 	);
+	
+	/**
+	 * creates an index for this repository with the key type of your choice.
+	 * 
+	 * @param name 
+	 * @param defaultSupplier a function that returns the default instance of <V>. 
+	 * 		  if a <K> key is provided, the function should set the key value on the <V>.
+	 * @param getKeyFromValue a function that returns the <K> key given the <V> value.
+	 * @param getKeyBytesFromKey a function that translates a <K> key to a byte array for storage.
+	 * 
+	 * <pre>
+	 * transactionRepository.configureIndex(
+	 * 	"id",
+	 * 	(k) -> Transaction.newBuilder().setTransactionId(k).build(),
+	 * 	(v) -> v.getTransactionId(),
+	 * 	(k) -> ByteBuffer.allocate(4).putInt(k).array()
+	 * );
+	 * </pre>
+	 */
 	public <K> IProtobufIndex<K, V> configureIndex(
 		String name,
 		Function<K, V> defaultSupplier,
@@ -19,7 +52,7 @@ public interface IProtobufRepository<V extends com.google.protobuf.GeneratedMess
 	public void delete(V value);
 
 	
-	public interface IProtobufIndex<K, V extends com.google.protobuf.GeneratedMessage> {
+	public interface IProtobufIndex<K, V extends com.google.protobuf.Message> {
 		public IProtobufQuery<K, V> query();
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data);
@@ -28,7 +61,7 @@ public interface IProtobufRepository<V extends com.google.protobuf.GeneratedMess
 		public byte[] getKeyBytesFrom(V value);
 	}
 	
-	public interface IProtobufQuery<K, V extends com.google.protobuf.GeneratedMessage> {
+	public interface IProtobufQuery<K, V extends com.google.protobuf.Message> {
 		public IProtobufQuery<K, V> descending();
 		public IProtobufQuery<K, V> range(K start, K end);
 		public IProtobufQuery<K, V> atKey (K key);
