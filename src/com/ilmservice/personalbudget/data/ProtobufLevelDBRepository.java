@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
+import org.iq80.leveldb.DBException;
 import org.iq80.leveldb.DBIterator;
 
 @Default
@@ -23,7 +24,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 	@Inject private ILevelDBManager levelDb;
 	
 	private final Map<String, IProtobufIndex<?, V>> indexes;
-	private Function<byte[], V> parserFunction;
+	private ParseFunction<byte[], V> parserFunction;
 	
 	private ProtobufLevelDBRepository() 
 	{
@@ -33,7 +34,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 	
 	@Override 
 	public void configure (
-		Function<byte[], V> parser)  
+		ParseFunction<byte[], V> parser)  
 	{
 		this.parserFunction = parser;
 	}
@@ -77,7 +78,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 	
 	public class ProtobufIndex<K, V extends com.google.protobuf.GeneratedMessage> implements IProtobufIndex<K, V> {
 		public ProtobufIndex (
-				Function<byte[], V> parser, 
+				ParseFunction<byte[], V> parser, 
 				Function<K, V> defaultSupplier,
 				Function<V, K> getKeyFromValue, 
 				Function <K, byte[]> getKeyBytesFromKey) 
@@ -89,12 +90,12 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 
 		private final Function<K, V> defaultSupplier;
-		private final Function<byte[], V> parserFunction;
+		private final ParseFunction<byte[], V> parserFunction;
 		private final Function<V, K> getKeyFromValueFunction;
 		private final Function <K, byte[]> getKeyBytesFromKeyFunction;
 		
 		@Override
-		public V parse(byte[] data) {
+		public V parse(byte[] data) throws IOException {
 			return parserFunction.apply(data);
 		}
 		
@@ -194,14 +195,18 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 		
 		@Override
-		public V firstOrNull() {
+		public V firstOrNull()  {
 			return getFirst(null);
 		}
 		
 		private V getFirst(V defaultValue) {
 			if(key != null) {
-				byte[] value = levelDb.get().get(keyBytes);
-				return value != null ? index.parse(value) : defaultValue;
+				try {
+					byte[] value = levelDb.get().get(keyBytes);
+					return value != null ? index.parse(value) : defaultValue;
+				} catch (Exception e) {
+					return defaultValue;
+				}
 			} else {
 				limit = 1;
 				List<V> zeroOrOne = toArray();

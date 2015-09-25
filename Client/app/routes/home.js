@@ -5,7 +5,7 @@ function HomeController($scope, Transaction, EventService) {
   this.transactions = [];
 
   this.testPost = () => {
-    EventService.postTest(new Transaction({transactionId:1}))
+    EventService.postTest(new Transaction({id:1}))
     .then((response) => {
       console.log(Transaction.decode(response.data));
     }); 

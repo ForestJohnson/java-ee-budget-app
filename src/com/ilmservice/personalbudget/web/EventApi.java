@@ -6,24 +6,29 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
-import com.ilmservice.personalbudget.service.IRestartService;
+import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
+import com.ilmservice.personalbudget.service.IEventStore;
+
 
 @Stateless
-@Path("event")
+// empty path annotation is required for the methods to be able to specify thier own paths. 
+@Path("")
 public class EventApi {
 	
-	@Inject private IRestartService restartService;
+	@Inject private IEventStore eventStore;
 	
     @POST
+    @Path("spreadsheet")
     @Produces("application/x-protobuf")
     @Consumes("application/x-protobuf")
-    public Transaction post(Transaction requestBody) {
+    public Response spreadsheet(UploadSpreadsheetEvent event) {
     	 
-    	 Transaction transaction = restartService.getData(requestBody.getTransactionId());
+    	 eventStore.uploadSpreadsheet(event);
 
-         return transaction;
+         return Response.ok().build();
     }
 	
 }

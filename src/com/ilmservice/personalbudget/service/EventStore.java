@@ -11,41 +11,34 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.ilmservice.personalbudget.data.IProtobufRepository;
 import com.ilmservice.personalbudget.data.IProtobufRepository.IProtobufIndex;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
+import com.ilmservice.personalbudget.protobufs.Events.Event;
+import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 
 @Default
 @Stateless
-public class RestartService implements IRestartService {
+public class EventStore implements IEventStore {
 
-	@Inject private IProtobufRepository<Transaction> tests;
-	private IProtobufIndex<Integer, Transaction> testById;
+	@Inject private IProtobufRepository<Event> events;
+	private IProtobufIndex<Integer, Event> eventsById;
 	
 	@PostConstruct
 	public void configure() {
-		tests.configure( 
-			(x) -> {
-				try {
-					return Transaction.parseFrom(x);
-				} catch (InvalidProtocolBufferException ex){
-					return Transaction.newBuilder().build();
-				}
-			}
+		events.configure( 
+			(x) -> Event.parseFrom(x)
 		);
 		
-		testById = tests.configureIndex(
+		eventsById = events.configureIndex(
 			"id",
-			(k) -> Transaction.newBuilder().setTransactionId(k).build(),
-			(v) -> v.getTransactionId(),
+			(k) -> Event.newBuilder().setId(k).build(),
+			(v) -> v.getId(),
 			(k) -> ByteBuffer.allocate(4).putInt(k).array()
 		);
 	}
 	
 	@Override
-	public Transaction getData(int testId) {
-		Transaction test = testById.query().atKey(testId).firstOrDefault();
+	public void uploadSpreadsheet(UploadSpreadsheetEvent event) {
+		// TODO Auto-generated method stub
 		
-		test = tests.put(Transaction.newBuilder(test).setDescription(test.getDescription()+" :) ").build());
-		
-		return test;
 	}
 	
 	@Override
@@ -53,4 +46,7 @@ public class RestartService implements IRestartService {
 		// TODO Auto-generated method stub
 
 	}
+
+
+
 }

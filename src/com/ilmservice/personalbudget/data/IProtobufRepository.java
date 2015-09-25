@@ -1,27 +1,25 @@
 package com.ilmservice.personalbudget.data;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.iq80.leveldb.DBException;
+
+import com.ilmservice.personalbudget.protobufs.Events.Event;
 
 public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 	/**
 	 * @param parser a function that returns an instance of <V> given a byte array.
 	 * <pre>
 	 * tests.configure( 
-	 * 	(x) -> {
-	 * 		try {
-	 * 			return Transaction.parseFrom(x);
-	 * 		} catch (InvalidProtocolBufferException ex){
-	 * 			return Transaction.newBuilder().build();
-	 * 		}
-	 * 	}
+	 * 	(x) -> Event.parseFrom(x)
 	 * );
 	 * </pre>
 	 */
 	public void configure(
-		Function<byte[], V> parser
+		ParseFunction<byte[], V> parser
 	);
 	
 	/**
@@ -55,7 +53,7 @@ public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 	public interface IProtobufIndex<K, V extends com.google.protobuf.Message> {
 		public IProtobufQuery<K, V> query();
 		public V getDefault(K keyOrNull);
-		public V parse(byte[] data);
+		public V parse(byte[] data) throws IOException;
 		public K getKeyFrom(V value);
 		public byte[] getKeyBytesFrom(K key);
 		public byte[] getKeyBytesFrom(V value);
@@ -67,8 +65,8 @@ public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 		public IProtobufQuery<K, V> atKey (K key);
 		public IProtobufQuery<K, V> where (Predicate<V> predicate);
 		public IProtobufQuery<K, V> limit(int n);
-		public V firstOrDefault()  ;
-		public V firstOrNull()  ;
-		public List<V> toArray()  ;
+		public V firstOrDefault() throws IOException  , DBException;
+		public V firstOrNull() throws IOException  , DBException;
+		public List<V> toArray();
 	}
 }

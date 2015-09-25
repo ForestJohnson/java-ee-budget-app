@@ -5,11 +5,10 @@ package com.ilmservice.personalbudget;
 option java_package = "com.ilmservice.personalbudget.protobufs";
 
 message Event {
-  optional uint32 id = 1;
-  optional uint32 userId = 2;
-  optional int64 timestamp = 3;
+  optional uint32 userId = 1;
+  optional int64 timestamp = 2;
   oneof event_type {
-     UploadSpreadsheetEvent uploadSpreadsheetEvent = 10;
+     UploadSpreadsheetEvent uploadSpreadsheetEvent = 1;
   }
 }
 
