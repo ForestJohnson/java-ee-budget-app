@@ -13,13 +13,13 @@ public final class Data {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional uint32 transactionId = 1;</code>
+     * <code>optional uint32 id = 1;</code>
      */
-    boolean hasTransactionId();
+    boolean hasId();
     /**
-     * <code>optional uint32 transactionId = 1;</code>
+     * <code>optional uint32 id = 1;</code>
      */
-    int getTransactionId();
+    int getId();
 
     /**
      * <code>optional uint32 categoryId = 2;</code>
@@ -138,7 +138,7 @@ public final class Data {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              transactionId_ = input.readUInt32();
+              id_ = input.readUInt32();
               break;
             }
             case 16: {
@@ -231,19 +231,19 @@ public final class Data {
     }
 
     private int bitField0_;
-    public static final int TRANSACTIONID_FIELD_NUMBER = 1;
-    private int transactionId_;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
     /**
-     * <code>optional uint32 transactionId = 1;</code>
+     * <code>optional uint32 id = 1;</code>
      */
-    public boolean hasTransactionId() {
+    public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 transactionId = 1;</code>
+     * <code>optional uint32 id = 1;</code>
      */
-    public int getTransactionId() {
-      return transactionId_;
+    public int getId() {
+      return id_;
     }
 
     public static final int CATEGORYID_FIELD_NUMBER = 2;
@@ -371,7 +371,7 @@ public final class Data {
     }
 
     private void initFields() {
-      transactionId_ = 0;
+      id_ = 0;
       categoryId_ = 0;
       tagIds_ = java.util.Collections.emptyList();
       userId_ = 0;
@@ -393,7 +393,7 @@ public final class Data {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, transactionId_);
+        output.writeUInt32(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, categoryId_);
@@ -424,7 +424,7 @@ public final class Data {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, transactionId_);
+          .computeUInt32Size(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -572,7 +572,7 @@ public final class Data {
 
       public Builder clear() {
         super.clear();
-        transactionId_ = 0;
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         categoryId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -617,7 +617,7 @@ public final class Data {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.transactionId_ = transactionId_;
+        result.id_ = id_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -659,8 +659,8 @@ public final class Data {
 
       public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Data.Transaction other) {
         if (other == com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance()) return this;
-        if (other.hasTransactionId()) {
-          setTransactionId(other.getTransactionId());
+        if (other.hasId()) {
+          setId(other.getId());
         }
         if (other.hasCategoryId()) {
           setCategoryId(other.getCategoryId());
@@ -716,34 +716,34 @@ public final class Data {
       }
       private int bitField0_;
 
-      private int transactionId_ ;
+      private int id_ ;
       /**
-       * <code>optional uint32 transactionId = 1;</code>
+       * <code>optional uint32 id = 1;</code>
        */
-      public boolean hasTransactionId() {
+      public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional uint32 transactionId = 1;</code>
+       * <code>optional uint32 id = 1;</code>
        */
-      public int getTransactionId() {
-        return transactionId_;
+      public int getId() {
+        return id_;
       }
       /**
-       * <code>optional uint32 transactionId = 1;</code>
+       * <code>optional uint32 id = 1;</code>
        */
-      public Builder setTransactionId(int value) {
+      public Builder setId(int value) {
         bitField0_ |= 0x00000001;
-        transactionId_ = value;
+        id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 transactionId = 1;</code>
+       * <code>optional uint32 id = 1;</code>
        */
-      public Builder clearTransactionId() {
+      public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        transactionId_ = 0;
+        id_ = 0;
         onChanged();
         return this;
       }
@@ -1044,11 +1044,11 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\221\001\n\013Transaction\022\025\n\rtransactionId\030\001 \001" +
-      "(\r\022\022\n\ncategoryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016" +
-      "\n\006userId\030\004 \001(\r\022\021\n\ttimestamp\030\005 \001(\004\022\017\n\007dol" +
-      "lars\030\006 \001(\021\022\023\n\013description\030\007 \001(\tB)\n\'com.i" +
-      "lmservice.personalbudget.protobufs"
+      "get\"\206\001\n\013Transaction\022\n\n\002id\030\001 \001(\r\022\022\n\ncateg" +
+      "oryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 " +
+      "\001(\r\022\021\n\ttimestamp\030\005 \001(\004\022\017\n\007dollars\030\006 \001(\021\022" +
+      "\023\n\013description\030\007 \001(\tB)\n\'com.ilmservice.p" +
+      "ersonalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1067,7 +1067,7 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "TransactionId", "CategoryId", "TagIds", "UserId", "Timestamp", "Dollars", "Description", });
+        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Timestamp", "Dollars", "Description", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
