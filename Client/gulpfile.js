@@ -7,6 +7,7 @@ var ngAnnotate = require('gulp-ng-annotate');
 var templateCache = require('gulp-angular-templatecache');
 var less = require('gulp-less');
 var concatCss = require('gulp-concat-css');
+var del = require('del');
 
 var pathToDist = '../WebContent/';
 var pathToSrc = 'app/';
@@ -20,15 +21,6 @@ var watchTemplates = pathToSrc+'**/*.tmpl.html';
 var watchProtobuf = pathToProtobuf+'/*.proto';
 var outputProtobuf = 'app/protobufs/fakeDir';
 
-// gulp.task('ng-annotate', [], function() {
-//   return gulp.src(watchJs)
-//       .pipe(ngAnnotate({
-//         sourceType: 'module'
-//       }))
-//       .pipe(gulp.dest(pathToSrc));
-// });
-
-
 gulp.task('bundle-templates', [], function() {
   return gulp.src(watchTemplates)
         .pipe(templateCache({
@@ -40,13 +32,23 @@ gulp.task('bundle-templates', [], function() {
         .pipe(gulp.dest(pathToDist));
 });
 
-gulp.task('bundle-js', [], function () {
+gulp.task('bundle-js', ['bundle-js-copy'], function () {
+  return del('../index.js*', {force: true});
+});
+
+gulp.task('bundle-js-copy', ['bundle-js-build'], function () {
+  return gulp.src('../index.js*')
+        .pipe(gulp.dest(pathToDist));
+});
+
+gulp.task('bundle-js-build', [], function () {
   var builder = new Builder('./', 'config.js')
 
-  return builder.buildStatic(pathToSrc+'index.js', pathToDist+'index.js', {
+  return builder.buildStatic(pathToSrc+'index.js', '../'+'index.js', {
 	  runtime: false,
     //minify: true,
-	  sourceMaps: true
+	  sourceMaps: true,
+    lowResSourceMaps: true
   })
   .catch(function(err) {
     console.log('Build error');

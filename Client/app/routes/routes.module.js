@@ -6,7 +6,7 @@ import 'angular-ui-router'
 import angular from 'angular'
 
 var routes = angular.module('client.routes', [
-  'ui.router'
+  'ui.router',
 ]);
 
 routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -14,7 +14,5 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
     RegisterHome($stateProvider, routes);
 }]);
-
-console.log('loaded routes');
 
 export default routes;

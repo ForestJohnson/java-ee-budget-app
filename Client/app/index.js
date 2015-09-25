@@ -14,3 +14,5 @@ var app = angular.module('client', [
   'client.services',
   'client.routes'
 ]);
+
+app.value('ApiBaseUrl', 'api/');
