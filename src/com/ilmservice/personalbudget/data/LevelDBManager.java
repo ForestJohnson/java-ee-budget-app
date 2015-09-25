@@ -13,7 +13,7 @@ import java.io.*;
 @Default
 public class LevelDBManager implements ILevelDBManager {
 
-	private String fileName = "testLevelDb4";
+	private String fileName = "testLevelDb5";
 
 	private DB db;
 	
