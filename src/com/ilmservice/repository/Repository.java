@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,15 +19,15 @@ import javax.inject.Inject;
 public class Repository<V> implements IRepository<V> {
 
 	@Inject 
-	private IDbManager db;
+	private IDbIndexManager db;
 	
-	private final Map<Index, IRepositoryIndex<?, V>> indexes;
+	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
 	private Function<V, byte[]> serializerFunction;
 	
 	private Repository() 
 	{
-		this.indexes = new HashMap<Index, IRepositoryIndex<?, V>>();
+		this.indexes = new HashMap<Short, IRepositoryIndex<?, V>>();
 		System.out.println("protobuf repo goin up");
 	}
 	
@@ -42,7 +42,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public <K> IRepositoryIndex<K, V> configureIndex(
-			Index index,
+			short index,
 			Function<K, V> defaultSupplier,
 			Function<V, K> getKeyFromValue, 
 			Function <K, byte[]> getKeyBytesFromKey) 
@@ -80,7 +80,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	public class ProtobufIndex<K, V> implements IRepositoryIndex<K, V> {
 		public ProtobufIndex (
-				Index id,
+				short id,
 				ParseFunction<byte[], V> parser, 
 				Function<K, V> defaultSupplier,
 				Function<V, K> getKeyFromValue, 
@@ -93,14 +93,14 @@ public class Repository<V> implements IRepository<V> {
 			this.getKeyBytesFromKeyFunction = getKeyBytesFromKey;
 		}
 		
-		private final Index id;
+		private final short id;
 		private final Function<K, V> defaultSupplier;
 		private final ParseFunction<byte[], V> parserFunction;
 		private final Function<V, K> getKeyFromValueFunction;
 		private final Function <K, byte[]> getKeyBytesFromKeyFunction;
 		
 		@Override
-		public Index getId() {
+		public short getId() {
 			return id;
 		}
 		

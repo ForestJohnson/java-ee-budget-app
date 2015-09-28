@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
@@ -18,10 +18,11 @@ import java.util.function.Function;
 @Singleton
 @Stateless
 @Default
-public class LevelDbManager implements IDbManager {
+@LevelDbQualifier
+public class LevelDbManager implements IDbIndexManager {
 
 	private final String fileName = "testLevelDb5";
-	private final Map<Index, LevelDbIndex> indexes;
+	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	
 	private LevelDbManager () throws IOException {
@@ -31,12 +32,12 @@ public class LevelDbManager implements IDbManager {
 		db = factory.open(new File(fileName), options);
 		System.out.println("DB opened");
 		
-		this.indexes = new HashMap<Index, LevelDbIndex>();
+		this.indexes = new HashMap<Short, LevelDbIndex>();
 	}
 	
-	public IDbIndex index(Index index) {
-		return indexes.computeIfAbsent(index, (i) -> {
-			return new LevelDbIndex(i, db);
+	public IDbIndex index(short indexId) {
+		return indexes.computeIfAbsent(indexId, (id) -> {
+			return new LevelDbIndex(id, db);
 		});
 	}
 	
@@ -54,30 +55,27 @@ public class LevelDbManager implements IDbManager {
 	
 	public class LevelDbIndex implements IDbIndex {
 		
-		private final Index index;
+		private final short index;
 		private final DB levelDb;
-		private final short indexShort;
 		
-		public LevelDbIndex(Index index, DB levelDb) {
+		public LevelDbIndex(short index, DB levelDb) {
 			this.index = index;
 			this.levelDb = levelDb;
-			
-			indexShort = (short)(index.getValue());
 		}
 		
 		@Override
 		public byte[] get(byte[] key) {
-			return levelDb.get(getKey(indexShort, key));
+			return levelDb.get(getKey(index, key));
 		}
 
 		@Override
 		public void put(byte[] key, byte[] value) {
-			levelDb.put(getKey(indexShort, key), value);
+			levelDb.put(getKey(index, key), value);
 		}
 		
 		@Override
 		public void delete(byte[] key) {
-			levelDb.delete(getKey(indexShort, key));
+			levelDb.delete(getKey(index, key));
 		}
 
 		@Override
@@ -99,16 +97,12 @@ public class LevelDbManager implements IDbManager {
 //					}
 //				}
 				
-				byte[] firstOfIndex = getKey((short)(index.getValue()), new byte[1]);
-				byte[] firstOfNextIndex = getKey((short)(index.getValue()+1), new byte[1]);
+				byte[] firstOfIndex = getKey(index, new byte[1]);
+				byte[] firstOfNextIndex = getKey((short)(index+1), new byte[1]);
 				
-				from = from != null ? 
-						getKey((short)(index.getValue()), from) 
-					 : (descending ? firstOfNextIndex : firstOfIndex);
+				from = from != null ?  getKey(index, from) : (descending ? firstOfNextIndex : firstOfIndex);
 						
-				until = until != null ? 
-						getKey((short)(index.getValue()), until) 
-					 : (descending ? firstOfIndex : firstOfNextIndex);
+				until = until != null ? getKey(index, until) : (descending ? firstOfIndex : firstOfNextIndex);
 				
 				result = action.apply(new LevelDbIterator(
 						iterator,

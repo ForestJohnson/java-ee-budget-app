@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import java.io.IOException;
 

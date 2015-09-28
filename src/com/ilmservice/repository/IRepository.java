@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +39,7 @@ public interface IRepository<V> {
 	 * </pre>
 	 */
 	public <K> IRepositoryIndex<K, V> configureIndex(
-		Index index,
+		short index,
 		Function<K, V> defaultSupplier,
 		Function<V, K> getKeyFromValue, 
 		Function <K, byte[]> getKeyBytesFromKey
@@ -49,7 +49,7 @@ public interface IRepository<V> {
 
 	
 	public interface IRepositoryIndex<K, V> {
-		public Index getId();
+		public short getId();
 		public IRepositoryQuery<K, V> query();
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data) throws IOException;

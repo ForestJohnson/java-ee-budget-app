@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

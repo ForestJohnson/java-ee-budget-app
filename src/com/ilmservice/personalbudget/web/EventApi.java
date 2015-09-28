@@ -8,9 +8,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.ilmservice.personalbudget.data.IEventStore;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
-import com.ilmservice.personalbudget.service.IEventStore;
 
 
 @Stateless

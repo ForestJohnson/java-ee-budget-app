@@ -1,12 +1,12 @@
-package com.ilmservice.personalbudget.data;
+package com.ilmservice.repository;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
-public interface IDbManager {
+public interface IDbIndexManager {
 	
-	IDbIndex index(Index index);
+	IDbIndex index(short indexId);
 	
 	public interface IDbIndex {
 		byte[] get(byte[] key);

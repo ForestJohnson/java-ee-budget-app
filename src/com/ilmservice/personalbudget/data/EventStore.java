@@ -1,4 +1,4 @@
-package com.ilmservice.personalbudget.service;
+package com.ilmservice.personalbudget.data;
 
 import java.nio.ByteBuffer;
 
@@ -8,12 +8,11 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.ilmservice.personalbudget.data.IRepository;
-import com.ilmservice.personalbudget.data.IRepository.IRepositoryIndex;
-import com.ilmservice.personalbudget.data.Index;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
+import com.ilmservice.repository.IRepository;
+import com.ilmservice.repository.IRepository.IRepositoryIndex;
 
 @Default
 @Stateless
@@ -30,26 +29,16 @@ public class EventStore implements IEventStore {
 		);
 		
 		eventsById = events.configureIndex(
-			Index.EventsById,
+			Indexes.EventsById.getValue(),
 			(k) -> Event.newBuilder().setId(k).build(),
 			(v) -> v.getId(),
 			(k) -> ByteBuffer.allocate(4).putInt(k).array()
-
+			
 		);
 	}
 	
 	@Override
 	public void uploadSpreadsheet(UploadSpreadsheetEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
 }
