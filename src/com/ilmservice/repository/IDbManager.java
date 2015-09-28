@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
-public interface IDbIndexManager {
+public interface IDbManager {
 	
 	IDbIndex index(short indexId);
 	

@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Stateless
 @Default
 @LevelDbQualifier
-public class LevelDbManager implements IDbIndexManager {
+public class LevelDbManager implements IDbManager {
 
 	private final String fileName = "testLevelDb5";
 	private final Map<Short, LevelDbIndex> indexes;
