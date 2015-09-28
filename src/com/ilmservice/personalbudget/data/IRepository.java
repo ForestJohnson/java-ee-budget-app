@@ -5,11 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import org.iq80.leveldb.DBException;
 
-import com.ilmservice.personalbudget.protobufs.Events.Event;
-
-public interface IProtobufRepository<V extends com.google.protobuf.Message> {
+public interface IRepository<V> {
 	/**
 	 * @param parser a function that returns an instance of <V> given a byte array.
 	 * <pre>
@@ -19,7 +16,8 @@ public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 	 * </pre>
 	 */
 	public void configure(
-		ParseFunction<byte[], V> parser
+			ParseFunction<byte[], V> parser, 
+			Function<V, byte[]> serializer
 	);
 	
 	/**
@@ -40,8 +38,8 @@ public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 	 * );
 	 * </pre>
 	 */
-	public <K> IProtobufIndex<K, V> configureIndex(
-		String name,
+	public <K> IRepositoryIndex<K, V> configureIndex(
+		Index index,
 		Function<K, V> defaultSupplier,
 		Function<V, K> getKeyFromValue, 
 		Function <K, byte[]> getKeyBytesFromKey
@@ -50,23 +48,26 @@ public interface IProtobufRepository<V extends com.google.protobuf.Message> {
 	public void delete(V value);
 
 	
-	public interface IProtobufIndex<K, V extends com.google.protobuf.Message> {
-		public IProtobufQuery<K, V> query();
+	public interface IRepositoryIndex<K, V> {
+		public Index getId();
+		public IRepositoryQuery<K, V> query();
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data) throws IOException;
 		public K getKeyFrom(V value);
-		public byte[] getKeyBytesFrom(K key);
-		public byte[] getKeyBytesFrom(V value);
+		public byte[] getKeyBytesFromKey(K key);
+		public byte[] getKeyBytesFromValue(V value);
 	}
 	
-	public interface IProtobufQuery<K, V extends com.google.protobuf.Message> {
-		public IProtobufQuery<K, V> descending();
-		public IProtobufQuery<K, V> range(K start, K end);
-		public IProtobufQuery<K, V> atKey (K key);
-		public IProtobufQuery<K, V> where (Predicate<V> predicate);
-		public IProtobufQuery<K, V> limit(int n);
-		public V firstOrDefault() throws IOException  , DBException;
-		public V firstOrNull() throws IOException  , DBException;
+	public interface IRepositoryQuery<K, V> {
+		public IRepositoryQuery<K, V> descending();
+		public IRepositoryQuery<K, V> range(K start, K end);
+		public IRepositoryQuery<K, V> atKey (K key);
+		public IRepositoryQuery<K, V> where (Predicate<V> predicate);
+		public IRepositoryQuery<K, V> limit(int n);
+		public V firstOrDefault() throws IOException;
+		public V firstOrNull() throws IOException;
 		public List<V> toArray();
 	}
+
+	
 }

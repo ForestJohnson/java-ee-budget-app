@@ -8,8 +8,9 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.ilmservice.personalbudget.data.IProtobufRepository;
-import com.ilmservice.personalbudget.data.IProtobufRepository.IProtobufIndex;
+import com.ilmservice.personalbudget.data.IRepository;
+import com.ilmservice.personalbudget.data.IRepository.IRepositoryIndex;
+import com.ilmservice.personalbudget.data.Index;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
@@ -18,20 +19,22 @@ import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 @Stateless
 public class EventStore implements IEventStore {
 
-	@Inject private IProtobufRepository<Event> events;
-	private IProtobufIndex<Integer, Event> eventsById;
+	@Inject private IRepository<Event> events;
+	private IRepositoryIndex<Integer, Event> eventsById;
 	
 	@PostConstruct
 	public void configure() {
 		events.configure( 
-			(x) -> Event.parseFrom(x)
+			(bytes) -> Event.parseFrom(bytes),
+			(event) -> event.toByteArray()
 		);
 		
 		eventsById = events.configureIndex(
-			"id",
+			Index.EventsById,
 			(k) -> Event.newBuilder().setId(k).build(),
 			(v) -> v.getId(),
 			(k) -> ByteBuffer.allocate(4).putInt(k).array()
+
 		);
 	}
 	

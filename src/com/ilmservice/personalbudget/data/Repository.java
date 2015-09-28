@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -14,52 +13,55 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
-import org.iq80.leveldb.DBException;
-import org.iq80.leveldb.DBIterator;
 
 @Default
 @Stateless
-public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMessage> implements IProtobufRepository<V> {
+public class Repository<V> implements IRepository<V> {
 
-	@Inject private ILevelDBManager levelDb;
+	@Inject 
+	private IDbManager db;
 	
-	private final Map<String, IProtobufIndex<?, V>> indexes;
+	private final Map<Index, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
+	private Function<V, byte[]> serializerFunction;
 	
-	private ProtobufLevelDBRepository() 
+	private Repository() 
 	{
-		this.indexes = new HashMap<String, IProtobufIndex<?, V>>();
+		this.indexes = new HashMap<Index, IRepositoryIndex<?, V>>();
 		System.out.println("protobuf repo goin up");
 	}
 	
 	@Override 
 	public void configure (
-		ParseFunction<byte[], V> parser)  
+		ParseFunction<byte[], V> parser,
+		Function<V, byte[]> serializer)  
 	{
 		this.parserFunction = parser;
+		this.serializerFunction = serializer;
 	}
 	
 	@Override
-	public <K> IProtobufIndex<K, V> configureIndex(
-			String name,
+	public <K> IRepositoryIndex<K, V> configureIndex(
+			Index index,
 			Function<K, V> defaultSupplier,
 			Function<V, K> getKeyFromValue, 
 			Function <K, byte[]> getKeyBytesFromKey) 
 	{
-		IProtobufIndex<K, V> newIndex = new ProtobufIndex<K, V>(
+		IRepositoryIndex<K, V> newIndex = new ProtobufIndex<K, V>(
+			index,
 			parserFunction, 
 			defaultSupplier, 
 			getKeyFromValue, 
 			getKeyBytesFromKey
 		);
-		indexes.put(name, newIndex);
+		indexes.put(index, newIndex);
 		return newIndex;
 	}
 	
 	@Override
 	public V put(V value) {
 		indexes.forEach((k, index) -> {
-			levelDb.get().put(index.getKeyBytesFrom(value), value.toByteArray());
+			db.index(k).put(index.getKeyBytesFromValue(value), serializerFunction.apply(value));
 		});
 		return value;
 	}
@@ -67,7 +69,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 	@Override
 	public void delete (V value) {
 		indexes.forEach((k, index) -> {
-			levelDb.get().delete(index.getKeyBytesFrom(value));
+			db.index(k).delete(index.getKeyBytesFromValue(value));
 		});
 	}
 	
@@ -76,23 +78,31 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		System.out.println("protobuf repo goin down");
 	}
 	
-	public class ProtobufIndex<K, V extends com.google.protobuf.GeneratedMessage> implements IProtobufIndex<K, V> {
+	public class ProtobufIndex<K, V> implements IRepositoryIndex<K, V> {
 		public ProtobufIndex (
+				Index id,
 				ParseFunction<byte[], V> parser, 
 				Function<K, V> defaultSupplier,
 				Function<V, K> getKeyFromValue, 
 				Function <K, byte[]> getKeyBytesFromKey) 
 		{
+			this.id = id;
 			this.defaultSupplier = defaultSupplier;
 			this.parserFunction = parser;
 			this.getKeyFromValueFunction = getKeyFromValue;
 			this.getKeyBytesFromKeyFunction = getKeyBytesFromKey;
 		}
-
+		
+		private final Index id;
 		private final Function<K, V> defaultSupplier;
 		private final ParseFunction<byte[], V> parserFunction;
 		private final Function<V, K> getKeyFromValueFunction;
 		private final Function <K, byte[]> getKeyBytesFromKeyFunction;
+		
+		@Override
+		public Index getId() {
+			return id;
+		}
 		
 		@Override
 		public V parse(byte[] data) throws IOException {
@@ -110,22 +120,22 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 		
 		@Override
-		public byte[] getKeyBytesFrom(K key) {
+		public byte[] getKeyBytesFromKey(K key) {
 			return getKeyBytesFromKeyFunction.apply(key);
 		}
 		
 		@Override
-		public byte[] getKeyBytesFrom(V value) {
+		public byte[] getKeyBytesFromValue(V value) {
 			return getKeyBytesFromKeyFunction.apply(getKeyFromValueFunction.apply(value));
 		}
 		
 		@Override
-		public IProtobufQuery<K, V> query() {
+		public IRepositoryQuery<K, V> query() {
 			return new ProtobufQuery<K, V>(this);
 		}
 	}
 	
-	public class ProtobufQuery<K, V extends com.google.protobuf.GeneratedMessage> implements IProtobufQuery<K, V> {
+	public class ProtobufQuery<K, V> implements IRepositoryQuery<K, V> {
 
 		private ProtobufIndex<K, V> index;
 		private boolean descending;
@@ -139,7 +149,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 		
 		@Override
-		public IProtobufQuery<K, V> descending() {
+		public IRepositoryQuery<K, V> descending() {
 			if(!descending && fromBytes != null) {
 				byte[] toTemp = toBytes;
 				toBytes = fromBytes;
@@ -151,10 +161,10 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 
 		@Override
-		public IProtobufQuery<K, V> range(K from, K to) {
+		public IRepositoryQuery<K, V> range(K from, K to) {
 
-			byte[] fromBytes = from != null ? index.getKeyBytesFrom(from) : null;
-			byte[] toBytes = to != null ? index.getKeyBytesFrom(to) : null;
+			byte[] fromBytes = from != null ? index.getKeyBytesFromKey(from) : null;
+			byte[] toBytes = to != null ? index.getKeyBytesFromKey(to) : null;
 			
 			// sort the values if they are both non null
 			if(fromBytes != null && toBytes != null) {
@@ -171,20 +181,20 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		}
 
 		@Override
-		public IProtobufQuery<K, V> atKey(K key) {
+		public IRepositoryQuery<K, V> atKey(K key) {
 			this.key = key;
-			this.keyBytes = index.getKeyBytesFrom(key);
+			this.keyBytes = index.getKeyBytesFromKey(key);
 			return this;
 		}
 		
 		@Override
-		public IProtobufQuery<K, V> limit(int n) {
+		public IRepositoryQuery<K, V> limit(int n) {
 			this.limit = n;
 			return this;
 		}
 
 		@Override
-		public IProtobufQuery<K, V> where(Predicate<V> predicate) {
+		public IRepositoryQuery<K, V> where(Predicate<V> predicate) {
 			this.predicate = predicate;
 			return this;
 		}
@@ -202,7 +212,7 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 		private V getFirst(V defaultValue) {
 			if(key != null) {
 				try {
-					byte[] value = levelDb.get().get(keyBytes);
+					byte[] value = db.index(index.getId()).get(keyBytes);
 					return value != null ? index.parse(value) : defaultValue;
 				} catch (Exception e) {
 					return defaultValue;
@@ -216,36 +226,27 @@ public class ProtobufLevelDBRepository<V extends com.google.protobuf.GeneratedMe
 
 		@Override
 		public List<V> toArray() {
-			List<V> results = new ArrayList<V>();
-			
-			try(DBIterator iterator = levelDb.get().iterator()) {
-				if(fromBytes != null) {
-					iterator.seek(fromBytes);
-				} else if(descending) {
-					iterator.seekToLast();
-				} else {
-					iterator.seekToFirst();
-				}
-				Entry<byte[], byte[]> nextEntry = null;
-				while(
-						(descending ? iterator.hasPrev() : iterator.hasNext()) 
-					&&  (limit == -1 || results.size() < limit)
-					&&  ((ByteArrayComparator.compare(
-							toBytes, 
-							(nextEntry = (descending ? iterator.prev() : iterator.next())).getKey()
-						 ) > 0) ^ descending )
-					) 
-				{
-					V nextElement = index.parse(nextEntry.getValue());
-					if(predicate == null || predicate.test(nextElement)) {
-						results.add(nextElement);
+			return db.index(index.getId()).withIterator(
+				fromBytes,
+				toBytes,
+				descending,
+				(iterator) -> {
+					List<V> results = new ArrayList<V>();
+					while( iterator.hasNext() && (limit == -1 || results.size() < limit) ) {
+						V nextElement;
+						byte[] nextEntry = iterator.next();
+						try {
+							nextElement = index.parse(nextEntry);
+							if(predicate == null || predicate.test(nextElement)) {
+								results.add(nextElement);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
+					return results;
 				}
-			} catch(IOException ex) {
-				ex.printStackTrace();
-			}
-			
-			return results;
+			);
 		}
 
 
