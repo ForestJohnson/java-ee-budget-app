@@ -10,7 +10,7 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "uint32",
-                    "name": "transactionId",
+                    "name": "id",
                     "id": 1
                 },
                 {

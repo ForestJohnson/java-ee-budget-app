@@ -5,20 +5,42 @@ module.exports = require("protobufjs").newBuilder({})['import']({
     },
     "messages": [
         {
-            "name": "UploadSpreadsheetEvent",
+            "name": "Event",
             "fields": [
                 {
                     "rule": "optional",
                     "type": "uint32",
-                    "name": "userId",
+                    "name": "id",
                     "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "userId",
+                    "id": 2
                 },
                 {
                     "rule": "optional",
                     "type": "int64",
                     "name": "timestamp",
-                    "id": 2
+                    "id": 3
                 },
+                {
+                    "rule": "optional",
+                    "type": "UploadSpreadsheetEvent",
+                    "name": "uploadSpreadsheetEvent",
+                    "id": 10
+                }
+            ],
+            "oneofs": {
+                "event_type": [
+                    10
+                ]
+            }
+        },
+        {
+            "name": "UploadSpreadsheetEvent",
+            "fields": [
                 {
                     "rule": "optional",
                     "type": "string",

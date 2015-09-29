@@ -1,5 +1,6 @@
 package com.ilmservice.personalbudget.data;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +15,6 @@ import com.ilmservice.repository.IRepository.IRepositoryIndex;
 
 @Default
 @Stateless
-@Singleton
 public class TransactionStore implements ITransactionStore {
 	
 	@Inject public IRepository<Transaction> transactions;
@@ -38,7 +38,20 @@ public class TransactionStore implements ITransactionStore {
 				}
 			}
 		);
-		
-
+	}
+	
+	public Transaction test(int id) {
+		Transaction modified = null;
+		try {
+			Transaction result = transactionsById.query().atKey(id).firstOrDefault();
+			modified = Transaction.newBuilder(result)
+									.setDescription(result.getDescription() + " :)  ").build();
+			transactions.put(modified);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modified;
 	}
 }
