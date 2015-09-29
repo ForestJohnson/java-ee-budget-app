@@ -19,6 +19,7 @@ public interface IDbManager  {
 	
 	public interface IDbTransaction {
 		IDbIndex index(short indexId);
-		void execute()  throws IOException;
+		void execute()  throws Exception;
+		void close() throws IOException;
 	}
 }

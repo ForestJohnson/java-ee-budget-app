@@ -70,8 +70,14 @@ public class LevelDbManager implements IDbManager {
 			return manager.index(indexId);
 		}
 		
-		public void execute() throws IOException {
+		@Override
+		public void close() throws IOException {
 			this.batch.close();
+		}
+		
+		@Override
+		public void execute() throws DBException {
+			db.write(batch);
 		}
 	}
 	

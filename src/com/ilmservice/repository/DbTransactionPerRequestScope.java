@@ -32,8 +32,11 @@ public class DbTransactionPerRequestScope implements IDbScope {
 	public void endTransaction() {
 		System.out.println("endTransaction");
 		try {
-			transaction.execute();
-		} catch (IOException e) {
+			// TODO need to figure out how to conditionally execute this 
+			// depending on whether an exception was thrown or not
+			//transaction.execute();
+			transaction.close();
+		} catch (Exception e) {
 			System.out.println("transaction failed and was never closed ??");
 			e.printStackTrace();
 		}
