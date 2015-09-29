@@ -32,11 +32,16 @@ public class LevelDbManager implements IDbManager {
 		
 		this.indexes = new HashMap<Short, LevelDbIndex>();
 	}
-	
+	@Override
 	public IDbIndex index(short indexId) {
 		return indexes.computeIfAbsent(indexId, (id) -> {
 			return new LevelDbIndex(id, db);
 		});
+	}
+	
+	@Override
+	public IDbTransaction openTransaction () {
+		return new LevelDbTransaction(db.createWriteBatch(), this);
 	}
 	
 	@PreDestroy
@@ -49,6 +54,25 @@ public class LevelDbManager implements IDbManager {
 			e.printStackTrace();
 		}
 		System.out.println("DB closed");
+	}
+	
+	class LevelDbTransaction implements IDbTransaction {
+		
+		private WriteBatch batch;
+		private LevelDbManager manager;
+		
+		LevelDbTransaction (WriteBatch batch, LevelDbManager manager) {
+			this.batch = batch;
+			this.manager = manager;
+		}
+
+		public IDbIndex index(short indexId) {
+			return manager.index(indexId);
+		}
+		
+		public void execute() throws IOException {
+			this.batch.close();
+		}
 	}
 	
 	public class LevelDbIndex implements IDbIndex {

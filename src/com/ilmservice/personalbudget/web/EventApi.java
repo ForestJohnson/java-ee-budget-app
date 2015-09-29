@@ -1,6 +1,7 @@
 package com.ilmservice.personalbudget.web;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,7 +13,9 @@ import com.ilmservice.personalbudget.data.IEventStore;
 import com.ilmservice.personalbudget.data.ITransactionStore;
 import com.ilmservice.personalbudget.events.ISpreadsheetUploadEventHandler;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
+import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
+import com.ilmservice.repository.TransactionPerRequest;
 
 
 @Stateless
@@ -20,30 +23,31 @@ import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 @Path("")
 public class EventApi {
 	
-//	@Inject private ISpreadsheetUploadEventHandler eventStore;
-//	
-//    @POST
-//    @Path("spreadsheet")
-//    @Produces("application/x-protobuf")
-//    @Consumes("application/x-protobuf")
-//    public Response spreadsheet(UploadSpreadsheetEvent event) {
-//    	 
-//    	 eventStore.uploadSpreadsheet(event);
-//
-//         return Response.ok().build();
-//    }
-    
-	@Inject private ITransactionStore transactionStore;
+	@Inject private ISpreadsheetUploadEventHandler eventStore;
 	
     @POST
-    @Path("test")
+    @Path("spreadsheet")
     @Produces("application/x-protobuf")
     @Consumes("application/x-protobuf")
-    public Response test(Transaction transaction) {
+    public Response spreadsheet(Event event) throws Exception {
     	 
-    	 transactionStore.test(transaction.getId());
+    	 eventStore.uploadSpreadsheet(event);
 
          return Response.ok().build();
     }
+    
+	
+//	@Inject private ITransactionStore transactionStore;
+//	
+//    @POST
+//    @Path("test")
+//    @Produces("application/x-protobuf")
+//    @Consumes("application/x-protobuf")
+//    public Response test(Transaction transaction) {
+//    	 
+//    	 transactionStore.test(transaction.getId());
+//
+//         return Response.ok().build();
+//    }
 	
 }

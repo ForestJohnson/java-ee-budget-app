@@ -5,18 +5,23 @@ package com.ilmservice.personalbudget;
 option java_package = "com.ilmservice.personalbudget.protobufs";
 
 message Event {
-  optional uint32 id = 1;
   optional uint32 userId = 2;
-  optional int64 timestamp = 3;
+  optional int64 date = 3;
   oneof event_type {
      UploadSpreadsheetEvent uploadSpreadsheetEvent = 10;
   }
 }
 
 message UploadSpreadsheetEvent {
+  enum SpreadsheetSource {
+      BREMER = 0;
+  }
+  optional SpreadsheetSource source = 2;
   optional string filename = 3;
   repeated SpreadsheetRow rows = 4;
 }
+
+
 
 message SpreadsheetRow {
   repeated string fields = 1;

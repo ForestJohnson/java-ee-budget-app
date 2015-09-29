@@ -15,6 +15,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.ilmservice.repository.IDbManager.IDbTransaction;
 import com.ilmservice.repository.IRepository.Void;
 
 
@@ -22,8 +23,7 @@ import com.ilmservice.repository.IRepository.Void;
 @Dependent
 public class Repository<V> implements IRepository<V> {
 
-	@Inject 
-	private IDbManager db;
+	private IDbScope db;
 	
 	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
@@ -33,15 +33,17 @@ public class Repository<V> implements IRepository<V> {
 	private Repository() 
 	{
 		this.indexes = new HashMap<Short, IRepositoryIndex<?, V>>();
-		System.out.println("protobuf repo goin up ");
+		System.out.println("protobuf repo goin up  ");
 	}
 	
 	@Override 
 	public void configure (
+		IDbScope db,
 		ParseFunction<byte[], V> parser,
 		Function<V, byte[]> serializer,
 		Void configureIndexes)  
 	{
+		this.db = db;
 		this.parserFunction = parser;
 		this.serializerFunction = serializer;
 		
@@ -147,6 +149,12 @@ public class Repository<V> implements IRepository<V> {
 		@Override
 		public IRepositoryQuery<K, V> query() {
 			return new ProtobufQuery<K, V>(this);
+		}
+
+		@Override
+		public K max() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 	

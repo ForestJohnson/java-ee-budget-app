@@ -6,12 +6,13 @@ option java_package = "com.ilmservice.personalbudget.protobufs";
 
 
 message Transaction {
-  optional uint32 id = 1;
+  optional bytes id = 1;
   optional uint32 categoryId = 2;
   repeated uint32 tagIds = 3;
   optional uint32 userId = 4;
-  optional uint64 timestamp = 5;
-  optional sint32 dollars = 6;
+  optional uint64 date = 5;
+  optional sint32 cents = 6;
   optional string description = 7;
+  optional string card = 8;
 }
  
