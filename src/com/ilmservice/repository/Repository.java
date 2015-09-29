@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
+import com.ilmservice.repository.IDbManager.IDbTransaction;
 import com.ilmservice.repository.IRepository.Void;
 
 
@@ -21,7 +22,7 @@ import com.ilmservice.repository.IRepository.Void;
 public class Repository<V> implements IRepository<V> {
 
 	@Inject 
-	private IDbManager db;
+	private IDbTransaction db;
 	
 	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
