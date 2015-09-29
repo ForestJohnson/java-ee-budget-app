@@ -17,7 +17,6 @@ import com.ilmservice.repository.IRepository.IRepositoryIndex;
 
 @Default
 @Stateless
-@Singleton
 public class EventStore implements IEventStore {
 
 	@Inject public IRepository<Event> events;
