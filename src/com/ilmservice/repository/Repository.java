@@ -13,17 +13,20 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
+import com.ilmservice.repository.IRepository.Void;
+
 
 @Default
 @Stateless
 public class Repository<V> implements IRepository<V> {
 
 	@Inject 
-	private IDbIndexManager db;
+	private IDbManager db;
 	
 	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
 	private Function<V, byte[]> serializerFunction;
+	private boolean isConfiguringIndexes = false;
 	
 	private Repository() 
 	{
@@ -34,10 +37,17 @@ public class Repository<V> implements IRepository<V> {
 	@Override 
 	public void configure (
 		ParseFunction<byte[], V> parser,
-		Function<V, byte[]> serializer)  
+		Function<V, byte[]> serializer,
+		Void configureIndexes)  
 	{
 		this.parserFunction = parser;
 		this.serializerFunction = serializer;
+		
+		isConfiguringIndexes = true;
+		configureIndexes.apply();
+		isConfiguringIndexes = false;
+		
+		// this is where you would run migrations
 	}
 	
 	@Override
@@ -45,8 +55,11 @@ public class Repository<V> implements IRepository<V> {
 			short index,
 			Function<K, V> defaultSupplier,
 			Function<V, K> getKeyFromValue, 
-			Function <K, byte[]> getKeyBytesFromKey) 
+			Function <K, byte[]> getKeyBytesFromKey) throws Exception 
 	{
+		if(!isConfiguringIndexes) {
+			throw new Exception("You must only configure indexes inside the index configuration callback.");
+		}
 		IRepositoryIndex<K, V> newIndex = new ProtobufIndex<K, V>(
 			index,
 			parserFunction, 

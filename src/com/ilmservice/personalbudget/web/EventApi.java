@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.ilmservice.personalbudget.data.IEventStore;
+import com.ilmservice.personalbudget.events.ISpreadsheetUploadEventHandler;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 
@@ -18,7 +19,7 @@ import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 @Path("")
 public class EventApi {
 	
-	@Inject private IEventStore eventStore;
+	@Inject private ISpreadsheetUploadEventHandler eventStore;
 	
     @POST
     @Path("spreadsheet")

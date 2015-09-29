@@ -7,6 +7,17 @@ import java.util.function.Predicate;
 
 
 public interface IRepository<V> {
+	
+	@FunctionalInterface
+	public interface ParseFunction<T, R> {
+	    R apply(T t) throws IOException;
+	}
+	
+	@FunctionalInterface
+	public interface Void {
+	    void apply();
+	}
+	
 	/**
 	 * @param parser a function that returns an instance of <V> given a byte array.
 	 * <pre>
@@ -17,7 +28,8 @@ public interface IRepository<V> {
 	 */
 	public void configure(
 			ParseFunction<byte[], V> parser, 
-			Function<V, byte[]> serializer
+			Function<V, byte[]> serializer,
+			Void configureIndexes
 	);
 	
 	/**
@@ -37,13 +49,14 @@ public interface IRepository<V> {
 	 * 	(k) -> ByteBuffer.allocate(4).putInt(k).array()
 	 * );
 	 * </pre>
+	 * @throws Exception 
 	 */
 	public <K> IRepositoryIndex<K, V> configureIndex(
 		short index,
 		Function<K, V> defaultSupplier,
 		Function<V, K> getKeyFromValue, 
 		Function <K, byte[]> getKeyBytesFromKey
-	);
+	) throws Exception;
 	public V put(V value);
 	public void delete(V value);
 
