@@ -14,7 +14,7 @@ import com.ilmservice.repository.IRepository;
 import com.ilmservice.repository.IRepository.IRepositoryIndex;
 
 @Default
-@Stateless
+@Singleton
 public class TransactionStore implements ITransactionStore {
 	
 	@Inject public IRepository<Transaction> transactions;
@@ -22,11 +22,13 @@ public class TransactionStore implements ITransactionStore {
 	
 	@PostConstruct
 	public void configure() {
+		System.out.println("TransactionStore configuring");
 		transactions.configure( 
 			(bytes) -> Transaction.parseFrom(bytes),
 			(transaction) -> transaction.toByteArray(),
 			() -> {
 				try {
+					System.out.println("TransactionStore indexes");
 					transactionsById = transactions.configureIndex(
 						Indexes.TransactionsById.getValue(),
 						(k) -> Transaction.newBuilder().setId(k).build(),
@@ -43,12 +45,17 @@ public class TransactionStore implements ITransactionStore {
 	public Transaction test(int id) {
 		Transaction modified = null;
 		try {
+			System.out.println("TransactionStore testing  ");
 			Transaction result = transactionsById.query().atKey(id).firstOrDefault();
+			System.out.println(result.toString());
 			modified = Transaction.newBuilder(result)
 									.setDescription(result.getDescription() + " :)  ").build();
+			
+			System.out.println(modified.toString());
 			transactions.put(modified);
 			
 		} catch (IOException e) {
+			System.out.println("TransactionStore testing failed ");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -12,9 +12,9 @@ import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 @Stateless
 public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHandler {
 	
-	@Inject private IEventStore eventStore;
-	@Inject private ITransactionStore transactionStore;
-	
+//	@Inject private IEventStore eventStore;
+//	@Inject private ITransactionStore transactionStore;
+//	
 	@Override
 	public void uploadSpreadsheet(UploadSpreadsheetEvent event) {
 		
