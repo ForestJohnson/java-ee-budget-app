@@ -22,7 +22,7 @@ import com.ilmservice.repository.IRepository.Void;
 public class Repository<V> implements IRepository<V> {
 
 	@Inject 
-	private IDbTransaction db;
+	private IDbRequestScope db;
 	
 	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
