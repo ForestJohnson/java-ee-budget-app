@@ -16,9 +16,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 
 @Singleton
-@Stateless
 @Default
-@LevelDbQualifier
 public class LevelDbManager implements IDbManager {
 
 	private final String fileName = "testLevelDb5";

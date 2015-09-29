@@ -10,14 +10,16 @@ import java.util.function.Predicate;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.ilmservice.repository.IRepository.Void;
 
 
 @Default
-@Stateless
+@Dependent
 public class Repository<V> implements IRepository<V> {
 
 	@Inject 
@@ -31,7 +33,7 @@ public class Repository<V> implements IRepository<V> {
 	private Repository() 
 	{
 		this.indexes = new HashMap<Short, IRepositoryIndex<?, V>>();
-		System.out.println("protobuf repo goin up");
+		System.out.println("protobuf repo goin up ");
 	}
 	
 	@Override 
