@@ -1,9 +1,10 @@
 package com.ilmservice.personalbudget.data;
 
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
+import com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder;
 
 public interface ITransactionStore {
 
-	Transaction test(int id);
+	void put(Builder builder);
 
 }

@@ -823,6 +823,15 @@ public final class Events {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+     */
+    boolean hasSource();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource getSource();
+
+    /**
      * <code>optional string filename = 3;</code>
      */
     boolean hasFilename();
@@ -912,16 +921,27 @@ public final class Events {
               }
               break;
             }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource value = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                source_ = value;
+              }
+              break;
+            }
             case 26: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               filename_ = bs;
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 rows_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               rows_.add(input.readMessage(com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow.PARSER, extensionRegistry));
               break;
@@ -934,7 +954,7 @@ public final class Events {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           rows_ = java.util.Collections.unmodifiableList(rows_);
         }
         this.unknownFields = unknownFields.build();
@@ -968,14 +988,102 @@ public final class Events {
       return PARSER;
     }
 
+    /**
+     * Protobuf enum {@code com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource}
+     */
+    public enum SpreadsheetSource
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>BREMER = 0;</code>
+       */
+      BREMER(0, 0),
+      ;
+
+      /**
+       * <code>BREMER = 0;</code>
+       */
+      public static final int BREMER_VALUE = 0;
+
+
+      public final int getNumber() { return value; }
+
+      public static SpreadsheetSource valueOf(int value) {
+        switch (value) {
+          case 0: return BREMER;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<SpreadsheetSource>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<SpreadsheetSource>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<SpreadsheetSource>() {
+              public SpreadsheetSource findValueByNumber(int number) {
+                return SpreadsheetSource.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final SpreadsheetSource[] VALUES = values();
+
+      public static SpreadsheetSource valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private SpreadsheetSource(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource)
+    }
+
     private int bitField0_;
+    public static final int SOURCE_FIELD_NUMBER = 2;
+    private com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource source_;
+    /**
+     * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+     */
+    public boolean hasSource() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource getSource() {
+      return source_;
+    }
+
     public static final int FILENAME_FIELD_NUMBER = 3;
     private java.lang.Object filename_;
     /**
      * <code>optional string filename = 3;</code>
      */
     public boolean hasFilename() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional string filename = 3;</code>
@@ -1047,6 +1155,7 @@ public final class Events {
     }
 
     private void initFields() {
+      source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
       filename_ = "";
       rows_ = java.util.Collections.emptyList();
     }
@@ -1064,6 +1173,9 @@ public final class Events {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(2, source_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(3, getFilenameBytes());
       }
       for (int i = 0; i < rows_.size(); i++) {
@@ -1079,6 +1191,10 @@ public final class Events {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, source_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getFilenameBytes());
       }
@@ -1204,11 +1320,13 @@ public final class Events {
 
       public Builder clear() {
         super.clear();
-        filename_ = "";
+        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
         bitField0_ = (bitField0_ & ~0x00000001);
+        filename_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (rowsBuilder_ == null) {
           rows_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           rowsBuilder_.clear();
         }
@@ -1243,11 +1361,15 @@ public final class Events {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.source_ = source_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
         result.filename_ = filename_;
         if (rowsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             rows_ = java.util.Collections.unmodifiableList(rows_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.rows_ = rows_;
         } else {
@@ -1269,8 +1391,11 @@ public final class Events {
 
       public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent other) {
         if (other == com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.getDefaultInstance()) return this;
+        if (other.hasSource()) {
+          setSource(other.getSource());
+        }
         if (other.hasFilename()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           filename_ = other.filename_;
           onChanged();
         }
@@ -1278,7 +1403,7 @@ public final class Events {
           if (!other.rows_.isEmpty()) {
             if (rows_.isEmpty()) {
               rows_ = other.rows_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureRowsIsMutable();
               rows_.addAll(other.rows_);
@@ -1291,7 +1416,7 @@ public final class Events {
               rowsBuilder_.dispose();
               rowsBuilder_ = null;
               rows_ = other.rows_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               rowsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getRowsFieldBuilder() : null;
@@ -1327,12 +1452,47 @@ public final class Events {
       }
       private int bitField0_;
 
+      private com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+      /**
+       * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+       */
+      public boolean hasSource() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource getSource() {
+        return source_;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+       */
+      public Builder setSource(com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        source_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
+       */
+      public Builder clearSource() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object filename_ = "";
       /**
        * <code>optional string filename = 3;</code>
        */
       public boolean hasFilename() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional string filename = 3;</code>
@@ -1375,7 +1535,7 @@ public final class Events {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         filename_ = value;
         onChanged();
         return this;
@@ -1384,7 +1544,7 @@ public final class Events {
        * <code>optional string filename = 3;</code>
        */
       public Builder clearFilename() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         filename_ = getDefaultInstance().getFilename();
         onChanged();
         return this;
@@ -1397,7 +1557,7 @@ public final class Events {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         filename_ = value;
         onChanged();
         return this;
@@ -1406,9 +1566,9 @@ public final class Events {
       private java.util.List<com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow> rows_ =
         java.util.Collections.emptyList();
       private void ensureRowsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           rows_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow>(rows_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -1558,7 +1718,7 @@ public final class Events {
       public Builder clearRows() {
         if (rowsBuilder_ == null) {
           rows_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           rowsBuilder_.clear();
@@ -1635,7 +1795,7 @@ public final class Events {
           rowsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow, com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow.Builder, com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRowOrBuilder>(
                   rows_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           rows_ = null;
@@ -2182,11 +2342,14 @@ public final class Events {
       "\001(\r\022\021\n\ttimestamp\030\003 \001(\003\022W\n\026uploadSpreadsh" +
       "eetEvent\030\n \001(\01325.com.ilmservice.personal" +
       "budget.UploadSpreadsheetEventH\000B\014\n\nevent" +
-      "_type\"g\n\026UploadSpreadsheetEvent\022\020\n\010filen" +
-      "ame\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com.ilmservice" +
-      ".personalbudget.SpreadsheetRow\" \n\016Spread" +
-      "sheetRow\022\016\n\006fields\030\001 \003(\tB)\n\'com.ilmservi" +
-      "ce.personalbudget.protobufs"
+      "_type\"\341\001\n\026UploadSpreadsheetEvent\022W\n\006sour" +
+      "ce\030\002 \001(\0162G.com.ilmservice.personalbudget" +
+      ".UploadSpreadsheetEvent.SpreadsheetSourc" +
+      "e\022\020\n\010filename\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com." +
+      "ilmservice.personalbudget.SpreadsheetRow",
+      "\"\037\n\021SpreadsheetSource\022\n\n\006BREMER\020\000\" \n\016Spr" +
+      "eadsheetRow\022\016\n\006fields\030\001 \003(\tB)\n\'com.ilmse" +
+      "rvice.personalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2211,7 +2374,7 @@ public final class Events {
     internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_descriptor,
-        new java.lang.String[] { "Filename", "Rows", });
+        new java.lang.String[] { "Source", "Filename", "Rows", });
     internal_static_com_ilmservice_personalbudget_SpreadsheetRow_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_com_ilmservice_personalbudget_SpreadsheetRow_fieldAccessorTable = new

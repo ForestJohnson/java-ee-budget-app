@@ -13,13 +13,13 @@ public final class Data {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional uint32 id = 1;</code>
+     * <code>optional bytes id = 1;</code>
      */
     boolean hasId();
     /**
-     * <code>optional uint32 id = 1;</code>
+     * <code>optional bytes id = 1;</code>
      */
-    int getId();
+    com.google.protobuf.ByteString getId();
 
     /**
      * <code>optional uint32 categoryId = 2;</code>
@@ -53,22 +53,22 @@ public final class Data {
     int getUserId();
 
     /**
-     * <code>optional uint64 timestamp = 5;</code>
+     * <code>optional uint64 date = 5;</code>
      */
-    boolean hasTimestamp();
+    boolean hasDate();
     /**
-     * <code>optional uint64 timestamp = 5;</code>
+     * <code>optional uint64 date = 5;</code>
      */
-    long getTimestamp();
+    long getDate();
 
     /**
-     * <code>optional sint32 dollars = 6;</code>
+     * <code>optional sint32 cents = 6;</code>
      */
-    boolean hasDollars();
+    boolean hasCents();
     /**
-     * <code>optional sint32 dollars = 6;</code>
+     * <code>optional sint32 cents = 6;</code>
      */
-    int getDollars();
+    int getCents();
 
     /**
      * <code>optional string description = 7;</code>
@@ -136,9 +136,9 @@ public final class Data {
               }
               break;
             }
-            case 8: {
+            case 10: {
               bitField0_ |= 0x00000001;
-              id_ = input.readUInt32();
+              id_ = input.readBytes();
               break;
             }
             case 16: {
@@ -174,12 +174,12 @@ public final class Data {
             }
             case 40: {
               bitField0_ |= 0x00000008;
-              timestamp_ = input.readUInt64();
+              date_ = input.readUInt64();
               break;
             }
             case 48: {
               bitField0_ |= 0x00000010;
-              dollars_ = input.readSInt32();
+              cents_ = input.readSInt32();
               break;
             }
             case 58: {
@@ -232,17 +232,17 @@ public final class Data {
 
     private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
+    private com.google.protobuf.ByteString id_;
     /**
-     * <code>optional uint32 id = 1;</code>
+     * <code>optional bytes id = 1;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 id = 1;</code>
+     * <code>optional bytes id = 1;</code>
      */
-    public int getId() {
+    public com.google.protobuf.ByteString getId() {
       return id_;
     }
 
@@ -298,34 +298,34 @@ public final class Data {
       return userId_;
     }
 
-    public static final int TIMESTAMP_FIELD_NUMBER = 5;
-    private long timestamp_;
+    public static final int DATE_FIELD_NUMBER = 5;
+    private long date_;
     /**
-     * <code>optional uint64 timestamp = 5;</code>
+     * <code>optional uint64 date = 5;</code>
      */
-    public boolean hasTimestamp() {
+    public boolean hasDate() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional uint64 timestamp = 5;</code>
+     * <code>optional uint64 date = 5;</code>
      */
-    public long getTimestamp() {
-      return timestamp_;
+    public long getDate() {
+      return date_;
     }
 
-    public static final int DOLLARS_FIELD_NUMBER = 6;
-    private int dollars_;
+    public static final int CENTS_FIELD_NUMBER = 6;
+    private int cents_;
     /**
-     * <code>optional sint32 dollars = 6;</code>
+     * <code>optional sint32 cents = 6;</code>
      */
-    public boolean hasDollars() {
+    public boolean hasCents() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional sint32 dollars = 6;</code>
+     * <code>optional sint32 cents = 6;</code>
      */
-    public int getDollars() {
-      return dollars_;
+    public int getCents() {
+      return cents_;
     }
 
     public static final int DESCRIPTION_FIELD_NUMBER = 7;
@@ -371,12 +371,12 @@ public final class Data {
     }
 
     private void initFields() {
-      id_ = 0;
+      id_ = com.google.protobuf.ByteString.EMPTY;
       categoryId_ = 0;
       tagIds_ = java.util.Collections.emptyList();
       userId_ = 0;
-      timestamp_ = 0L;
-      dollars_ = 0;
+      date_ = 0L;
+      cents_ = 0;
       description_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -393,7 +393,7 @@ public final class Data {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, id_);
+        output.writeBytes(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, categoryId_);
@@ -405,10 +405,10 @@ public final class Data {
         output.writeUInt32(4, userId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeUInt64(5, timestamp_);
+        output.writeUInt64(5, date_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeSInt32(6, dollars_);
+        output.writeSInt32(6, cents_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(7, getDescriptionBytes());
@@ -424,7 +424,7 @@ public final class Data {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, id_);
+          .computeBytesSize(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -445,11 +445,11 @@ public final class Data {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(5, timestamp_);
+          .computeUInt64Size(5, date_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(6, dollars_);
+          .computeSInt32Size(6, cents_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
@@ -572,7 +572,7 @@ public final class Data {
 
       public Builder clear() {
         super.clear();
-        id_ = 0;
+        id_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
         categoryId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -580,9 +580,9 @@ public final class Data {
         bitField0_ = (bitField0_ & ~0x00000004);
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        timestamp_ = 0L;
+        date_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
-        dollars_ = 0;
+        cents_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
         description_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -634,11 +634,11 @@ public final class Data {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.timestamp_ = timestamp_;
+        result.date_ = date_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.dollars_ = dollars_;
+        result.cents_ = cents_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
@@ -678,11 +678,11 @@ public final class Data {
         if (other.hasUserId()) {
           setUserId(other.getUserId());
         }
-        if (other.hasTimestamp()) {
-          setTimestamp(other.getTimestamp());
+        if (other.hasDate()) {
+          setDate(other.getDate());
         }
-        if (other.hasDollars()) {
-          setDollars(other.getDollars());
+        if (other.hasCents()) {
+          setCents(other.getCents());
         }
         if (other.hasDescription()) {
           bitField0_ |= 0x00000040;
@@ -716,34 +716,37 @@ public final class Data {
       }
       private int bitField0_;
 
-      private int id_ ;
+      private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional uint32 id = 1;</code>
+       * <code>optional bytes id = 1;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional uint32 id = 1;</code>
+       * <code>optional bytes id = 1;</code>
        */
-      public int getId() {
+      public com.google.protobuf.ByteString getId() {
         return id_;
       }
       /**
-       * <code>optional uint32 id = 1;</code>
+       * <code>optional bytes id = 1;</code>
        */
-      public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
+      public Builder setId(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 id = 1;</code>
+       * <code>optional bytes id = 1;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
+        id_ = getDefaultInstance().getId();
         onChanged();
         return this;
       }
@@ -878,66 +881,66 @@ public final class Data {
         return this;
       }
 
-      private long timestamp_ ;
+      private long date_ ;
       /**
-       * <code>optional uint64 timestamp = 5;</code>
+       * <code>optional uint64 date = 5;</code>
        */
-      public boolean hasTimestamp() {
+      public boolean hasDate() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional uint64 timestamp = 5;</code>
+       * <code>optional uint64 date = 5;</code>
        */
-      public long getTimestamp() {
-        return timestamp_;
+      public long getDate() {
+        return date_;
       }
       /**
-       * <code>optional uint64 timestamp = 5;</code>
+       * <code>optional uint64 date = 5;</code>
        */
-      public Builder setTimestamp(long value) {
+      public Builder setDate(long value) {
         bitField0_ |= 0x00000010;
-        timestamp_ = value;
+        date_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint64 timestamp = 5;</code>
+       * <code>optional uint64 date = 5;</code>
        */
-      public Builder clearTimestamp() {
+      public Builder clearDate() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        timestamp_ = 0L;
+        date_ = 0L;
         onChanged();
         return this;
       }
 
-      private int dollars_ ;
+      private int cents_ ;
       /**
-       * <code>optional sint32 dollars = 6;</code>
+       * <code>optional sint32 cents = 6;</code>
        */
-      public boolean hasDollars() {
+      public boolean hasCents() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional sint32 dollars = 6;</code>
+       * <code>optional sint32 cents = 6;</code>
        */
-      public int getDollars() {
-        return dollars_;
+      public int getCents() {
+        return cents_;
       }
       /**
-       * <code>optional sint32 dollars = 6;</code>
+       * <code>optional sint32 cents = 6;</code>
        */
-      public Builder setDollars(int value) {
+      public Builder setCents(int value) {
         bitField0_ |= 0x00000020;
-        dollars_ = value;
+        cents_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional sint32 dollars = 6;</code>
+       * <code>optional sint32 cents = 6;</code>
        */
-      public Builder clearDollars() {
+      public Builder clearCents() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        dollars_ = 0;
+        cents_ = 0;
         onChanged();
         return this;
       }
@@ -1044,11 +1047,11 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\206\001\n\013Transaction\022\n\n\002id\030\001 \001(\r\022\022\n\ncateg" +
-      "oryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 " +
-      "\001(\r\022\021\n\ttimestamp\030\005 \001(\004\022\017\n\007dollars\030\006 \001(\021\022" +
-      "\023\n\013description\030\007 \001(\tB)\n\'com.ilmservice.p" +
-      "ersonalbudget.protobufs"
+      "get\"\177\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncatego" +
+      "ryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 \001" +
+      "(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023\n\013descr" +
+      "iption\030\007 \001(\tB)\n\'com.ilmservice.personalb" +
+      "udget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1067,7 +1070,7 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Timestamp", "Dollars", "Description", });
+        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -27,6 +27,7 @@ public interface IRepository<V> {
 	 * </pre>
 	 */
 	public void configure(
+			IDbScope db,
 			ParseFunction<byte[], V> parser, 
 			Function<V, byte[]> serializer,
 			Void configureIndexes
@@ -69,6 +70,7 @@ public interface IRepository<V> {
 		public K getKeyFrom(V value);
 		public byte[] getKeyBytesFromKey(K key);
 		public byte[] getKeyBytesFromValue(V value);
+		public K max();
 	}
 	
 	public interface IRepositoryQuery<K, V> {

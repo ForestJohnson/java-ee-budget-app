@@ -1,7 +1,9 @@
 package com.ilmservice.personalbudget.events;
 
+import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
 
 public interface ISpreadsheetUploadEventHandler {
-	public void uploadSpreadsheet(UploadSpreadsheetEvent event);
+
+	void uploadSpreadsheet(Event event) throws Exception;
 }

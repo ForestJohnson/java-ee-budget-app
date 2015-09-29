@@ -11,7 +11,8 @@ import com.ilmservice.repository.IDbManager.IDbIndex;
 import com.ilmservice.repository.IDbManager.IDbTransaction;
 
 @RequestScoped
-public class DbRequestScope implements IDbRequestScope {
+@TransactionPerRequest
+public class DbTransactionPerRequestScope implements IDbScope {
 	@Inject private IDbManager db;
 	
 	private IDbTransaction transaction;

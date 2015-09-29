@@ -14,4 +14,4 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RUNTIME)
 @Target({TYPE, METHOD, FIELD, PARAMETER})
-public @interface LevelDbQualifier { }
+public @interface NoTransaction { }

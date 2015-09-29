@@ -14,9 +14,15 @@ message Event {
 }
 
 message UploadSpreadsheetEvent {
+  enum SpreadsheetSource {
+      BREMER = 0;
+  }
+  optional SpreadsheetSource source = 2;
   optional string filename = 3;
   repeated SpreadsheetRow rows = 4;
 }
+
+
 
 message SpreadsheetRow {
   repeated string fields = 1;
