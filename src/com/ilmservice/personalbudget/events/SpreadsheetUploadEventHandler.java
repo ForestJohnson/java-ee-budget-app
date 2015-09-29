@@ -1,18 +1,9 @@
 package com.ilmservice.personalbudget.events;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -43,7 +34,6 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 	private Pattern bremerMerchantRegex;
 	private Pattern bremerPurchaseRegex;
 	private Pattern bremerTerminalRegex;
-	private SimpleDateFormat bremerDateFormat;
 	
 	SpreadsheetUploadEventHandler () {
 		
@@ -54,7 +44,6 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		bremerMerchantRegex = Pattern.compile("(^MERCHANT )|( MERCHANT )");
 		bremerPurchaseRegex = Pattern.compile("(^PURCHASE )|( PURCHASE )");
 		bremerTerminalRegex = Pattern.compile("(^TERMINAL )|( TERMINAL )");
-		bremerDateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
 		
 		parsers = new SpreadsheetParser[] {
 			new SpreadsheetParser(
@@ -89,10 +78,19 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 					description = bremerPurchaseRegex.matcher(description).replaceAll("  ");
 					description = bremerTerminalRegex.matcher(description).replaceAll("  ");
 				
-					
-					builder
-						.setCents(Math.round((inDollars+outDollars)*100f))
-						.setDate(bremerDateFormat.parse(row.getFields(0) + descriptionTime).getTime());
+					try {
+						builder.setCents(Math.round((inDollars+outDollars)*100f));
+						builder.setDate(
+							new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.ENGLISH)
+								.parse(row.getFields(0) + " " + descriptionTime).getTime()
+						);
+						builder.setDescription(description);
+						if(descriptionCard != null) {
+							builder.setCard(descriptionCard);
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
 				}
 			)
 		};
@@ -107,7 +105,7 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 			throw new Exception("SpreadsheetUploadEventHandler: spreadsheet is null.");
 		}
 		 
-		eventStore.toString();
+		eventStore.put(event);
 		
 		SpreadsheetParser parser = getParser(spreadsheet);
 		
@@ -118,8 +116,7 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 				parser.mapper.accept(builder, row);
 				return builder;
 			}).forEach((builder) -> transactionStore.put(builder));
-			
-	
+
 	}
 
 	private Stream<SpreadsheetRow> getRowsStream(UploadSpreadsheetEvent spreadsheet) {
@@ -146,22 +143,17 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		throw new Exception("SpreadsheetUploadEventHandler: Unable to determine spreadsheet type.");
 	}
 	
-	@FunctionalInterface
-	public interface ParseFunction<T, R> {
-	    void accept(T t, R r) throws ParseException;
-	}
-	
 	class SpreadsheetParser {
 		public final UploadSpreadsheetEvent.SpreadsheetSource source;
 		public final String headers;
 		public final int skip;
-		public final ParseFunction<Transaction.Builder, SpreadsheetRow> mapper;
+		public final BiConsumer<Transaction.Builder, SpreadsheetRow> mapper;
 		
 		private SpreadsheetParser (
 				UploadSpreadsheetEvent.SpreadsheetSource source,
 				String headers, 
 				int skip,
-				ParseFunction<Transaction.Builder, SpreadsheetRow> mapper
+				BiConsumer<Transaction.Builder, SpreadsheetRow> mapper
 			) {
 			this.source = source;
 			this.headers = headers;

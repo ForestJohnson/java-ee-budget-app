@@ -83,6 +83,20 @@ public final class Data {
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
+
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    boolean hasCard();
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    java.lang.String getCard();
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getCardBytes();
   }
   /**
    * Protobuf type {@code com.ilmservice.personalbudget.Transaction}
@@ -186,6 +200,12 @@ public final class Data {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
               description_ = bs;
+              break;
+            }
+            case 66: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              card_ = bs;
               break;
             }
           }
@@ -370,6 +390,48 @@ public final class Data {
       }
     }
 
+    public static final int CARD_FIELD_NUMBER = 8;
+    private java.lang.Object card_;
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    public boolean hasCard() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    public java.lang.String getCard() {
+      java.lang.Object ref = card_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          card_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string card = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCardBytes() {
+      java.lang.Object ref = card_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        card_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       categoryId_ = 0;
@@ -378,6 +440,7 @@ public final class Data {
       date_ = 0L;
       cents_ = 0;
       description_ = "";
+      card_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -412,6 +475,9 @@ public final class Data {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(7, getDescriptionBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(8, getCardBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -454,6 +520,10 @@ public final class Data {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getDescriptionBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getCardBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -586,6 +656,8 @@ public final class Data {
         bitField0_ = (bitField0_ & ~0x00000020);
         description_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        card_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -643,6 +715,10 @@ public final class Data {
           to_bitField0_ |= 0x00000020;
         }
         result.description_ = description_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.card_ = card_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -687,6 +763,11 @@ public final class Data {
         if (other.hasDescription()) {
           bitField0_ |= 0x00000040;
           description_ = other.description_;
+          onChanged();
+        }
+        if (other.hasCard()) {
+          bitField0_ |= 0x00000080;
+          card_ = other.card_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1021,6 +1102,82 @@ public final class Data {
         return this;
       }
 
+      private java.lang.Object card_ = "";
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public boolean hasCard() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public java.lang.String getCard() {
+        java.lang.Object ref = card_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            card_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCardBytes() {
+        java.lang.Object ref = card_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          card_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public Builder setCard(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        card_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public Builder clearCard() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        card_ = getDefaultInstance().getCard();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string card = 8;</code>
+       */
+      public Builder setCardBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        card_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.Transaction)
     }
 
@@ -1047,11 +1204,11 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\177\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncatego" +
-      "ryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 \001" +
-      "(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023\n\013descr" +
-      "iption\030\007 \001(\tB)\n\'com.ilmservice.personalb" +
-      "udget.protobufs"
+      "get\"\215\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
+      "oryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 " +
+      "\001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023\n\013desc" +
+      "ription\030\007 \001(\t\022\014\n\004card\030\010 \001(\tB)\n\'com.ilmse" +
+      "rvice.personalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1070,7 +1227,7 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", });
+        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", "Card", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

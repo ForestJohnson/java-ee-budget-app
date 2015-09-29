@@ -1,6 +1,7 @@
 package com.ilmservice.personalbudget.data;
 
 import java.nio.ByteBuffer;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -30,7 +31,17 @@ public class EventStore implements IEventStore {
 	@Inject 
 	private IRepository<Event> events;
 	
-	private IRepositoryIndex<Integer, Event> eventsById;
+	private IRepositoryIndex<DateUserKey, Event> eventsByDateUser;
+	
+	public class DateUserKey {
+		public final Date date;
+		public final int userId;
+		
+		public DateUserKey (Date date, int userId) {
+			this.date = date;
+			this.userId = userId;
+		}
+	}
 	
 	@PostConstruct
 	public void configure() {
@@ -42,19 +53,20 @@ public class EventStore implements IEventStore {
 			() -> {
 				try {
 					System.out.println("eventstore indexes");
-					eventsById = events.configureIndex(
+					eventsByDateUser = events.configureIndex(
 						Indexes.EventsById.getValue(),
-						(k) -> Event.newBuilder().setId(k).build(),
-						(v) -> v.getId(),
-						(k) -> ByteBuffer.allocate(4).putInt(k).array()
+						(k) -> Event.newBuilder().setDate(k.date.getTime()).build(),
+						(v) -> new DateUserKey(new Date(v.getDate()), v.getUserId()),
+						(k) -> ByteBuffer.allocate(12).putLong(k.date.getTime()).putInt(k.userId).array()
 					);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		);
-		
-		
 	}
 
+	public void put (Event event) {
+		events.put(event);
+	}
 }

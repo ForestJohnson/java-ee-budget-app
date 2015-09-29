@@ -13,15 +13,6 @@ public final class Events {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    boolean hasId();
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    int getId();
-
-    /**
      * <code>optional uint32 userId = 2;</code>
      */
     boolean hasUserId();
@@ -31,13 +22,13 @@ public final class Events {
     int getUserId();
 
     /**
-     * <code>optional int64 timestamp = 3;</code>
+     * <code>optional int64 date = 3;</code>
      */
-    boolean hasTimestamp();
+    boolean hasDate();
     /**
-     * <code>optional int64 timestamp = 3;</code>
+     * <code>optional int64 date = 3;</code>
      */
-    long getTimestamp();
+    long getDate();
 
     /**
      * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent uploadSpreadsheetEvent = 10;</code>
@@ -104,19 +95,14 @@ public final class Events {
               }
               break;
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readUInt32();
-              break;
-            }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               userId_ = input.readUInt32();
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000004;
-              timestamp_ = input.readInt64();
+              bitField0_ |= 0x00000002;
+              date_ = input.readInt64();
               break;
             }
             case 82: {
@@ -201,28 +187,13 @@ public final class Events {
           eventTypeCase_);
     }
 
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public int getId() {
-      return id_;
-    }
-
     public static final int USERID_FIELD_NUMBER = 2;
     private int userId_;
     /**
      * <code>optional uint32 userId = 2;</code>
      */
     public boolean hasUserId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>optional uint32 userId = 2;</code>
@@ -231,19 +202,19 @@ public final class Events {
       return userId_;
     }
 
-    public static final int TIMESTAMP_FIELD_NUMBER = 3;
-    private long timestamp_;
+    public static final int DATE_FIELD_NUMBER = 3;
+    private long date_;
     /**
-     * <code>optional int64 timestamp = 3;</code>
+     * <code>optional int64 date = 3;</code>
      */
-    public boolean hasTimestamp() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public boolean hasDate() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int64 timestamp = 3;</code>
+     * <code>optional int64 date = 3;</code>
      */
-    public long getTimestamp() {
-      return timestamp_;
+    public long getDate() {
+      return date_;
     }
 
     public static final int UPLOADSPREADSHEETEVENT_FIELD_NUMBER = 10;
@@ -273,9 +244,8 @@ public final class Events {
     }
 
     private void initFields() {
-      id_ = 0;
       userId_ = 0;
-      timestamp_ = 0L;
+      date_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -291,13 +261,10 @@ public final class Events {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, id_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, userId_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, timestamp_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(3, date_);
       }
       if (eventTypeCase_ == 10) {
         output.writeMessage(10, (com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent) eventType_);
@@ -313,15 +280,11 @@ public final class Events {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, id_);
+          .computeUInt32Size(2, userId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, userId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, timestamp_);
+          .computeInt64Size(3, date_);
       }
       if (eventTypeCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
@@ -444,12 +407,10 @@ public final class Events {
 
       public Builder clear() {
         super.clear();
-        id_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         userId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        date_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
-        timestamp_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000004);
         eventTypeCase_ = 0;
         eventType_ = null;
         return this;
@@ -483,15 +444,11 @@ public final class Events {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.id_ = id_;
+        result.userId_ = userId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.userId_ = userId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.timestamp_ = timestamp_;
+        result.date_ = date_;
         if (eventTypeCase_ == 10) {
           if (uploadSpreadsheetEventBuilder_ == null) {
             result.eventType_ = eventType_;
@@ -516,14 +473,11 @@ public final class Events {
 
       public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Events.Event other) {
         if (other == com.ilmservice.personalbudget.protobufs.Events.Event.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          setId(other.getId());
-        }
         if (other.hasUserId()) {
           setUserId(other.getUserId());
         }
-        if (other.hasTimestamp()) {
-          setTimestamp(other.getTimestamp());
+        if (other.hasDate()) {
+          setDate(other.getDate());
         }
         switch (other.getEventTypeCase()) {
           case UPLOADSPREADSHEETEVENT: {
@@ -576,44 +530,12 @@ public final class Events {
 
       private int bitField0_;
 
-      private int id_ ;
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-
       private int userId_ ;
       /**
        * <code>optional uint32 userId = 2;</code>
        */
       public boolean hasUserId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>optional uint32 userId = 2;</code>
@@ -625,7 +547,7 @@ public final class Events {
        * <code>optional uint32 userId = 2;</code>
        */
       public Builder setUserId(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         userId_ = value;
         onChanged();
         return this;
@@ -634,40 +556,40 @@ public final class Events {
        * <code>optional uint32 userId = 2;</code>
        */
       public Builder clearUserId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         userId_ = 0;
         onChanged();
         return this;
       }
 
-      private long timestamp_ ;
+      private long date_ ;
       /**
-       * <code>optional int64 timestamp = 3;</code>
+       * <code>optional int64 date = 3;</code>
        */
-      public boolean hasTimestamp() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+      public boolean hasDate() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int64 timestamp = 3;</code>
+       * <code>optional int64 date = 3;</code>
        */
-      public long getTimestamp() {
-        return timestamp_;
+      public long getDate() {
+        return date_;
       }
       /**
-       * <code>optional int64 timestamp = 3;</code>
+       * <code>optional int64 date = 3;</code>
        */
-      public Builder setTimestamp(long value) {
-        bitField0_ |= 0x00000004;
-        timestamp_ = value;
+      public Builder setDate(long value) {
+        bitField0_ |= 0x00000002;
+        date_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 timestamp = 3;</code>
+       * <code>optional int64 date = 3;</code>
        */
-      public Builder clearTimestamp() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        timestamp_ = 0L;
+      public Builder clearDate() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        date_ = 0L;
         onChanged();
         return this;
       }
@@ -2338,18 +2260,18 @@ public final class Events {
   static {
     java.lang.String[] descriptorData = {
       "\n\014Events.proto\022\035com.ilmservice.personalb" +
-      "udget\"\235\001\n\005Event\022\n\n\002id\030\001 \001(\r\022\016\n\006userId\030\002 " +
-      "\001(\r\022\021\n\ttimestamp\030\003 \001(\003\022W\n\026uploadSpreadsh" +
-      "eetEvent\030\n \001(\01325.com.ilmservice.personal" +
-      "budget.UploadSpreadsheetEventH\000B\014\n\nevent" +
-      "_type\"\341\001\n\026UploadSpreadsheetEvent\022W\n\006sour" +
-      "ce\030\002 \001(\0162G.com.ilmservice.personalbudget" +
-      ".UploadSpreadsheetEvent.SpreadsheetSourc" +
-      "e\022\020\n\010filename\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com." +
-      "ilmservice.personalbudget.SpreadsheetRow",
-      "\"\037\n\021SpreadsheetSource\022\n\n\006BREMER\020\000\" \n\016Spr" +
-      "eadsheetRow\022\016\n\006fields\030\001 \003(\tB)\n\'com.ilmse" +
-      "rvice.personalbudget.protobufs"
+      "udget\"\214\001\n\005Event\022\016\n\006userId\030\002 \001(\r\022\014\n\004date\030" +
+      "\003 \001(\003\022W\n\026uploadSpreadsheetEvent\030\n \001(\01325." +
+      "com.ilmservice.personalbudget.UploadSpre" +
+      "adsheetEventH\000B\014\n\nevent_type\"\341\001\n\026UploadS" +
+      "preadsheetEvent\022W\n\006source\030\002 \001(\0162G.com.il" +
+      "mservice.personalbudget.UploadSpreadshee" +
+      "tEvent.SpreadsheetSource\022\020\n\010filename\030\003 \001" +
+      "(\t\022;\n\004rows\030\004 \003(\0132-.com.ilmservice.person" +
+      "albudget.SpreadsheetRow\"\037\n\021SpreadsheetSo",
+      "urce\022\n\n\006BREMER\020\000\" \n\016SpreadsheetRow\022\016\n\006fi" +
+      "elds\030\001 \003(\tB)\n\'com.ilmservice.personalbud" +
+      "get.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2368,7 +2290,7 @@ public final class Events {
     internal_static_com_ilmservice_personalbudget_Event_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Event_descriptor,
-        new java.lang.String[] { "Id", "UserId", "Timestamp", "UploadSpreadsheetEvent", "EventType", });
+        new java.lang.String[] { "UserId", "Date", "UploadSpreadsheetEvent", "EventType", });
     internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_fieldAccessorTable = new

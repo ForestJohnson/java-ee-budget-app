@@ -13,5 +13,6 @@ message Transaction {
   optional uint64 date = 5;
   optional sint32 cents = 6;
   optional string description = 7;
+  optional string card = 8;
 }
  
