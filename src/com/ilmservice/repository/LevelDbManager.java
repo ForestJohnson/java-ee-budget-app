@@ -5,7 +5,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import org.iq80.leveldb.*;
-import static org.iq80.leveldb.impl.Iq80DBFactory.*;
+import static org.fusesource.leveldbjni.JniDBFactory.*;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb9";
+	private final String fileName = "testLevelDb10";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	
