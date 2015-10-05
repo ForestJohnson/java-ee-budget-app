@@ -42,7 +42,7 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 	SpreadsheetUploadEventHandler () {
 		
 		bremerTimeRegex = Pattern.compile("\\d{1,2}:\\d{2} +(AM|PM)");
-		bremerDateRegex = Pattern.compile("\\d ?\\d-\\d ?\\d-\\d\\d");
+		bremerDateRegex = Pattern.compile("\\d ?\\d- ?\\d ?\\d- ?\\d\\d");
 		bremerCardRegex = Pattern.compile("X[ X]{5,20}(\\d{1,10})");
 		bremerPosRegex = Pattern.compile("(^POS )|( POS )");
 		bremerMerchantRegex = Pattern.compile("(^MERCHANT )|( MERCHANT )");
@@ -133,9 +133,9 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 				parser.mapper.accept(builder, row);
 				return builder.build();
 			}).collect(
-				() -> new ArrayList<Transaction>(), 
-				(list, transaction) -> { list.add(transaction); }, 
-				(a, b) -> new ArrayList<Transaction>()
+				ArrayList<Transaction>::new, 
+				ArrayList<Transaction>::add, 
+				ArrayList<Transaction>::addAll
 			) 
 		).build();
 	}

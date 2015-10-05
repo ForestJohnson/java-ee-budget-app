@@ -1,7 +1,20 @@
 
+import tinycolor from 'tinycolor'
 
 let FormatHelper = function () {
-  this.formatDate = (date) => {
+
+  this.formatColor = (color) => {
+    debugger;
+  };
+
+  this.formatCents = (cents) => '$'+Math.abs(cents*0.01).toFixed(2);
+
+  this.formatDate = (dateLong) => {
+    if(!dateLong || !dateLong.toNumber) {
+      return 'not a long';
+    }
+    let date = new Date(dateLong.toNumber());
+
     function pad(number) {
       if (number < 10) {
         return '0' + number;

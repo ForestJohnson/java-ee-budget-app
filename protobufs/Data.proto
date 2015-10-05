@@ -16,7 +16,7 @@ message Transaction {
   optional string card = 8;
   optional uint32 checkNumber = 9;
 }
- 
+
 message TransactionCategory {
   optional uint32 id = 1;
   optional Color color = 2;
@@ -27,4 +27,14 @@ message Color {
   optional float h = 1;
   optional float s = 2;
   optional float v = 3;
+}
+
+message CategoryKeyword {
+  optional string keyword = 1;
+  repeated CategorySuggestion suggestions = 2;
+}
+
+message CategorySuggestion { 
+  optional uint32 categoryId = 1;
+  optional uint32 popularity = 2;
 }

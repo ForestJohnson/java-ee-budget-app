@@ -55,7 +55,7 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 
 					categoriesById = categories.configureIndex(
 						Indexes.TransactionCategoriesById.getValue(),
-						(k) -> TransactionCategory.newBuilder().setId(k).build(),
+						(k) -> TransactionCategory.getDefaultInstance(),
 						(v) -> v.getId(),
 						(k) -> ByteBuffer.allocate(4).putInt(k).array()
 					);

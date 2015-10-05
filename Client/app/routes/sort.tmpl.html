@@ -1,53 +1,54 @@
 
-<div>
-
-
-  <div ng-if="self.currentTransaction">
+<div class="sort">
+  <div ng-if="vm.sortEvent.transaction">
     <h4>
-    <span ng-bind="self.getDateString(self.currentTransaction.dateMs)"> </span>
+    <span ng-bind="vm.formatter.formatDate(vm.sortEvent.transaction.date)"> </span>
     <span class="label"
-          ng-class="{'label-success' : self.currentTransaction.dollars > 0, 'label-danger' : self.currentTransaction.dollars < 0 }"
-          ng-bind="self.getDollarsString(self.currentTransaction.dollars)">
+          ng-class="{'label-success' : vm.sortEvent.transaction.cents > 0, 'label-danger' : vm.sortEvent.transaction.cents < 0 }"
+          ng-bind="vm.formatter.formatCents(vm.sortEvent.transaction.cents)">
     </span>
-    <span ng-bind="self.getDescriptionString(self.currentTransaction)"> </span>
+    <span ng-bind="vm.sortEvent.transaction.description"> </span>
     </h4>
   </div>
   <hr/>
   <h3>Select Transaction Type</h3>
-  <ul class="list-group">
-    <li class="list-group-item big-label"
-        ng-repeat="transactionType in self.transactionTypes">
-      <label class="big-label">
-        <input type="radio"
-                name="selectedTransactionType"
-                ng-value="transactionType"
-                ng-model="self.selectedTransactionType">
-        <span ng-bind="transactionType"></span>
-      </label>
-    </li>
-    <li class="list-group-item">
-      <input type="text"
-              ng-change="self.clearSelectedTransactionType()"
-              ng-model="self.newTransactionType"/>
-      <button class="btn btn-sm btn-info"
-               ng-disabled="self.disableAddTransactionType(self.newTransactionType)"
-               ng-click="self.addTransactionType(self.newTransactionType, this)">
-         Add
-      </button>
-    </li>
-  </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <div class='col-xs-3'
+           ng-repeat="category in vm.toSort.categories track by $index"
+           ng-style='vm.getStyleForCategory(category)'>
+        <label class="big-label">
+          <input type="radio"
+                  name="selectedCategory"
+                  ng-value="category"
+                  ng-model="vm.sortEvent.category">
+          <span ng-bind="category.name"></span>
+        </label>
+      </div>
+      <div class='col-xs-3'>
+        <input type="text"
+                ng-change="vm.clearSelectedTransactionType()"
+                ng-model="vm.newTransactionType.name"/>
+        <button class="btn btn-sm btn-info"
+                 ng-disabled="vm.nameAlreadyExists()"
+                 ng-click="vm.addTransactionType()">
+           Add
+        </button>
+      </div>
+    </div>
+  </div>
 
   <hr/>
   <button class="btn btn-primary"
-          ng-disabled="!self.selectedTransactionType"
-          ng-click="self.submitTransactionType()">
+          ng-disabled="!vm.sortEvent.category"
+          ng-click="vm.submitTransactionType()">
     Submit
     <span class="label"
-           ng-class="{'label-success' : self.currentTransaction.dollars > 0, 'label-danger' : self.currentTransaction.dollars < 0 }"
-           ng-bind="self.getDollarsString(self.currentTransaction.dollars)">
+           ng-class="{'label-success' : vm.sortEvent.transaction.cents > 0, 'label-danger' : vm.sortEvent.transaction.cents < 0 }"
+           ng-bind="vm.formatter.formatCents(vm.sortEvent.transaction.cents)">
     </span>
-      as
-    <span ng-bind="self.selectedTransactionType"></span>
+    <span ng-show="vm.sortEvent.category"> as </span>
+    <span ng-bind="vm.sortEvent.category.name"></span>
   </button>
 
 

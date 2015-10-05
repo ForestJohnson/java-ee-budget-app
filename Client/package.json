@@ -24,6 +24,7 @@
       "bootstrap": "npm:bootstrap@^3.3.5",
       "papaparse": "github:mholt/PapaParse@^4.1.2",
       "protobufjs": "npm:protobufjs@^4.0.0",
+      "tinycolor": "github:bgrins/TinyColor@^1.2.1",
       "twbs/bootstrap": "github:twbs/bootstrap@^3.3.5"
     },
     "devDependencies": {

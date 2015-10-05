@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb6";
+	private final String fileName = "testLevelDb9";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	

@@ -1,5 +1,9 @@
 package com.ilmservice.personalbudget.web;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -10,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.ilmservice.personalbudget.data.ICategorySuggestionStore;
 import com.ilmservice.personalbudget.data.IEventStore;
 import com.ilmservice.personalbudget.data.ITransactionCategoryStore;
 import com.ilmservice.personalbudget.data.ITransactionStore;
@@ -31,9 +36,10 @@ import com.ilmservice.repository.TransactionPerRequest;
 public class EventApi {
 	
 	@Inject private ISpreadsheetUploadEventHandler spreadsheetUploadHandler;
-	@Inject private ISortTransactionEventHandler sortTransactionHandler;
 	@Inject private ITransactionStore transactionStore;
 	@Inject private ITransactionCategoryStore transactionCategoryStore;
+	@Inject private ICategorySuggestionStore categorySuggestionStore;
+	@Inject private ISortTransactionEventHandler sortTransactionHandler;
 	
     @POST
     @Path("spreadsheet")
@@ -65,10 +71,21 @@ public class EventApi {
     public UnsortedTransaction getUnsortedTransaction() throws Exception {
     	Transaction transaction = transactionStore.getUnsortedTransaction();
     	if(transaction != null) {
+    		Map<Integer, Float> suggestions = categorySuggestionStore.suggest(transaction);
+
     		return UnsortedTransaction.newBuilder()
     				.setTransaction(transaction)
-    				.addAllCategories(transactionCategoryStore.getAll())
-    				.build();
+    				.addAllCategories(
+	    				transactionCategoryStore.getAll().stream()
+	    				.sorted((a,b) -> {
+	    			    	float result = suggestions.get(a.getId()) - suggestions.get(b.getId());
+	    			    	return result > 0 ? 1 : (result < 0 ? -1 : 0);
+					}).collect(
+	    			    	ArrayList<TransactionCategory>::new, 
+	    			    	ArrayList<TransactionCategory>::add, 
+	    			    	ArrayList<TransactionCategory>::addAll
+	    			    )
+    				).build();
     	} else {
     		return UnsortedTransaction.getDefaultInstance();
     	}
@@ -79,7 +96,14 @@ public class EventApi {
     @Consumes("application/x-protobuf")
     public Response sortTransaction(Event event) throws Exception {
     	
-    	sortTransactionHandler.sortTransaction(event);
+    	try {
+    		System.out.println("sortTransactionHandler.sortTransaction(event);");
+    		sortTransactionHandler.sortTransaction(event);
+    	} catch (Exception ex) {
+    		System.out.println("sortTransaction");
+    		System.out.println(ex.toString());
+    	}
+    	
     	
     	return Response.ok().build();
     }

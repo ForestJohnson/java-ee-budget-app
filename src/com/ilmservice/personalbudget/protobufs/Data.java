@@ -2565,6 +2565,1317 @@ public final class Data {
     // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.Color)
   }
 
+  public interface CategoryKeywordOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.ilmservice.personalbudget.CategoryKeyword)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    boolean hasKeyword();
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    java.lang.String getKeyword();
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getKeywordBytes();
+
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> 
+        getSuggestionsList();
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion getSuggestions(int index);
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    int getSuggestionsCount();
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    java.util.List<? extends com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder> 
+        getSuggestionsOrBuilderList();
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder getSuggestionsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code com.ilmservice.personalbudget.CategoryKeyword}
+   */
+  public static final class CategoryKeyword extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.ilmservice.personalbudget.CategoryKeyword)
+      CategoryKeywordOrBuilder {
+    // Use CategoryKeyword.newBuilder() to construct.
+    private CategoryKeyword(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CategoryKeyword(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CategoryKeyword defaultInstance;
+    public static CategoryKeyword getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CategoryKeyword getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CategoryKeyword(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              keyword_ = bs;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                suggestions_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              suggestions_.add(input.readMessage(com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          suggestions_ = java.util.Collections.unmodifiableList(suggestions_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategoryKeyword_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.class, com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CategoryKeyword> PARSER =
+        new com.google.protobuf.AbstractParser<CategoryKeyword>() {
+      public CategoryKeyword parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CategoryKeyword(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CategoryKeyword> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int KEYWORD_FIELD_NUMBER = 1;
+    private java.lang.Object keyword_;
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    public boolean hasKeyword() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    public java.lang.String getKeyword() {
+      java.lang.Object ref = keyword_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          keyword_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string keyword = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getKeywordBytes() {
+      java.lang.Object ref = keyword_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        keyword_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SUGGESTIONS_FIELD_NUMBER = 2;
+    private java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> suggestions_;
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    public java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> getSuggestionsList() {
+      return suggestions_;
+    }
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    public java.util.List<? extends com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder> 
+        getSuggestionsOrBuilderList() {
+      return suggestions_;
+    }
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    public int getSuggestionsCount() {
+      return suggestions_.size();
+    }
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion getSuggestions(int index) {
+      return suggestions_.get(index);
+    }
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder getSuggestionsOrBuilder(
+        int index) {
+      return suggestions_.get(index);
+    }
+
+    private void initFields() {
+      keyword_ = "";
+      suggestions_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getKeywordBytes());
+      }
+      for (int i = 0; i < suggestions_.size(); i++) {
+        output.writeMessage(2, suggestions_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getKeywordBytes());
+      }
+      for (int i = 0; i < suggestions_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, suggestions_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.ilmservice.personalbudget.CategoryKeyword}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.ilmservice.personalbudget.CategoryKeyword)
+        com.ilmservice.personalbudget.protobufs.Data.CategoryKeywordOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategoryKeyword_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.class, com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.Builder.class);
+      }
+
+      // Construct using com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSuggestionsFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        keyword_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (suggestionsBuilder_ == null) {
+          suggestions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          suggestionsBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword getDefaultInstanceForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.getDefaultInstance();
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword build() {
+        com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword buildPartial() {
+        com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword result = new com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.keyword_ = keyword_;
+        if (suggestionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            suggestions_ = java.util.Collections.unmodifiableList(suggestions_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.suggestions_ = suggestions_;
+        } else {
+          result.suggestions_ = suggestionsBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword) {
+          return mergeFrom((com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword other) {
+        if (other == com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword.getDefaultInstance()) return this;
+        if (other.hasKeyword()) {
+          bitField0_ |= 0x00000001;
+          keyword_ = other.keyword_;
+          onChanged();
+        }
+        if (suggestionsBuilder_ == null) {
+          if (!other.suggestions_.isEmpty()) {
+            if (suggestions_.isEmpty()) {
+              suggestions_ = other.suggestions_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSuggestionsIsMutable();
+              suggestions_.addAll(other.suggestions_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.suggestions_.isEmpty()) {
+            if (suggestionsBuilder_.isEmpty()) {
+              suggestionsBuilder_.dispose();
+              suggestionsBuilder_ = null;
+              suggestions_ = other.suggestions_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              suggestionsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSuggestionsFieldBuilder() : null;
+            } else {
+              suggestionsBuilder_.addAllMessages(other.suggestions_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object keyword_ = "";
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public boolean hasKeyword() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public java.lang.String getKeyword() {
+        java.lang.Object ref = keyword_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            keyword_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getKeywordBytes() {
+        java.lang.Object ref = keyword_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          keyword_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public Builder setKeyword(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        keyword_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public Builder clearKeyword() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        keyword_ = getDefaultInstance().getKeyword();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string keyword = 1;</code>
+       */
+      public Builder setKeywordBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        keyword_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> suggestions_ =
+        java.util.Collections.emptyList();
+      private void ensureSuggestionsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          suggestions_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion>(suggestions_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder> suggestionsBuilder_;
+
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> getSuggestionsList() {
+        if (suggestionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(suggestions_);
+        } else {
+          return suggestionsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public int getSuggestionsCount() {
+        if (suggestionsBuilder_ == null) {
+          return suggestions_.size();
+        } else {
+          return suggestionsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion getSuggestions(int index) {
+        if (suggestionsBuilder_ == null) {
+          return suggestions_.get(index);
+        } else {
+          return suggestionsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder setSuggestions(
+          int index, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion value) {
+        if (suggestionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestionsIsMutable();
+          suggestions_.set(index, value);
+          onChanged();
+        } else {
+          suggestionsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder setSuggestions(
+          int index, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder builderForValue) {
+        if (suggestionsBuilder_ == null) {
+          ensureSuggestionsIsMutable();
+          suggestions_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          suggestionsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder addSuggestions(com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion value) {
+        if (suggestionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestionsIsMutable();
+          suggestions_.add(value);
+          onChanged();
+        } else {
+          suggestionsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder addSuggestions(
+          int index, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion value) {
+        if (suggestionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestionsIsMutable();
+          suggestions_.add(index, value);
+          onChanged();
+        } else {
+          suggestionsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder addSuggestions(
+          com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder builderForValue) {
+        if (suggestionsBuilder_ == null) {
+          ensureSuggestionsIsMutable();
+          suggestions_.add(builderForValue.build());
+          onChanged();
+        } else {
+          suggestionsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder addSuggestions(
+          int index, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder builderForValue) {
+        if (suggestionsBuilder_ == null) {
+          ensureSuggestionsIsMutable();
+          suggestions_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          suggestionsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder addAllSuggestions(
+          java.lang.Iterable<? extends com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion> values) {
+        if (suggestionsBuilder_ == null) {
+          ensureSuggestionsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, suggestions_);
+          onChanged();
+        } else {
+          suggestionsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder clearSuggestions() {
+        if (suggestionsBuilder_ == null) {
+          suggestions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          suggestionsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public Builder removeSuggestions(int index) {
+        if (suggestionsBuilder_ == null) {
+          ensureSuggestionsIsMutable();
+          suggestions_.remove(index);
+          onChanged();
+        } else {
+          suggestionsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder getSuggestionsBuilder(
+          int index) {
+        return getSuggestionsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder getSuggestionsOrBuilder(
+          int index) {
+        if (suggestionsBuilder_ == null) {
+          return suggestions_.get(index);  } else {
+          return suggestionsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public java.util.List<? extends com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder> 
+           getSuggestionsOrBuilderList() {
+        if (suggestionsBuilder_ != null) {
+          return suggestionsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(suggestions_);
+        }
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder addSuggestionsBuilder() {
+        return getSuggestionsFieldBuilder().addBuilder(
+            com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder addSuggestionsBuilder(
+          int index) {
+        return getSuggestionsFieldBuilder().addBuilder(
+            index, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.ilmservice.personalbudget.CategorySuggestion suggestions = 2;</code>
+       */
+      public java.util.List<com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder> 
+           getSuggestionsBuilderList() {
+        return getSuggestionsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder> 
+          getSuggestionsFieldBuilder() {
+        if (suggestionsBuilder_ == null) {
+          suggestionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder>(
+                  suggestions_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          suggestions_ = null;
+        }
+        return suggestionsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.CategoryKeyword)
+    }
+
+    static {
+      defaultInstance = new CategoryKeyword(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.CategoryKeyword)
+  }
+
+  public interface CategorySuggestionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.ilmservice.personalbudget.CategorySuggestion)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional uint32 categoryId = 1;</code>
+     */
+    boolean hasCategoryId();
+    /**
+     * <code>optional uint32 categoryId = 1;</code>
+     */
+    int getCategoryId();
+
+    /**
+     * <code>optional uint32 popularity = 2;</code>
+     */
+    boolean hasPopularity();
+    /**
+     * <code>optional uint32 popularity = 2;</code>
+     */
+    int getPopularity();
+  }
+  /**
+   * Protobuf type {@code com.ilmservice.personalbudget.CategorySuggestion}
+   */
+  public static final class CategorySuggestion extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.ilmservice.personalbudget.CategorySuggestion)
+      CategorySuggestionOrBuilder {
+    // Use CategorySuggestion.newBuilder() to construct.
+    private CategorySuggestion(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CategorySuggestion(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CategorySuggestion defaultInstance;
+    public static CategorySuggestion getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CategorySuggestion getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CategorySuggestion(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              categoryId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              popularity_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategorySuggestion_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.class, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CategorySuggestion> PARSER =
+        new com.google.protobuf.AbstractParser<CategorySuggestion>() {
+      public CategorySuggestion parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CategorySuggestion(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CategorySuggestion> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int CATEGORYID_FIELD_NUMBER = 1;
+    private int categoryId_;
+    /**
+     * <code>optional uint32 categoryId = 1;</code>
+     */
+    public boolean hasCategoryId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint32 categoryId = 1;</code>
+     */
+    public int getCategoryId() {
+      return categoryId_;
+    }
+
+    public static final int POPULARITY_FIELD_NUMBER = 2;
+    private int popularity_;
+    /**
+     * <code>optional uint32 popularity = 2;</code>
+     */
+    public boolean hasPopularity() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional uint32 popularity = 2;</code>
+     */
+    public int getPopularity() {
+      return popularity_;
+    }
+
+    private void initFields() {
+      categoryId_ = 0;
+      popularity_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, categoryId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, popularity_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, categoryId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, popularity_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.ilmservice.personalbudget.CategorySuggestion}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.ilmservice.personalbudget.CategorySuggestion)
+        com.ilmservice.personalbudget.protobufs.Data.CategorySuggestionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategorySuggestion_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.class, com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.Builder.class);
+      }
+
+      // Construct using com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        categoryId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        popularity_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion getDefaultInstanceForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.getDefaultInstance();
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion build() {
+        com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion buildPartial() {
+        com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion result = new com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.categoryId_ = categoryId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.popularity_ = popularity_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion) {
+          return mergeFrom((com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion other) {
+        if (other == com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion.getDefaultInstance()) return this;
+        if (other.hasCategoryId()) {
+          setCategoryId(other.getCategoryId());
+        }
+        if (other.hasPopularity()) {
+          setPopularity(other.getPopularity());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int categoryId_ ;
+      /**
+       * <code>optional uint32 categoryId = 1;</code>
+       */
+      public boolean hasCategoryId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional uint32 categoryId = 1;</code>
+       */
+      public int getCategoryId() {
+        return categoryId_;
+      }
+      /**
+       * <code>optional uint32 categoryId = 1;</code>
+       */
+      public Builder setCategoryId(int value) {
+        bitField0_ |= 0x00000001;
+        categoryId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 categoryId = 1;</code>
+       */
+      public Builder clearCategoryId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        categoryId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int popularity_ ;
+      /**
+       * <code>optional uint32 popularity = 2;</code>
+       */
+      public boolean hasPopularity() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional uint32 popularity = 2;</code>
+       */
+      public int getPopularity() {
+        return popularity_;
+      }
+      /**
+       * <code>optional uint32 popularity = 2;</code>
+       */
+      public Builder setPopularity(int value) {
+        bitField0_ |= 0x00000002;
+        popularity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 popularity = 2;</code>
+       */
+      public Builder clearPopularity() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        popularity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.CategorySuggestion)
+    }
+
+    static {
+      defaultInstance = new CategorySuggestion(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.CategorySuggestion)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_ilmservice_personalbudget_Transaction_descriptor;
   private static
@@ -2580,6 +3891,16 @@ public final class Data {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_ilmservice_personalbudget_Color_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_ilmservice_personalbudget_CategoryKeyword_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_ilmservice_personalbudget_CategorySuggestion_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2597,9 +3918,13 @@ public final class Data {
       "ckNumber\030\t \001(\r\"d\n\023TransactionCategory\022\n\n" +
       "\002id\030\001 \001(\r\0223\n\005color\030\002 \001(\0132$.com.ilmservic" +
       "e.personalbudget.Color\022\014\n\004name\030\003 \001(\t\"(\n\005" +
-      "Color\022\t\n\001h\030\001 \001(\002\022\t\n\001s\030\002 \001(\002\022\t\n\001v\030\003 \001(\002B)" +
-      "\n\'com.ilmservice.personalbudget.protobuf",
-      "s"
+      "Color\022\t\n\001h\030\001 \001(\002\022\t\n\001s\030\002 \001(\002\022\t\n\001v\030\003 \001(\002\"j" +
+      "\n\017CategoryKeyword\022\017\n\007keyword\030\001 \001(\t\022F\n\013su",
+      "ggestions\030\002 \003(\01321.com.ilmservice.persona" +
+      "lbudget.CategorySuggestion\"<\n\022CategorySu" +
+      "ggestion\022\022\n\ncategoryId\030\001 \001(\r\022\022\n\npopulari" +
+      "ty\030\002 \001(\rB)\n\'com.ilmservice.personalbudge" +
+      "t.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2631,6 +3956,18 @@ public final class Data {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Color_descriptor,
         new java.lang.String[] { "H", "S", "V", });
+    internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_com_ilmservice_personalbudget_CategoryKeyword_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_ilmservice_personalbudget_CategoryKeyword_descriptor,
+        new java.lang.String[] { "Keyword", "Suggestions", });
+    internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_com_ilmservice_personalbudget_CategorySuggestion_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_ilmservice_personalbudget_CategorySuggestion_descriptor,
+        new java.lang.String[] { "CategoryId", "Popularity", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

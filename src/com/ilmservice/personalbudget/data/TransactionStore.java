@@ -68,7 +68,7 @@ public class TransactionStore implements ITransactionStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("TransactionStore configuring");
+		System.out.println("TransactionStore configuring     ");
 		transactions.configure( 
 			scope,
 			(bytes) -> Transaction.parseFrom(bytes),
@@ -141,9 +141,9 @@ public class TransactionStore implements ITransactionStore {
 				transactionList.getTransactionsList().stream().map((transaction) -> {
 					return this.post(Transaction.newBuilder(transaction));
 				}).collect(
-					() -> new ArrayList<Transaction>(), 
-					(list, transaction) -> { list.add(transaction); }, 
-					(a, b) -> new ArrayList<Transaction>()
+					ArrayList<Transaction>::new, 
+					ArrayList<Transaction>::add, 
+					ArrayList<Transaction>::addAll
 				)
 			).build();
 	}

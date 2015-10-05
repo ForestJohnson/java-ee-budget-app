@@ -20,7 +20,7 @@ var watchLess = pathToSrc+'**/*.less';
 var watchTemplates = pathToSrc+'**/*.tmpl.html';
 var watchProtobuf = pathToProtobuf+'/*.proto';
 var outputProtobuf = 'app/protobufs/fakeDir';
-
+ 
 gulp.task('bundle-templates', [], function() {
   return gulp.src(watchTemplates)
         .pipe(templateCache({

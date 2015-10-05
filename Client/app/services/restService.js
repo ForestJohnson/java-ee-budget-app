@@ -29,8 +29,8 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter, UnsortedT
     return protobufHTTP('GET', 'getUnsortedTransaction', UnsortedTransaction);
   };
 
-  this.sortTransaction = (unsortedTransaction) => {
-    return protobufHTTP('POST', 'sortTransaction', null, unsortedTransaction);
+  this.sortTransaction = (event) => {
+    return protobufHTTP('POST', 'sortTransaction', null, event);
   };
 
   function protobufHTTP (method, url, type, protocolBuffer) {

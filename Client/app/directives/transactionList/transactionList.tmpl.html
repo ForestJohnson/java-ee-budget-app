@@ -20,13 +20,13 @@
     <tbody>
       <tr ng-repeat="transaction in vm.list.transactions">
         <td class='date'>
-            <span ng-bind="vm.getDateString(transaction.date.toNumber())">
+            <span ng-bind="vm.formater.formatDate(transaction.date)">
             </span>
         </td>
         <td class='dollars'>
           <span class="label label-dollars"
                 ng-class="{'label-success' : transaction.cents > 0, 'label-danger' : transaction.cents < 0 }"
-                ng-bind="vm.getDollarsString(transaction.cents*0.01)">
+                ng-bind="vm.formater.formatCents(transaction.cents)">
           </span>
         </td>
         <td>

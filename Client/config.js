@@ -23,6 +23,7 @@ System.config({
     "core-js": "npm:core-js@1.1.4",
     "papaparse": "github:mholt/PapaParse@4.1.2",
     "protobufjs": "npm:protobufjs@4.0.0",
+    "tinycolor": "github:bgrins/TinyColor@1.2.1",
     "twbs/bootstrap": "github:twbs/bootstrap@3.3.5",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"

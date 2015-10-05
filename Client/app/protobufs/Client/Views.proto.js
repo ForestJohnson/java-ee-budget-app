@@ -110,6 +110,40 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             ]
         },
         {
+            "name": "CategoryKeyword",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "keyword",
+                    "id": 1
+                },
+                {
+                    "rule": "repeated",
+                    "type": "CategorySuggestion",
+                    "name": "suggestions",
+                    "id": 2
+                }
+            ]
+        },
+        {
+            "name": "CategorySuggestion",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "categoryId",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "popularity",
+                    "id": 2
+                }
+            ]
+        },
+        {
             "name": "TransactionList",
             "fields": [
                 {
