@@ -45,7 +45,7 @@ public class EventStore implements IEventStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("eventstore configuring");
+		System.out.println("eventstore configuring  ");
 		events.configure( 
 			scope,
 			(bytes) -> Event.parseFrom(bytes),

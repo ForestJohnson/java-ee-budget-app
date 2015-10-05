@@ -2,7 +2,8 @@ package com.ilmservice.personalbudget.data;
 
 public enum Indexes {
 	EventsById(1),
-	TransactionsById(10);
+	TransactionsById(10),
+	TransactionsByDate(11);
     
 	private Indexes(int value) {
         this.value = (short)value;

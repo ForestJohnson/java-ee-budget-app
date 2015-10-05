@@ -3,13 +3,13 @@
   <div class="panel-heading">
     Transactions
   </div>
-  <div class="panel-body" ng-if='vm.transactions.loading'>
+  <div class="panel-body" ng-if='vm.list.loading'>
     Loading...
   </div>
-  <div class="panel-body" ng-if='!vm.transactions.length && !vm.transactions.loading'>
+  <div class="panel-body" ng-if='!vm.list.transactions.length && !vm.list.loading'>
     No Transactions to display.
   </div>
-  <table class="table transactions" ng-if='vm.transactions.length'>
+  <table class="table transactions" ng-if='vm.list.transactions.length'>
     <thead>
       <tr>
         <th>Date</th>
@@ -18,17 +18,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="transaction in vm.transactions">
-        <td ng-bind="vm.getDateString(transaction.dateMs)">
+      <tr ng-repeat="transaction in vm.list.transactions">
+        <td class='date'>
+            <span ng-bind="vm.getDateString(transaction.date.toNumber())">
+            </span>
         </td>
-        <td>
+        <td class='dollars'>
           <span class="label label-dollars"
-                ng-class="{'label-success' : transaction.dollars > 0, 'label-danger' : transaction.dollars < 0 }"
-                ng-bind="vm.getDollarsString(transaction.dollars)">
-
+                ng-class="{'label-success' : transaction.cents > 0, 'label-danger' : transaction.cents < 0 }"
+                ng-bind="vm.getDollarsString(transaction.cents*0.01)">
           </span>
         </td>
-        <td ng-bind="vm.getDescriptionString(transaction)">
+        <td>
+          <span ng-if="!vm.editable"
+                ng-bind="transaction.description"></span>
+          <input ng-if="vm.editable" class="form-control" type="text"
+                ng-model="transaction.description"/>
         </td>
       </tr>
     </tbody>

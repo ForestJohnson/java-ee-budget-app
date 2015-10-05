@@ -9,7 +9,7 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "optional",
-                    "type": "uint32",
+                    "type": "bytes",
                     "name": "id",
                     "id": 1
                 },
@@ -34,13 +34,13 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "uint64",
-                    "name": "timestamp",
+                    "name": "date",
                     "id": 5
                 },
                 {
                     "rule": "optional",
                     "type": "sint32",
-                    "name": "dollars",
+                    "name": "cents",
                     "id": 6
                 },
                 {
@@ -48,6 +48,18 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "type": "string",
                     "name": "description",
                     "id": 7
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "card",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "checkNumber",
+                    "id": 9
                 }
             ]
         },

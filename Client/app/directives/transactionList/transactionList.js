@@ -8,14 +8,15 @@ export default function registerDirective(module) {
         restrict: 'E',
         templateUrl: "app/directives/transactionList/transactionList.tmpl.html",
         controllerAs: "vm",
-        controller: [function() {
-          this.getDateString = (date) => 'null';
-          this.getDollarsString = (dollars) => 'null';
-          this.getDescriptionString = (transaction) => 'null';
+        controller: ['FormatHelper', function(FormatHelper) {
+          var FormatHelper = FormatHelper;
+          this.getDateString = (dateMs) => FormatHelper.formatDate(new Date(dateMs));
+          this.getDollarsString = (dollars) => '$'+Math.abs(dollars).toFixed(2);
         }],
         bindToController: true,
         scope: {
-          transactions: '='
+          list: '=',
+          editable: '@?'
         }
       }
     }

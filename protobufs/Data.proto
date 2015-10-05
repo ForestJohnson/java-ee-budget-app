@@ -14,5 +14,6 @@ message Transaction {
   optional sint32 cents = 6;
   optional string description = 7;
   optional string card = 8;
+  optional uint32 checkNumber = 9;
 }
  

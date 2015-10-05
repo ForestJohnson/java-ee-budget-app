@@ -33,7 +33,7 @@ public class Repository<V> implements IRepository<V> {
 	private Repository() 
 	{
 		this.indexes = new HashMap<Short, IRepositoryIndex<?, V>>();
-		System.out.println("protobuf repo goin up  ");
+		System.out.println("protobuf repo goin up         ");
 	}
 	
 	@Override 

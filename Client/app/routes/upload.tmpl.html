@@ -1,11 +1,27 @@
-<div>
-  <h4>CSV - paste</h4>
-  <textarea ng-model="self.csvString"></textarea>
-</div>
 
-<hr/>
-<button class="btn btn-primary"
-        ng-disabled="!self.selectedFormatterName"
-        ng-click="self.submitCSV(self.csvString || '', self.selectedFormatterName)">
-  Parse Transactions
-</button>
+<div ng-if='!vm.transactionList.transactions.length'>
+  <div>
+    <h4>CSV - paste</h4>
+    <textarea ng-model="vm.csvString" rows="7" cols="40"></textarea>
+  </div>
+
+  <hr/>
+  <button class="btn btn-primary"
+          ng-disabled=" !vm.csvString"
+          ng-click="vm.uploadSpreadsheet()">
+    Parse Transactions
+  </button>
+</div>
+<div ng-if='vm.transactionList.transactions.length'>
+
+  <a class="btn btn-success" href="#/upload">
+    Cancel
+  </a>
+  <a class="btn btn-success" href="#/sort">
+    Verify
+  </a>
+  <hr/>
+  <transaction-list list="vm.transactionList" editable="true">
+  </transaction-list>
+
+</div>

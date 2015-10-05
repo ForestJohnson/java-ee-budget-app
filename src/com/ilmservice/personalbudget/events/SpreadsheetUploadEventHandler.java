@@ -1,6 +1,8 @@
 package com.ilmservice.personalbudget.events;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
@@ -14,17 +16,19 @@ import javax.inject.Inject;
 
 import com.ilmservice.personalbudget.data.IEventStore;
 import com.ilmservice.personalbudget.data.ITransactionStore;
+import com.ilmservice.personalbudget.protobufs.Data;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
+import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
 
 @Default
 @Stateless
 public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHandler {
 	
 	@Inject private IEventStore eventStore;
-	@Inject private ITransactionStore transactionStore;
+	//@Inject private ITransactionStore transactionStore;
 	
 	private SpreadsheetParser[] parsers;
 	private Pattern bremerTimeRegex;
@@ -53,12 +57,17 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 				(builder, row) -> {
 					float outDollars;
 					float inDollars;
+					int checkNumber;
 					try(Scanner outDollarsScanner = new Scanner(row.getFields(3))) {
 						outDollars = outDollarsScanner.hasNextFloat() ? outDollarsScanner.nextFloat() : 0f;
 					}
 					try(Scanner inDollarsScanner = new Scanner(row.getFields(4))) {
 						inDollars = inDollarsScanner.hasNextFloat() ? inDollarsScanner.nextFloat() : 0f;
 					}
+					try(Scanner checkNumberScanner = new Scanner(row.getFields(1))) {
+						checkNumber = checkNumberScanner.hasNextInt() ? checkNumberScanner.nextInt() : -1;
+					}
+					
 					String description = row.getFields(5);
 					
 					Matcher timeMatch = bremerTimeRegex.matcher(description);
@@ -84,9 +93,16 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 							new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.ENGLISH)
 								.parse(row.getFields(0) + " " + descriptionTime).getTime()
 						);
-						builder.setDescription(description);
+						builder.setDescription(new StringBuilder()
+								.append(row.getFields(2)).append(" ")
+								.append(description)
+								.append(checkNumber != -1 ? " " + checkNumber : "")
+								.toString());
 						if(descriptionCard != null) {
 							builder.setCard(descriptionCard);
+						}
+						if(checkNumber != -1) {
+							builder.setCheckNumber(checkNumber);
 						}
 					} catch (Exception e) {
 						throw new RuntimeException(e);
@@ -97,7 +113,7 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 	}
 	
 	@Override
-	public void uploadSpreadsheet(Event event) throws Exception {
+	public TransactionList uploadSpreadsheet(Event event) throws Exception {
 		
 		UploadSpreadsheetEvent spreadsheet = event.getUploadSpreadsheetEvent();
 		
@@ -109,14 +125,19 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		
 		SpreadsheetParser parser = getParser(spreadsheet);
 		
-		getRowsStream(spreadsheet)
+		return TransactionList.newBuilder().addAllTransactions(
+			getRowsStream(spreadsheet)
 			.skip(parser.skip)
 			.map((row) -> {
 				Transaction.Builder builder = Transaction.newBuilder();
 				parser.mapper.accept(builder, row);
-				return builder;
-			}).forEach((builder) -> transactionStore.put(builder));
-
+				return builder.build();
+			}).collect(
+				() -> new ArrayList<Transaction>(), 
+				(list, transaction) -> { list.add(transaction); }, 
+				(a, b) -> new ArrayList<Transaction>()
+			) 
+		).build();
 	}
 
 	private Stream<SpreadsheetRow> getRowsStream(UploadSpreadsheetEvent spreadsheet) {

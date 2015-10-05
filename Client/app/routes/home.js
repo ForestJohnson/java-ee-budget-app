@@ -1,15 +1,14 @@
 'use strict';
 
-var HomeController = ['$scope', 'Transaction', 'EventService',
-function HomeController($scope, Transaction, EventService) {
-  this.transactions = [];
+var HomeController = ['$scope', 'TransactionList', 'RestService',
+function HomeController($scope, TransactionList, RestService) {
+  this.transactionList = new TransactionList({});
+  this.transactionList.loading = true;
 
-  this.testPost = () => {
-    EventService.postTest(new Transaction({id:1}))
+  RestService.getRecentTransactions()
     .then((response) => {
-      console.log(Transaction.decode(response.data));
-    }); 
-  };
+      this.transactionList = response.data;
+    });
 
 }];
 

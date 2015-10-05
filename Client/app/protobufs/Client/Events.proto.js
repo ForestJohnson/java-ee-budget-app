@@ -10,19 +10,13 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "uint32",
-                    "name": "id",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
                     "name": "userId",
                     "id": 2
                 },
                 {
                     "rule": "optional",
                     "type": "int64",
-                    "name": "timestamp",
+                    "name": "date",
                     "id": 3
                 },
                 {
@@ -43,6 +37,12 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "optional",
+                    "type": "SpreadsheetSource",
+                    "name": "source",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
                     "type": "string",
                     "name": "filename",
                     "id": 3
@@ -52,6 +52,17 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "type": "SpreadsheetRow",
                     "name": "rows",
                     "id": 4
+                }
+            ],
+            "enums": [
+                {
+                    "name": "SpreadsheetSource",
+                    "values": [
+                        {
+                            "name": "BREMER",
+                            "id": 0
+                        }
+                    ]
                 }
             ]
         },

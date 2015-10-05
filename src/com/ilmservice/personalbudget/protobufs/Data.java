@@ -97,6 +97,15 @@ public final class Data {
      */
     com.google.protobuf.ByteString
         getCardBytes();
+
+    /**
+     * <code>optional uint32 checkNumber = 9;</code>
+     */
+    boolean hasCheckNumber();
+    /**
+     * <code>optional uint32 checkNumber = 9;</code>
+     */
+    int getCheckNumber();
   }
   /**
    * Protobuf type {@code com.ilmservice.personalbudget.Transaction}
@@ -206,6 +215,11 @@ public final class Data {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000040;
               card_ = bs;
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000080;
+              checkNumber_ = input.readUInt32();
               break;
             }
           }
@@ -432,6 +446,21 @@ public final class Data {
       }
     }
 
+    public static final int CHECKNUMBER_FIELD_NUMBER = 9;
+    private int checkNumber_;
+    /**
+     * <code>optional uint32 checkNumber = 9;</code>
+     */
+    public boolean hasCheckNumber() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional uint32 checkNumber = 9;</code>
+     */
+    public int getCheckNumber() {
+      return checkNumber_;
+    }
+
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       categoryId_ = 0;
@@ -441,6 +470,7 @@ public final class Data {
       cents_ = 0;
       description_ = "";
       card_ = "";
+      checkNumber_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -478,6 +508,9 @@ public final class Data {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBytes(8, getCardBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeUInt32(9, checkNumber_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -524,6 +557,10 @@ public final class Data {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(8, getCardBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(9, checkNumber_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -658,6 +695,8 @@ public final class Data {
         bitField0_ = (bitField0_ & ~0x00000040);
         card_ = "";
         bitField0_ = (bitField0_ & ~0x00000080);
+        checkNumber_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -719,6 +758,10 @@ public final class Data {
           to_bitField0_ |= 0x00000040;
         }
         result.card_ = card_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.checkNumber_ = checkNumber_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -769,6 +812,9 @@ public final class Data {
           bitField0_ |= 0x00000080;
           card_ = other.card_;
           onChanged();
+        }
+        if (other.hasCheckNumber()) {
+          setCheckNumber(other.getCheckNumber());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1178,6 +1224,38 @@ public final class Data {
         return this;
       }
 
+      private int checkNumber_ ;
+      /**
+       * <code>optional uint32 checkNumber = 9;</code>
+       */
+      public boolean hasCheckNumber() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional uint32 checkNumber = 9;</code>
+       */
+      public int getCheckNumber() {
+        return checkNumber_;
+      }
+      /**
+       * <code>optional uint32 checkNumber = 9;</code>
+       */
+      public Builder setCheckNumber(int value) {
+        bitField0_ |= 0x00000100;
+        checkNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 checkNumber = 9;</code>
+       */
+      public Builder clearCheckNumber() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        checkNumber_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.Transaction)
     }
 
@@ -1204,11 +1282,12 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\215\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
+      "get\"\242\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
       "oryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 " +
       "\001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023\n\013desc" +
-      "ription\030\007 \001(\t\022\014\n\004card\030\010 \001(\tB)\n\'com.ilmse" +
-      "rvice.personalbudget.protobufs"
+      "ription\030\007 \001(\t\022\014\n\004card\030\010 \001(\t\022\023\n\013checkNumb" +
+      "er\030\t \001(\rB)\n\'com.ilmservice.personalbudge" +
+      "t.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1227,7 +1306,7 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", "Card", });
+        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", "Card", "CheckNumber", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

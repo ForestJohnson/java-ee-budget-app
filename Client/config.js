@@ -21,6 +21,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.25",
     "bootstrap": "npm:bootstrap@3.3.5",
     "core-js": "npm:core-js@1.1.4",
+    "papaparse": "github:mholt/PapaParse@4.1.2",
     "protobufjs": "npm:protobufjs@4.0.0",
     "twbs/bootstrap": "github:twbs/bootstrap@3.3.5",
     "github:jspm/nodelibs-assert@0.1.0": {
