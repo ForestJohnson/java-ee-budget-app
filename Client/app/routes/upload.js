@@ -3,9 +3,9 @@
 import papaparse from 'papaparse'
 
 
-var UploadController = ['$scope', 'TransactionList', 'Event', 'UploadSpreadsheetEvent',
+var UploadController = ['$state', 'TransactionList', 'Event', 'UploadSpreadsheetEvent',
                          'SpreadsheetRow', 'RestService',
-function UploadController($scope, TransactionList, Event, UploadSpreadsheetEvent,
+function UploadController($state, TransactionList, Event, UploadSpreadsheetEvent,
                           SpreadsheetRow, RestService) {
   var TransactionList = TransactionList;
   var UploadSpreadsheetEvent = UploadSpreadsheetEvent;
@@ -23,6 +23,13 @@ function UploadController($scope, TransactionList, Event, UploadSpreadsheetEvent
           this.transactionList = response.data;
         });
     }
+  };
+
+  this.postAllTransactions = () => {
+    RestService.postAllTransactions(this.transactionList)
+      .then((response) => {
+        $state.go('sort');
+      });
   };
 
   function csvToSpreadsheetEvent(csvString) {

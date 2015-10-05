@@ -1,0 +1,55 @@
+
+<div>
+
+
+  <div ng-if="self.currentTransaction">
+    <h4>
+    <span ng-bind="self.getDateString(self.currentTransaction.dateMs)"> </span>
+    <span class="label"
+          ng-class="{'label-success' : self.currentTransaction.dollars > 0, 'label-danger' : self.currentTransaction.dollars < 0 }"
+          ng-bind="self.getDollarsString(self.currentTransaction.dollars)">
+    </span>
+    <span ng-bind="self.getDescriptionString(self.currentTransaction)"> </span>
+    </h4>
+  </div>
+  <hr/>
+  <h3>Select Transaction Type</h3>
+  <ul class="list-group">
+    <li class="list-group-item big-label"
+        ng-repeat="transactionType in self.transactionTypes">
+      <label class="big-label">
+        <input type="radio"
+                name="selectedTransactionType"
+                ng-value="transactionType"
+                ng-model="self.selectedTransactionType">
+        <span ng-bind="transactionType"></span>
+      </label>
+    </li>
+    <li class="list-group-item">
+      <input type="text"
+              ng-change="self.clearSelectedTransactionType()"
+              ng-model="self.newTransactionType"/>
+      <button class="btn btn-sm btn-info"
+               ng-disabled="self.disableAddTransactionType(self.newTransactionType)"
+               ng-click="self.addTransactionType(self.newTransactionType, this)">
+         Add
+      </button>
+    </li>
+  </ul>
+
+  <hr/>
+  <button class="btn btn-primary"
+          ng-disabled="!self.selectedTransactionType"
+          ng-click="self.submitTransactionType()">
+    Submit
+    <span class="label"
+           ng-class="{'label-success' : self.currentTransaction.dollars > 0, 'label-danger' : self.currentTransaction.dollars < 0 }"
+           ng-bind="self.getDollarsString(self.currentTransaction.dollars)">
+    </span>
+      as
+    <span ng-bind="self.selectedTransactionType"></span>
+  </button>
+
+
+
+</div>

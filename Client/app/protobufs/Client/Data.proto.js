@@ -20,9 +20,9 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "id": 2
                 },
                 {
-                    "rule": "repeated",
-                    "type": "uint32",
-                    "name": "tagIds",
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "categoryName",
                     "id": 3
                 },
                 {
@@ -60,6 +60,52 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "type": "uint32",
                     "name": "checkNumber",
                     "id": 9
+                }
+            ]
+        },
+        {
+            "name": "TransactionCategory",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "Color",
+                    "name": "color",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "name",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "Color",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "h",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "s",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "v",
+                    "id": 3
                 }
             ]
         }

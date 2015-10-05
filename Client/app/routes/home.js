@@ -1,7 +1,7 @@
 'use strict';
 
-var HomeController = ['$scope', 'TransactionList', 'RestService',
-function HomeController($scope, TransactionList, RestService) {
+var HomeController = ['TransactionList', 'RestService',
+function HomeController(TransactionList, RestService) {
   this.transactionList = new TransactionList({});
   this.transactionList.loading = true;
 

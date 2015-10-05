@@ -13,5 +13,6 @@ protobufs.value('SpreadsheetRow', Events.com.ilmservice.personalbudget.Spreadshe
 protobufs.value('TransactionList', Views.com.ilmservice.personalbudget.TransactionList);
 protobufs.value('Filter', Views.com.ilmservice.personalbudget.Filter);
 protobufs.value('DateRangeFilter', Views.com.ilmservice.personalbudget.DateRangeFilter);
+protobufs.value('UnsortedTransaction', Views.com.ilmservice.personalbudget.UnsortedTransaction);
 
 export default protobufs;

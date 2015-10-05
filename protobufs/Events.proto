@@ -4,11 +4,14 @@ package com.ilmservice.personalbudget;
 
 option java_package = "com.ilmservice.personalbudget.protobufs";
 
+import "Data.proto";
+
 message Event {
   optional uint32 userId = 2;
   optional int64 date = 3;
   oneof event_type {
      UploadSpreadsheetEvent uploadSpreadsheetEvent = 10;
+     SortTransactionEvent sortTransactionEvent = 11;
   }
 }
 
@@ -21,9 +24,11 @@ message UploadSpreadsheetEvent {
   repeated SpreadsheetRow rows = 4;
 }
 
-
-
 message SpreadsheetRow {
   repeated string fields = 1;
 }
 
+message SortTransactionEvent {
+  optional Transaction transaction = 1;
+  optional TransactionCategory category = 3;
+}

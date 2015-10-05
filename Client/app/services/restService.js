@@ -1,10 +1,10 @@
 
 let RestService = [
-        '$http', 'ApiBaseUrl', 'TransactionList', 'Filter', 'DateRangeFilter',
-function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter) {
+        '$http', 'ApiBaseUrl', 'TransactionList', 'Filter', 'DateRangeFilter', 'UnsortedTransaction',
+function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter, UnsortedTransaction) {
 
   this.getRecentTransactions = () => {
-    return protobufHTTP('POST', 'transactions', TransactionList,
+    return protobufHTTP('POST', 'listTransactions', TransactionList,
       new TransactionList({
         filters: [
           new Filter({
@@ -21,8 +21,20 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter) {
     return protobufHTTP('POST', 'spreadsheet', TransactionList, spreadsheetEvent);
   };
 
+  this.postAllTransactions = (transactionList) => {
+    return protobufHTTP('POST', 'postTransactions', null, transactionList);
+  };
+
+  this.getUnsortedTransaction = () => {
+    return protobufHTTP('GET', 'getUnsortedTransaction', UnsortedTransaction);
+  };
+
+  this.sortTransaction = (unsortedTransaction) => {
+    return protobufHTTP('POST', 'sortTransaction', null, unsortedTransaction);
+  };
+
   function protobufHTTP (method, url, type, protocolBuffer) {
-    return $http({
+    var toReturn = $http({
       method: method,
       url: ApiBaseUrl+url,
       headers: {
@@ -31,10 +43,16 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter) {
       responseType: "arraybuffer",
       data: protocolBuffer ? new Uint8Array(protocolBuffer.encodeAB()) : undefined,
       transformRequest: []
-    }).then((response) => {
-      response.data = type.decode(response.data);
-      return response;
     });
+
+    if(type) {
+      toReturn = toReturn.then((response) => {
+        response.data = type.decode(response.data);
+        return response;
+      });
+    }
+
+    return toReturn;
   }
 
 }];

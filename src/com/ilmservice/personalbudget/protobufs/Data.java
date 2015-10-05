@@ -31,17 +31,18 @@ public final class Data {
     int getCategoryId();
 
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    java.util.List<java.lang.Integer> getTagIdsList();
+    boolean hasCategoryName();
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    int getTagIdsCount();
+    java.lang.String getCategoryName();
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    int getTagIds(int index);
+    com.google.protobuf.ByteString
+        getCategoryNameBytes();
 
     /**
      * <code>optional uint32 userId = 4;</code>
@@ -169,56 +170,41 @@ public final class Data {
               categoryId_ = input.readUInt32();
               break;
             }
-            case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                tagIds_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              tagIds_.add(input.readUInt32());
-              break;
-            }
             case 26: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                tagIds_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                tagIds_.add(input.readUInt32());
-              }
-              input.popLimit(limit);
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              categoryName_ = bs;
               break;
             }
             case 32: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               userId_ = input.readUInt32();
               break;
             }
             case 40: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               date_ = input.readUInt64();
               break;
             }
             case 48: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               cents_ = input.readSInt32();
               break;
             }
             case 58: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000040;
               description_ = bs;
               break;
             }
             case 66: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000080;
               card_ = bs;
               break;
             }
             case 72: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000100;
               checkNumber_ = input.readUInt32();
               break;
             }
@@ -230,9 +216,6 @@ public final class Data {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          tagIds_ = java.util.Collections.unmodifiableList(tagIds_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -295,26 +278,46 @@ public final class Data {
       return categoryId_;
     }
 
-    public static final int TAGIDS_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Integer> tagIds_;
+    public static final int CATEGORYNAME_FIELD_NUMBER = 3;
+    private java.lang.Object categoryName_;
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    public java.util.List<java.lang.Integer>
-        getTagIdsList() {
-      return tagIds_;
+    public boolean hasCategoryName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    public int getTagIdsCount() {
-      return tagIds_.size();
+    public java.lang.String getCategoryName() {
+      java.lang.Object ref = categoryName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          categoryName_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>repeated uint32 tagIds = 3;</code>
+     * <code>optional string categoryName = 3;</code>
      */
-    public int getTagIds(int index) {
-      return tagIds_.get(index);
+    public com.google.protobuf.ByteString
+        getCategoryNameBytes() {
+      java.lang.Object ref = categoryName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        categoryName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int USERID_FIELD_NUMBER = 4;
@@ -323,7 +326,7 @@ public final class Data {
      * <code>optional uint32 userId = 4;</code>
      */
     public boolean hasUserId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional uint32 userId = 4;</code>
@@ -338,7 +341,7 @@ public final class Data {
      * <code>optional uint64 date = 5;</code>
      */
     public boolean hasDate() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional uint64 date = 5;</code>
@@ -353,7 +356,7 @@ public final class Data {
      * <code>optional sint32 cents = 6;</code>
      */
     public boolean hasCents() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional sint32 cents = 6;</code>
@@ -368,7 +371,7 @@ public final class Data {
      * <code>optional string description = 7;</code>
      */
     public boolean hasDescription() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional string description = 7;</code>
@@ -410,7 +413,7 @@ public final class Data {
      * <code>optional string card = 8;</code>
      */
     public boolean hasCard() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional string card = 8;</code>
@@ -452,7 +455,7 @@ public final class Data {
      * <code>optional uint32 checkNumber = 9;</code>
      */
     public boolean hasCheckNumber() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional uint32 checkNumber = 9;</code>
@@ -464,7 +467,7 @@ public final class Data {
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       categoryId_ = 0;
-      tagIds_ = java.util.Collections.emptyList();
+      categoryName_ = "";
       userId_ = 0;
       date_ = 0L;
       cents_ = 0;
@@ -491,25 +494,25 @@ public final class Data {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, categoryId_);
       }
-      for (int i = 0; i < tagIds_.size(); i++) {
-        output.writeUInt32(3, tagIds_.get(i));
-      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeUInt32(4, userId_);
+        output.writeBytes(3, getCategoryNameBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeUInt64(5, date_);
+        output.writeUInt32(4, userId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeSInt32(6, cents_);
+        output.writeUInt64(5, date_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(7, getDescriptionBytes());
+        output.writeSInt32(6, cents_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBytes(8, getCardBytes());
+        output.writeBytes(7, getDescriptionBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, getCardBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeUInt32(9, checkNumber_);
       }
       getUnknownFields().writeTo(output);
@@ -529,36 +532,31 @@ public final class Data {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, categoryId_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < tagIds_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt32SizeNoTag(tagIds_.get(i));
-        }
-        size += dataSize;
-        size += 1 * getTagIdsList().size();
-      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(4, userId_);
+          .computeBytesSize(3, getCategoryNameBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(5, date_);
+          .computeUInt32Size(4, userId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(6, cents_);
+          .computeUInt64Size(5, date_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(7, getDescriptionBytes());
+          .computeSInt32Size(6, cents_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getCardBytes());
+          .computeBytesSize(7, getDescriptionBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getCardBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(9, checkNumber_);
       }
@@ -683,7 +681,7 @@ public final class Data {
         bitField0_ = (bitField0_ & ~0x00000001);
         categoryId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        tagIds_ = java.util.Collections.emptyList();
+        categoryName_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -733,33 +731,32 @@ public final class Data {
           to_bitField0_ |= 0x00000002;
         }
         result.categoryId_ = categoryId_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          tagIds_ = java.util.Collections.unmodifiableList(tagIds_);
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.tagIds_ = tagIds_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.categoryName_ = categoryName_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.userId_ = userId_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
+          to_bitField0_ |= 0x00000010;
         }
         result.date_ = date_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000010;
+          to_bitField0_ |= 0x00000020;
         }
         result.cents_ = cents_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000020;
+          to_bitField0_ |= 0x00000040;
         }
         result.description_ = description_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000040;
+          to_bitField0_ |= 0x00000080;
         }
         result.card_ = card_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
-          to_bitField0_ |= 0x00000080;
+          to_bitField0_ |= 0x00000100;
         }
         result.checkNumber_ = checkNumber_;
         result.bitField0_ = to_bitField0_;
@@ -784,14 +781,9 @@ public final class Data {
         if (other.hasCategoryId()) {
           setCategoryId(other.getCategoryId());
         }
-        if (!other.tagIds_.isEmpty()) {
-          if (tagIds_.isEmpty()) {
-            tagIds_ = other.tagIds_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureTagIdsIsMutable();
-            tagIds_.addAll(other.tagIds_);
-          }
+        if (other.hasCategoryName()) {
+          bitField0_ |= 0x00000004;
+          categoryName_ = other.categoryName_;
           onChanged();
         }
         if (other.hasUserId()) {
@@ -910,68 +902,78 @@ public final class Data {
         return this;
       }
 
-      private java.util.List<java.lang.Integer> tagIds_ = java.util.Collections.emptyList();
-      private void ensureTagIdsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          tagIds_ = new java.util.ArrayList<java.lang.Integer>(tagIds_);
-          bitField0_ |= 0x00000004;
-         }
+      private java.lang.Object categoryName_ = "";
+      /**
+       * <code>optional string categoryName = 3;</code>
+       */
+      public boolean hasCategoryName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>repeated uint32 tagIds = 3;</code>
+       * <code>optional string categoryName = 3;</code>
        */
-      public java.util.List<java.lang.Integer>
-          getTagIdsList() {
-        return java.util.Collections.unmodifiableList(tagIds_);
+      public java.lang.String getCategoryName() {
+        java.lang.Object ref = categoryName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            categoryName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>repeated uint32 tagIds = 3;</code>
+       * <code>optional string categoryName = 3;</code>
        */
-      public int getTagIdsCount() {
-        return tagIds_.size();
+      public com.google.protobuf.ByteString
+          getCategoryNameBytes() {
+        java.lang.Object ref = categoryName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          categoryName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
       /**
-       * <code>repeated uint32 tagIds = 3;</code>
+       * <code>optional string categoryName = 3;</code>
        */
-      public int getTagIds(int index) {
-        return tagIds_.get(index);
-      }
-      /**
-       * <code>repeated uint32 tagIds = 3;</code>
-       */
-      public Builder setTagIds(
-          int index, int value) {
-        ensureTagIdsIsMutable();
-        tagIds_.set(index, value);
+      public Builder setCategoryName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        categoryName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>repeated uint32 tagIds = 3;</code>
+       * <code>optional string categoryName = 3;</code>
        */
-      public Builder addTagIds(int value) {
-        ensureTagIdsIsMutable();
-        tagIds_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint32 tagIds = 3;</code>
-       */
-      public Builder addAllTagIds(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
-        ensureTagIdsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, tagIds_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint32 tagIds = 3;</code>
-       */
-      public Builder clearTagIds() {
-        tagIds_ = java.util.Collections.emptyList();
+      public Builder clearCategoryName() {
         bitField0_ = (bitField0_ & ~0x00000004);
+        categoryName_ = getDefaultInstance().getCategoryName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string categoryName = 3;</code>
+       */
+      public Builder setCategoryNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        categoryName_ = value;
         onChanged();
         return this;
       }
@@ -1267,11 +1269,1317 @@ public final class Data {
     // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.Transaction)
   }
 
+  public interface TransactionCategoryOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.ilmservice.personalbudget.TransactionCategory)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional uint32 id = 1;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional uint32 id = 1;</code>
+     */
+    int getId();
+
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    boolean hasColor();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.Color getColor();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder getColorOrBuilder();
+
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    boolean hasName();
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+  }
+  /**
+   * Protobuf type {@code com.ilmservice.personalbudget.TransactionCategory}
+   */
+  public static final class TransactionCategory extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.ilmservice.personalbudget.TransactionCategory)
+      TransactionCategoryOrBuilder {
+    // Use TransactionCategory.newBuilder() to construct.
+    private TransactionCategory(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TransactionCategory(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TransactionCategory defaultInstance;
+    public static TransactionCategory getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TransactionCategory getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TransactionCategory(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              com.ilmservice.personalbudget.protobufs.Data.Color.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = color_.toBuilder();
+              }
+              color_ = input.readMessage(com.ilmservice.personalbudget.protobufs.Data.Color.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(color_);
+                color_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              name_ = bs;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_TransactionCategory_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.class, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TransactionCategory> PARSER =
+        new com.google.protobuf.AbstractParser<TransactionCategory>() {
+      public TransactionCategory parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TransactionCategory(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TransactionCategory> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>optional uint32 id = 1;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int COLOR_FIELD_NUMBER = 2;
+    private com.ilmservice.personalbudget.protobufs.Data.Color color_;
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.Color getColor() {
+      return color_;
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder getColorOrBuilder() {
+      return color_;
+    }
+
+    public static final int NAME_FIELD_NUMBER = 3;
+    private java.lang.Object name_;
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string name = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      id_ = 0;
+      color_ = com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance();
+      name_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, color_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getNameBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, color_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getNameBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.ilmservice.personalbudget.TransactionCategory}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.ilmservice.personalbudget.TransactionCategory)
+        com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_TransactionCategory_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.class, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder.class);
+      }
+
+      // Construct using com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getColorFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (colorBuilder_ == null) {
+          color_ = com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance();
+        } else {
+          colorBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getDefaultInstanceForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory build() {
+        com.ilmservice.personalbudget.protobufs.Data.TransactionCategory result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory buildPartial() {
+        com.ilmservice.personalbudget.protobufs.Data.TransactionCategory result = new com.ilmservice.personalbudget.protobufs.Data.TransactionCategory(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (colorBuilder_ == null) {
+          result.color_ = color_;
+        } else {
+          result.color_ = colorBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.name_ = name_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.ilmservice.personalbudget.protobufs.Data.TransactionCategory) {
+          return mergeFrom((com.ilmservice.personalbudget.protobufs.Data.TransactionCategory)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory other) {
+        if (other == com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasColor()) {
+          mergeColor(other.getColor());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000004;
+          name_ = other.name_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.ilmservice.personalbudget.protobufs.Data.TransactionCategory parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ilmservice.personalbudget.protobufs.Data.TransactionCategory) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int id_ ;
+      /**
+       * <code>optional uint32 id = 1;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional uint32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional uint32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 id = 1;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.ilmservice.personalbudget.protobufs.Data.Color color_ = com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.Color, com.ilmservice.personalbudget.protobufs.Data.Color.Builder, com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder> colorBuilder_;
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.Color getColor() {
+        if (colorBuilder_ == null) {
+          return color_;
+        } else {
+          return colorBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public Builder setColor(com.ilmservice.personalbudget.protobufs.Data.Color value) {
+        if (colorBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          color_ = value;
+          onChanged();
+        } else {
+          colorBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public Builder setColor(
+          com.ilmservice.personalbudget.protobufs.Data.Color.Builder builderForValue) {
+        if (colorBuilder_ == null) {
+          color_ = builderForValue.build();
+          onChanged();
+        } else {
+          colorBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public Builder mergeColor(com.ilmservice.personalbudget.protobufs.Data.Color value) {
+        if (colorBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              color_ != com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance()) {
+            color_ =
+              com.ilmservice.personalbudget.protobufs.Data.Color.newBuilder(color_).mergeFrom(value).buildPartial();
+          } else {
+            color_ = value;
+          }
+          onChanged();
+        } else {
+          colorBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public Builder clearColor() {
+        if (colorBuilder_ == null) {
+          color_ = com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance();
+          onChanged();
+        } else {
+          colorBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.Color.Builder getColorBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getColorFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder getColorOrBuilder() {
+        if (colorBuilder_ != null) {
+          return colorBuilder_.getMessageOrBuilder();
+        } else {
+          return color_;
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Color color = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.Color, com.ilmservice.personalbudget.protobufs.Data.Color.Builder, com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder> 
+          getColorFieldBuilder() {
+        if (colorBuilder_ == null) {
+          colorBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Data.Color, com.ilmservice.personalbudget.protobufs.Data.Color.Builder, com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder>(
+                  getColor(),
+                  getParentForChildren(),
+                  isClean());
+          color_ = null;
+        }
+        return colorBuilder_;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.TransactionCategory)
+    }
+
+    static {
+      defaultInstance = new TransactionCategory(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.TransactionCategory)
+  }
+
+  public interface ColorOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.ilmservice.personalbudget.Color)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional float h = 1;</code>
+     */
+    boolean hasH();
+    /**
+     * <code>optional float h = 1;</code>
+     */
+    float getH();
+
+    /**
+     * <code>optional float s = 2;</code>
+     */
+    boolean hasS();
+    /**
+     * <code>optional float s = 2;</code>
+     */
+    float getS();
+
+    /**
+     * <code>optional float v = 3;</code>
+     */
+    boolean hasV();
+    /**
+     * <code>optional float v = 3;</code>
+     */
+    float getV();
+  }
+  /**
+   * Protobuf type {@code com.ilmservice.personalbudget.Color}
+   */
+  public static final class Color extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.ilmservice.personalbudget.Color)
+      ColorOrBuilder {
+    // Use Color.newBuilder() to construct.
+    private Color(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Color(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Color defaultInstance;
+    public static Color getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Color getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Color(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              bitField0_ |= 0x00000001;
+              h_ = input.readFloat();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              s_ = input.readFloat();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              v_ = input.readFloat();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_Color_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_Color_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.ilmservice.personalbudget.protobufs.Data.Color.class, com.ilmservice.personalbudget.protobufs.Data.Color.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Color> PARSER =
+        new com.google.protobuf.AbstractParser<Color>() {
+      public Color parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Color(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Color> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int H_FIELD_NUMBER = 1;
+    private float h_;
+    /**
+     * <code>optional float h = 1;</code>
+     */
+    public boolean hasH() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional float h = 1;</code>
+     */
+    public float getH() {
+      return h_;
+    }
+
+    public static final int S_FIELD_NUMBER = 2;
+    private float s_;
+    /**
+     * <code>optional float s = 2;</code>
+     */
+    public boolean hasS() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional float s = 2;</code>
+     */
+    public float getS() {
+      return s_;
+    }
+
+    public static final int V_FIELD_NUMBER = 3;
+    private float v_;
+    /**
+     * <code>optional float v = 3;</code>
+     */
+    public boolean hasV() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional float v = 3;</code>
+     */
+    public float getV() {
+      return v_;
+    }
+
+    private void initFields() {
+      h_ = 0F;
+      s_ = 0F;
+      v_ = 0F;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFloat(1, h_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFloat(2, s_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFloat(3, v_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, h_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, s_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, v_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Data.Color parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.ilmservice.personalbudget.protobufs.Data.Color prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.ilmservice.personalbudget.Color}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.ilmservice.personalbudget.Color)
+        com.ilmservice.personalbudget.protobufs.Data.ColorOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_Color_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_Color_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ilmservice.personalbudget.protobufs.Data.Color.class, com.ilmservice.personalbudget.protobufs.Data.Color.Builder.class);
+      }
+
+      // Construct using com.ilmservice.personalbudget.protobufs.Data.Color.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        h_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        s_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        v_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.internal_static_com_ilmservice_personalbudget_Color_descriptor;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.Color getDefaultInstanceForType() {
+        return com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance();
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.Color build() {
+        com.ilmservice.personalbudget.protobufs.Data.Color result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Data.Color buildPartial() {
+        com.ilmservice.personalbudget.protobufs.Data.Color result = new com.ilmservice.personalbudget.protobufs.Data.Color(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.h_ = h_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.s_ = s_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.v_ = v_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.ilmservice.personalbudget.protobufs.Data.Color) {
+          return mergeFrom((com.ilmservice.personalbudget.protobufs.Data.Color)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Data.Color other) {
+        if (other == com.ilmservice.personalbudget.protobufs.Data.Color.getDefaultInstance()) return this;
+        if (other.hasH()) {
+          setH(other.getH());
+        }
+        if (other.hasS()) {
+          setS(other.getS());
+        }
+        if (other.hasV()) {
+          setV(other.getV());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.ilmservice.personalbudget.protobufs.Data.Color parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ilmservice.personalbudget.protobufs.Data.Color) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private float h_ ;
+      /**
+       * <code>optional float h = 1;</code>
+       */
+      public boolean hasH() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional float h = 1;</code>
+       */
+      public float getH() {
+        return h_;
+      }
+      /**
+       * <code>optional float h = 1;</code>
+       */
+      public Builder setH(float value) {
+        bitField0_ |= 0x00000001;
+        h_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float h = 1;</code>
+       */
+      public Builder clearH() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        h_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float s_ ;
+      /**
+       * <code>optional float s = 2;</code>
+       */
+      public boolean hasS() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional float s = 2;</code>
+       */
+      public float getS() {
+        return s_;
+      }
+      /**
+       * <code>optional float s = 2;</code>
+       */
+      public Builder setS(float value) {
+        bitField0_ |= 0x00000002;
+        s_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float s = 2;</code>
+       */
+      public Builder clearS() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        s_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float v_ ;
+      /**
+       * <code>optional float v = 3;</code>
+       */
+      public boolean hasV() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional float v = 3;</code>
+       */
+      public float getV() {
+        return v_;
+      }
+      /**
+       * <code>optional float v = 3;</code>
+       */
+      public Builder setV(float value) {
+        bitField0_ |= 0x00000004;
+        v_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float v = 3;</code>
+       */
+      public Builder clearV() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        v_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.Color)
+    }
+
+    static {
+      defaultInstance = new Color(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.Color)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_ilmservice_personalbudget_Transaction_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_ilmservice_personalbudget_TransactionCategory_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ilmservice_personalbudget_Color_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_ilmservice_personalbudget_Color_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1282,12 +2590,16 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\242\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
-      "oryId\030\002 \001(\r\022\016\n\006tagIds\030\003 \003(\r\022\016\n\006userId\030\004 " +
-      "\001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023\n\013desc" +
-      "ription\030\007 \001(\t\022\014\n\004card\030\010 \001(\t\022\023\n\013checkNumb" +
-      "er\030\t \001(\rB)\n\'com.ilmservice.personalbudge" +
-      "t.protobufs"
+      "get\"\250\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
+      "oryId\030\002 \001(\r\022\024\n\014categoryName\030\003 \001(\t\022\016\n\006use" +
+      "rId\030\004 \001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023" +
+      "\n\013description\030\007 \001(\t\022\014\n\004card\030\010 \001(\t\022\023\n\013che" +
+      "ckNumber\030\t \001(\r\"d\n\023TransactionCategory\022\n\n" +
+      "\002id\030\001 \001(\r\0223\n\005color\030\002 \001(\0132$.com.ilmservic" +
+      "e.personalbudget.Color\022\014\n\004name\030\003 \001(\t\"(\n\005" +
+      "Color\022\t\n\001h\030\001 \001(\002\022\t\n\001s\030\002 \001(\002\022\t\n\001v\030\003 \001(\002B)" +
+      "\n\'com.ilmservice.personalbudget.protobuf",
+      "s"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1306,7 +2618,19 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "Id", "CategoryId", "TagIds", "UserId", "Date", "Cents", "Description", "Card", "CheckNumber", });
+        new java.lang.String[] { "Id", "CategoryId", "CategoryName", "UserId", "Date", "Cents", "Description", "Card", "CheckNumber", });
+    internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_ilmservice_personalbudget_TransactionCategory_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor,
+        new java.lang.String[] { "Id", "Color", "Name", });
+    internal_static_com_ilmservice_personalbudget_Color_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_com_ilmservice_personalbudget_Color_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_ilmservice_personalbudget_Color_descriptor,
+        new java.lang.String[] { "H", "S", "V", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

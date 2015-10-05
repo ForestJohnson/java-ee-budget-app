@@ -12,6 +12,11 @@ message TransactionList {
   repeated Transaction transactions = 3;
 }
 
+message UnsortedTransaction {
+  optional Transaction transaction = 1;
+  repeated TransactionCategory categories = 3;
+}
+
 message PageInfo {
   optional uint32 currentPage = 1 [default = 1];
   optional uint32 pageCount = 2;

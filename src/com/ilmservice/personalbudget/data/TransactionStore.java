@@ -21,6 +21,7 @@ import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Views.DateRangeFilter;
 import com.ilmservice.personalbudget.protobufs.Views.Filter;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
+import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 import com.ilmservice.repository.IDbScope;
 import com.ilmservice.repository.IRepository;
 import com.ilmservice.repository.IRepository.IRepositoryIndex;
@@ -38,12 +39,31 @@ public class TransactionStore implements ITransactionStore {
 	@Inject 
 	private IRepository<Transaction> transactions;
 	
-	private IRepositoryIndex<ByteString, Transaction> transactionsById;
-	private IRepositoryIndex<Long, Transaction> transactionsByDate;
+	private IRepositoryIndex<DateIDKey, Transaction> transactionsByDate;
+	private IRepositoryIndex<CategoryIDKey, Transaction> transactionsByCategory;
 	private MessageDigest sha;
 	
 	TransactionStore() throws NoSuchAlgorithmException {
 		sha = MessageDigest.getInstance("SHA");
+	}
+	
+	public class DateIDKey {
+		public final long dateMs;
+		public final ByteString id;
+		
+		public DateIDKey (long dateMs, ByteString id) {
+			this.dateMs = dateMs;
+			this.id = id;
+		}
+	}
+	public class CategoryIDKey {
+		public final int categoryId;
+		public final ByteString id;
+		
+		public CategoryIDKey (int categoryId, ByteString id) {
+			this.categoryId = categoryId;
+			this.id = id;
+		}
 	}
 	
 	@PostConstruct
@@ -56,22 +76,34 @@ public class TransactionStore implements ITransactionStore {
 			() -> {
 				try {
 					System.out.println("TransactionStore indexes ");
-					transactionsById = transactions.configureIndex(
-						Indexes.TransactionsById.getValue(),
-						(k) -> Transaction.newBuilder().setId(k).build(),
-						(v) -> v.getId(),
+					
+					transactionsByDate = transactions.configureIndex(
+						Indexes.TransactionsByDate.getValue(),
+						(k) -> Transaction.newBuilder().setDate(k.dateMs).setId(k.id).build(),
+						(v) -> new DateIDKey(v.getDate(), v.getId()),
 						(k) -> {
-							byte[] result = new byte[k.size()];
-							k.copyTo(result,0);
-							return result;
+							byte[] idByteArray = new byte[k.id.size()];
+							k.id.copyTo(idByteArray,0);
+							return ByteBuffer.allocate(k.id.size()+8)
+									.putLong(k.dateMs)
+									.put(idByteArray)
+									.array();
 						}
 					);
-					transactionsByDate = transactions.configureIndex(
-							Indexes.TransactionsByDate.getValue(),
-							(k) -> Transaction.newBuilder().setDate(k).build(),
-							(v) -> v.getDate(),
-							(k) -> ByteBuffer.allocate(8).putLong(k).array()
-						);
+					
+					transactionsByCategory = transactions.configureIndex(
+						Indexes.TransactionsByCategory.getValue(),
+						(k) -> Transaction.newBuilder().setCategoryId(k.categoryId).setId(k.id).build(),
+						(v) -> new CategoryIDKey(v.getCategoryId(), v.getId()),
+						(k) -> {
+							byte[] idByteArray = new byte[k.id.size()];
+							k.id.copyTo(idByteArray,0);
+							return ByteBuffer.allocate(k.id.size()+4)
+									.putInt(k.categoryId)
+									.put(idByteArray)
+									.array();
+						}
+					);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,12 +113,13 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public Transaction put(Transaction.Builder builder) {
+	public Transaction post(Transaction.Builder builder) {
 		byte[] idBytes = sha.digest(builder.build().toByteArray());
 		builder.setId(ByteString.copyFrom(idBytes));
 		Transaction existing = null;
 		try {
-			existing = transactionsById.query().atKey(ByteString.copyFrom(idBytes)).firstOrNull();
+			existing = transactionsByDate.query()
+					.atKey(new DateIDKey(builder.getDate(), builder.getId())).firstOrNull();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,10 +131,15 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public TransactionList putAll(TransactionList transactionList) {
+	public void put(Transaction transaction) {
+		transactions.put(transaction);
+	}
+	
+	@Override
+	public TransactionList postAll(TransactionList transactionList) {
 		return TransactionList.newBuilder().addAllTransactions(
 				transactionList.getTransactionsList().stream().map((transaction) -> {
-					return this.put(Transaction.newBuilder(transaction));
+					return this.post(Transaction.newBuilder(transaction));
 				}).collect(
 					() -> new ArrayList<Transaction>(), 
 					(list, transaction) -> { list.add(transaction); }, 
@@ -113,13 +151,16 @@ public class TransactionStore implements ITransactionStore {
 	@Override
 	public TransactionList list(TransactionList query) {
 		List<Filter> filters = query.getFiltersList();
-		IRepositoryQuery<Long, Transaction> repoQuery = null; 
+		IRepositoryQuery<DateIDKey, Transaction> repoQuery = null; 
 		if(!filters.isEmpty()) {
 			Optional<Filter> dateRange = filters.stream()
 					.filter((filter) -> filter.hasDateRangeFilter()).findFirst();
 			if(dateRange.isPresent()) {
 				DateRangeFilter dateRangeFilter = dateRange.get().getDateRangeFilter();
-				repoQuery = transactionsByDate.query().range(dateRangeFilter.getStart(), dateRangeFilter.getEnd());
+				repoQuery = transactionsByDate.query().range(
+						new DateIDKey(dateRangeFilter.getStart(), ByteString.EMPTY), 
+						new DateIDKey(dateRangeFilter.getEnd(), ByteString.EMPTY)
+					);
 			}
 		}
 		if(repoQuery != null) {
@@ -130,6 +171,22 @@ public class TransactionStore implements ITransactionStore {
 			return builder.build();
 		}
 		return query;
+	}
+	
+	@Override
+	public Transaction getUnsortedTransaction() {
+		try {
+			return transactionsByCategory.query().range(
+					new CategoryIDKey(0, ByteString.EMPTY), 
+					new CategoryIDKey(1, ByteString.EMPTY)
+				)
+			.where((result) -> result.getCategoryId() == 0)
+			.limit(1)
+			.firstOrNull();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 //	public Transaction test(int id) {

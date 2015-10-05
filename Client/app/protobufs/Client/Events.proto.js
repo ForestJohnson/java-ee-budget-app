@@ -5,6 +5,111 @@ module.exports = require("protobufjs").newBuilder({})['import']({
     },
     "messages": [
         {
+            "name": "Transaction",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "bytes",
+                    "name": "id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "categoryId",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "categoryName",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "userId",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint64",
+                    "name": "date",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "sint32",
+                    "name": "cents",
+                    "id": 6
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "description",
+                    "id": 7
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "card",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "checkNumber",
+                    "id": 9
+                }
+            ]
+        },
+        {
+            "name": "TransactionCategory",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "Color",
+                    "name": "color",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "name",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "Color",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "h",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "s",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "float",
+                    "name": "v",
+                    "id": 3
+                }
+            ]
+        },
+        {
             "name": "Event",
             "fields": [
                 {
@@ -24,11 +129,18 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "type": "UploadSpreadsheetEvent",
                     "name": "uploadSpreadsheetEvent",
                     "id": 10
+                },
+                {
+                    "rule": "optional",
+                    "type": "SortTransactionEvent",
+                    "name": "sortTransactionEvent",
+                    "id": 11
                 }
             ],
             "oneofs": {
                 "event_type": [
-                    10
+                    10,
+                    11
                 ]
             }
         },
@@ -74,6 +186,23 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "type": "string",
                     "name": "fields",
                     "id": 1
+                }
+            ]
+        },
+        {
+            "name": "SortTransactionEvent",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "Transaction",
+                    "name": "transaction",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "TransactionCategory",
+                    "name": "category",
+                    "id": 3
                 }
             ]
         }

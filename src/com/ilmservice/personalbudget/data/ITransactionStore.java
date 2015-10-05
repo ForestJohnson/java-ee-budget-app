@@ -3,13 +3,18 @@ package com.ilmservice.personalbudget.data;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
+import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 
 public interface ITransactionStore {
 
-	Transaction put(Builder builder);
+	Transaction post(Builder builder);
 	
-	TransactionList putAll(TransactionList transactions);
+	void put(Transaction transaction);
+	
+	TransactionList postAll(TransactionList transactions);
 	
 	TransactionList list(TransactionList query);
+	
+	Transaction getUnsortedTransaction();
 
 }

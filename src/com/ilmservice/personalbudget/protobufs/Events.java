@@ -42,6 +42,19 @@ public final class Events {
      * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent uploadSpreadsheetEvent = 10;</code>
      */
     com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEventOrBuilder getUploadSpreadsheetEventOrBuilder();
+
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    boolean hasSortTransactionEvent();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent getSortTransactionEvent();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder getSortTransactionEventOrBuilder();
   }
   /**
    * Protobuf type {@code com.ilmservice.personalbudget.Event}
@@ -118,6 +131,19 @@ public final class Events {
               eventTypeCase_ = 10;
               break;
             }
+            case 90: {
+              com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder subBuilder = null;
+              if (eventTypeCase_ == 11) {
+                subBuilder = ((com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_).toBuilder();
+              }
+              eventType_ = input.readMessage(com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_);
+                eventType_ = subBuilder.buildPartial();
+              }
+              eventTypeCase_ = 11;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -163,6 +189,7 @@ public final class Events {
     public enum EventTypeCase
         implements com.google.protobuf.Internal.EnumLite {
       UPLOADSPREADSHEETEVENT(10),
+      SORTTRANSACTIONEVENT(11),
       EVENTTYPE_NOT_SET(0);
       private int value = 0;
       private EventTypeCase(int value) {
@@ -171,6 +198,7 @@ public final class Events {
       public static EventTypeCase valueOf(int value) {
         switch (value) {
           case 10: return UPLOADSPREADSHEETEVENT;
+          case 11: return SORTTRANSACTIONEVENT;
           case 0: return EVENTTYPE_NOT_SET;
           default: throw new java.lang.IllegalArgumentException(
             "Value is undefined for this oneof enum.");
@@ -243,6 +271,32 @@ public final class Events {
       return com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.getDefaultInstance();
     }
 
+    public static final int SORTTRANSACTIONEVENT_FIELD_NUMBER = 11;
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    public boolean hasSortTransactionEvent() {
+      return eventTypeCase_ == 11;
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent getSortTransactionEvent() {
+      if (eventTypeCase_ == 11) {
+         return (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_;
+      }
+      return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder getSortTransactionEventOrBuilder() {
+      if (eventTypeCase_ == 11) {
+         return (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_;
+      }
+      return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+    }
+
     private void initFields() {
       userId_ = 0;
       date_ = 0L;
@@ -269,6 +323,9 @@ public final class Events {
       if (eventTypeCase_ == 10) {
         output.writeMessage(10, (com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent) eventType_);
       }
+      if (eventTypeCase_ == 11) {
+        output.writeMessage(11, (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -289,6 +346,10 @@ public final class Events {
       if (eventTypeCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, (com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent) eventType_);
+      }
+      if (eventTypeCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -456,6 +517,13 @@ public final class Events {
             result.eventType_ = uploadSpreadsheetEventBuilder_.build();
           }
         }
+        if (eventTypeCase_ == 11) {
+          if (sortTransactionEventBuilder_ == null) {
+            result.eventType_ = eventType_;
+          } else {
+            result.eventType_ = sortTransactionEventBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.eventTypeCase_ = eventTypeCase_;
         onBuilt();
@@ -482,6 +550,10 @@ public final class Events {
         switch (other.getEventTypeCase()) {
           case UPLOADSPREADSHEETEVENT: {
             mergeUploadSpreadsheetEvent(other.getUploadSpreadsheetEvent());
+            break;
+          }
+          case SORTTRANSACTIONEVENT: {
+            mergeSortTransactionEvent(other.getSortTransactionEvent());
             break;
           }
           case EVENTTYPE_NOT_SET: {
@@ -727,6 +799,141 @@ public final class Events {
         }
         eventTypeCase_ = 10;
         return uploadSpreadsheetEventBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder> sortTransactionEventBuilder_;
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public boolean hasSortTransactionEvent() {
+        return eventTypeCase_ == 11;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent getSortTransactionEvent() {
+        if (sortTransactionEventBuilder_ == null) {
+          if (eventTypeCase_ == 11) {
+            return (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_;
+          }
+          return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+        } else {
+          if (eventTypeCase_ == 11) {
+            return sortTransactionEventBuilder_.getMessage();
+          }
+          return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public Builder setSortTransactionEvent(com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent value) {
+        if (sortTransactionEventBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          eventType_ = value;
+          onChanged();
+        } else {
+          sortTransactionEventBuilder_.setMessage(value);
+        }
+        eventTypeCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public Builder setSortTransactionEvent(
+          com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder builderForValue) {
+        if (sortTransactionEventBuilder_ == null) {
+          eventType_ = builderForValue.build();
+          onChanged();
+        } else {
+          sortTransactionEventBuilder_.setMessage(builderForValue.build());
+        }
+        eventTypeCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public Builder mergeSortTransactionEvent(com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent value) {
+        if (sortTransactionEventBuilder_ == null) {
+          if (eventTypeCase_ == 11 &&
+              eventType_ != com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance()) {
+            eventType_ = com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.newBuilder((com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            eventType_ = value;
+          }
+          onChanged();
+        } else {
+          if (eventTypeCase_ == 11) {
+            sortTransactionEventBuilder_.mergeFrom(value);
+          }
+          sortTransactionEventBuilder_.setMessage(value);
+        }
+        eventTypeCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public Builder clearSortTransactionEvent() {
+        if (sortTransactionEventBuilder_ == null) {
+          if (eventTypeCase_ == 11) {
+            eventTypeCase_ = 0;
+            eventType_ = null;
+            onChanged();
+          }
+        } else {
+          if (eventTypeCase_ == 11) {
+            eventTypeCase_ = 0;
+            eventType_ = null;
+          }
+          sortTransactionEventBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder getSortTransactionEventBuilder() {
+        return getSortTransactionEventFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder getSortTransactionEventOrBuilder() {
+        if ((eventTypeCase_ == 11) && (sortTransactionEventBuilder_ != null)) {
+          return sortTransactionEventBuilder_.getMessageOrBuilder();
+        } else {
+          if (eventTypeCase_ == 11) {
+            return (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_;
+          }
+          return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.SortTransactionEvent sortTransactionEvent = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder> 
+          getSortTransactionEventFieldBuilder() {
+        if (sortTransactionEventBuilder_ == null) {
+          if (!(eventTypeCase_ == 11)) {
+            eventType_ = com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+          }
+          sortTransactionEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder>(
+                  (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) eventType_,
+                  getParentForChildren(),
+                  isClean());
+          eventType_ = null;
+        }
+        eventTypeCase_ = 11;
+        return sortTransactionEventBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.Event)
@@ -2235,6 +2442,703 @@ public final class Events {
     // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.SpreadsheetRow)
   }
 
+  public interface SortTransactionEventOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.ilmservice.personalbudget.SortTransactionEvent)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    boolean hasTransaction();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.Transaction getTransaction();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder getTransactionOrBuilder();
+
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    boolean hasCategory();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory();
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder();
+  }
+  /**
+   * Protobuf type {@code com.ilmservice.personalbudget.SortTransactionEvent}
+   */
+  public static final class SortTransactionEvent extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.ilmservice.personalbudget.SortTransactionEvent)
+      SortTransactionEventOrBuilder {
+    // Use SortTransactionEvent.newBuilder() to construct.
+    private SortTransactionEvent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SortTransactionEvent(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SortTransactionEvent defaultInstance;
+    public static SortTransactionEvent getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SortTransactionEvent getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SortTransactionEvent(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = transaction_.toBuilder();
+              }
+              transaction_ = input.readMessage(com.ilmservice.personalbudget.protobufs.Data.Transaction.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(transaction_);
+                transaction_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 26: {
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = category_.toBuilder();
+              }
+              category_ = input.readMessage(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(category_);
+                category_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.ilmservice.personalbudget.protobufs.Events.internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.ilmservice.personalbudget.protobufs.Events.internal_static_com_ilmservice_personalbudget_SortTransactionEvent_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.class, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SortTransactionEvent> PARSER =
+        new com.google.protobuf.AbstractParser<SortTransactionEvent>() {
+      public SortTransactionEvent parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SortTransactionEvent(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SortTransactionEvent> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int TRANSACTION_FIELD_NUMBER = 1;
+    private com.ilmservice.personalbudget.protobufs.Data.Transaction transaction_;
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    public boolean hasTransaction() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.Transaction getTransaction() {
+      return transaction_;
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder getTransactionOrBuilder() {
+      return transaction_;
+    }
+
+    public static final int CATEGORY_FIELD_NUMBER = 3;
+    private com.ilmservice.personalbudget.protobufs.Data.TransactionCategory category_;
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    public boolean hasCategory() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory() {
+      return category_;
+    }
+    /**
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+     */
+    public com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder() {
+      return category_;
+    }
+
+    private void initFields() {
+      transaction_ = com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance();
+      category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, transaction_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, category_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, transaction_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, category_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.ilmservice.personalbudget.SortTransactionEvent}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.ilmservice.personalbudget.SortTransactionEvent)
+        com.ilmservice.personalbudget.protobufs.Events.SortTransactionEventOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ilmservice.personalbudget.protobufs.Events.internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ilmservice.personalbudget.protobufs.Events.internal_static_com_ilmservice_personalbudget_SortTransactionEvent_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.class, com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.Builder.class);
+      }
+
+      // Construct using com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTransactionFieldBuilder();
+          getCategoryFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (transactionBuilder_ == null) {
+          transaction_ = com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance();
+        } else {
+          transactionBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (categoryBuilder_ == null) {
+          category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+        } else {
+          categoryBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.ilmservice.personalbudget.protobufs.Events.internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent getDefaultInstanceForType() {
+        return com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance();
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent build() {
+        com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent buildPartial() {
+        com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent result = new com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (transactionBuilder_ == null) {
+          result.transaction_ = transaction_;
+        } else {
+          result.transaction_ = transactionBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (categoryBuilder_ == null) {
+          result.category_ = category_;
+        } else {
+          result.category_ = categoryBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) {
+          return mergeFrom((com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent other) {
+        if (other == com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent.getDefaultInstance()) return this;
+        if (other.hasTransaction()) {
+          mergeTransaction(other.getTransaction());
+        }
+        if (other.hasCategory()) {
+          mergeCategory(other.getCategory());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.ilmservice.personalbudget.protobufs.Data.Transaction transaction_ = com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.Transaction, com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder> transactionBuilder_;
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public boolean hasTransaction() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.Transaction getTransaction() {
+        if (transactionBuilder_ == null) {
+          return transaction_;
+        } else {
+          return transactionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public Builder setTransaction(com.ilmservice.personalbudget.protobufs.Data.Transaction value) {
+        if (transactionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          transaction_ = value;
+          onChanged();
+        } else {
+          transactionBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public Builder setTransaction(
+          com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder builderForValue) {
+        if (transactionBuilder_ == null) {
+          transaction_ = builderForValue.build();
+          onChanged();
+        } else {
+          transactionBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public Builder mergeTransaction(com.ilmservice.personalbudget.protobufs.Data.Transaction value) {
+        if (transactionBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              transaction_ != com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance()) {
+            transaction_ =
+              com.ilmservice.personalbudget.protobufs.Data.Transaction.newBuilder(transaction_).mergeFrom(value).buildPartial();
+          } else {
+            transaction_ = value;
+          }
+          onChanged();
+        } else {
+          transactionBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public Builder clearTransaction() {
+        if (transactionBuilder_ == null) {
+          transaction_ = com.ilmservice.personalbudget.protobufs.Data.Transaction.getDefaultInstance();
+          onChanged();
+        } else {
+          transactionBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder getTransactionBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getTransactionFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder getTransactionOrBuilder() {
+        if (transactionBuilder_ != null) {
+          return transactionBuilder_.getMessageOrBuilder();
+        } else {
+          return transaction_;
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.Transaction transaction = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.Transaction, com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder> 
+          getTransactionFieldBuilder() {
+        if (transactionBuilder_ == null) {
+          transactionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Data.Transaction, com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionOrBuilder>(
+                  getTransaction(),
+                  getParentForChildren(),
+                  isClean());
+          transaction_ = null;
+        }
+        return transactionBuilder_;
+      }
+
+      private com.ilmservice.personalbudget.protobufs.Data.TransactionCategory category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder> categoryBuilder_;
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public boolean hasCategory() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory() {
+        if (categoryBuilder_ == null) {
+          return category_;
+        } else {
+          return categoryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder setCategory(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory value) {
+        if (categoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          category_ = value;
+          onChanged();
+        } else {
+          categoryBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder setCategory(
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder builderForValue) {
+        if (categoryBuilder_ == null) {
+          category_ = builderForValue.build();
+          onChanged();
+        } else {
+          categoryBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder mergeCategory(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory value) {
+        if (categoryBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              category_ != com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance()) {
+            category_ =
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.newBuilder(category_).mergeFrom(value).buildPartial();
+          } else {
+            category_ = value;
+          }
+          onChanged();
+        } else {
+          categoryBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder clearCategory() {
+        if (categoryBuilder_ == null) {
+          category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+          onChanged();
+        } else {
+          categoryBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder getCategoryBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getCategoryFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder() {
+        if (categoryBuilder_ != null) {
+          return categoryBuilder_.getMessageOrBuilder();
+        } else {
+          return category_;
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder> 
+          getCategoryFieldBuilder() {
+        if (categoryBuilder_ == null) {
+          categoryBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder>(
+                  getCategory(),
+                  getParentForChildren(),
+                  isClean());
+          category_ = null;
+        }
+        return categoryBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.ilmservice.personalbudget.SortTransactionEvent)
+    }
+
+    static {
+      defaultInstance = new SortTransactionEvent(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.ilmservice.personalbudget.SortTransactionEvent)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_ilmservice_personalbudget_Event_descriptor;
   private static
@@ -2250,6 +3154,11 @@ public final class Events {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_ilmservice_personalbudget_SpreadsheetRow_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_ilmservice_personalbudget_SortTransactionEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2260,18 +3169,24 @@ public final class Events {
   static {
     java.lang.String[] descriptorData = {
       "\n\014Events.proto\022\035com.ilmservice.personalb" +
-      "udget\"\214\001\n\005Event\022\016\n\006userId\030\002 \001(\r\022\014\n\004date\030" +
-      "\003 \001(\003\022W\n\026uploadSpreadsheetEvent\030\n \001(\01325." +
-      "com.ilmservice.personalbudget.UploadSpre" +
-      "adsheetEventH\000B\014\n\nevent_type\"\341\001\n\026UploadS" +
-      "preadsheetEvent\022W\n\006source\030\002 \001(\0162G.com.il" +
-      "mservice.personalbudget.UploadSpreadshee" +
-      "tEvent.SpreadsheetSource\022\020\n\010filename\030\003 \001" +
-      "(\t\022;\n\004rows\030\004 \003(\0132-.com.ilmservice.person" +
-      "albudget.SpreadsheetRow\"\037\n\021SpreadsheetSo",
-      "urce\022\n\n\006BREMER\020\000\" \n\016SpreadsheetRow\022\016\n\006fi" +
-      "elds\030\001 \003(\tB)\n\'com.ilmservice.personalbud" +
-      "get.protobufs"
+      "udget\032\nData.proto\"\341\001\n\005Event\022\016\n\006userId\030\002 " +
+      "\001(\r\022\014\n\004date\030\003 \001(\003\022W\n\026uploadSpreadsheetEv" +
+      "ent\030\n \001(\01325.com.ilmservice.personalbudge" +
+      "t.UploadSpreadsheetEventH\000\022S\n\024sortTransa" +
+      "ctionEvent\030\013 \001(\01323.com.ilmservice.person" +
+      "albudget.SortTransactionEventH\000B\014\n\nevent" +
+      "_type\"\341\001\n\026UploadSpreadsheetEvent\022W\n\006sour" +
+      "ce\030\002 \001(\0162G.com.ilmservice.personalbudget" +
+      ".UploadSpreadsheetEvent.SpreadsheetSourc",
+      "e\022\020\n\010filename\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com." +
+      "ilmservice.personalbudget.SpreadsheetRow" +
+      "\"\037\n\021SpreadsheetSource\022\n\n\006BREMER\020\000\" \n\016Spr" +
+      "eadsheetRow\022\016\n\006fields\030\001 \003(\t\"\235\001\n\024SortTran" +
+      "sactionEvent\022?\n\013transaction\030\001 \001(\0132*.com." +
+      "ilmservice.personalbudget.Transaction\022D\n" +
+      "\010category\030\003 \001(\01322.com.ilmservice.persona" +
+      "lbudget.TransactionCategoryB)\n\'com.ilmse" +
+      "rvice.personalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2284,13 +3199,14 @@ public final class Events {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.ilmservice.personalbudget.protobufs.Data.getDescriptor(),
         }, assigner);
     internal_static_com_ilmservice_personalbudget_Event_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_ilmservice_personalbudget_Event_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Event_descriptor,
-        new java.lang.String[] { "UserId", "Date", "UploadSpreadsheetEvent", "EventType", });
+        new java.lang.String[] { "UserId", "Date", "UploadSpreadsheetEvent", "SortTransactionEvent", "EventType", });
     internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_ilmservice_personalbudget_UploadSpreadsheetEvent_fieldAccessorTable = new
@@ -2303,6 +3219,13 @@ public final class Events {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_SpreadsheetRow_descriptor,
         new java.lang.String[] { "Fields", });
+    internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_com_ilmservice_personalbudget_SortTransactionEvent_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor,
+        new java.lang.String[] { "Transaction", "Category", });
+    com.ilmservice.personalbudget.protobufs.Data.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

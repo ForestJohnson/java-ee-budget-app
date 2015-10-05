@@ -14,11 +14,11 @@
 </div>
 <div ng-if='vm.transactionList.transactions.length'>
 
-  <a class="btn btn-success" href="#/upload">
+  <a class="btn btn-success" href="#/">
     Cancel
   </a>
-  <a class="btn btn-success" href="#/sort">
-    Verify
+  <a class="btn btn-success" ng-click="vm.postAllTransactions()">
+    Upload Transactions
   </a>
   <hr/>
   <transaction-list list="vm.transactionList" editable="true">

@@ -2,6 +2,7 @@
 
 import RegisterHome from './home.js'
 import RegisterUpload from './upload.js'
+import RegisterSort from './sort.js'
 
 import 'angular-ui-router'
 import angular from 'angular'
@@ -15,6 +16,7 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
     RegisterHome($stateProvider, routes);
     RegisterUpload($stateProvider, routes);
+    RegisterSort($stateProvider, routes);
 }]);
 
 export default routes;
