@@ -2,6 +2,7 @@ package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
@@ -59,10 +60,11 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 
 		builder.setId(
 				categoriesById.query().descending()
-				.stream()
-				.map((c) -> c.getId())
-				.findFirst()
-				.orElse(1)
+				.withStream((s) -> 
+					s.map((c) -> c.getId())
+					.findFirst()
+					.orElse(1)
+				)
 			);
 		return categories.put(builder.build());
 	}
@@ -73,7 +75,7 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 	}
 	
 	@Override
-	public Stream<TransactionCategory> stream() {
-		return categoriesById.query().stream();
+	public <R> R withStream(Function<Stream<TransactionCategory>, R> action) {
+		return categoriesById.query().withStream(action);
 	}
 }

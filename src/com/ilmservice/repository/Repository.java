@@ -244,18 +244,22 @@ public class Repository<V> implements IRepository<V> {
 		}
 
 		@Override
-		public Stream<V> stream() {
+		public <R> R withStream(Function<Stream<V>, R> action) {
 			return db.index(index.getId())
-					.stream(fromBytes, toBytes, descending)
-					.map((data) -> {
-						V result = null;
-						try {
-							result = index.parse(data);
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-						return result;
-					});
+				.withStream(fromBytes, toBytes, descending, 
+					(byteStream) -> action.apply(
+							byteStream.map((data) -> {
+								V result = null;
+								try {
+									result = index.parse(data);
+								} catch (IOException ex) {
+									ex.printStackTrace();
+								}
+								return result;
+							}
+						)
+					)
+				);
 		}
 	}
 }

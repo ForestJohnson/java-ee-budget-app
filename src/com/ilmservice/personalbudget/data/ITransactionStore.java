@@ -2,6 +2,7 @@ package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
@@ -16,9 +17,9 @@ public interface ITransactionStore {
 	
 	TransactionList postAll(TransactionList transactions);
 	
-	Stream<Transaction> list(TransactionList query);
-	
 	Transaction getUnsortedTransaction();
 
 	Map<Integer, Integer> aggregate(Long start, Long end);
+
+	<R> R withStream(TransactionList query, Function<Stream<Transaction>, R> action);
 }

@@ -1,12 +1,11 @@
 package com.ilmservice.personalbudget.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.ilmservice.personalbudget.data.ICategorySuggestionStore;
-import com.ilmservice.personalbudget.data.IEventStore;
 import com.ilmservice.personalbudget.data.ITransactionCategoryStore;
 import com.ilmservice.personalbudget.data.ITransactionStore;
 import com.ilmservice.personalbudget.events.ISortTransactionEventHandler;
@@ -24,13 +22,8 @@ import com.ilmservice.personalbudget.events.ISpreadsheetUploadEventHandler;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
-import com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent;
-import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
-import com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup;
-import com.ilmservice.personalbudget.protobufs.Views.ReportDataSeries;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
 import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
-import com.ilmservice.repository.TransactionPerRequest;
 
 
 @Stateless
@@ -65,24 +58,28 @@ public class EventApi {
     @Produces("application/x-protobuf")
     @Consumes("application/x-protobuf")
     public TransactionList transactions(TransactionList query) throws Exception {
-    	Map<Integer, TransactionCategory> categories = transactionCategoryStore.stream()
-    		.collect(
+    	Map<Integer, TransactionCategory> categories = transactionCategoryStore.withStream((s) ->
+    		s.collect(
     			HashMap<Integer, TransactionCategory>::new, 
     			(map, c) -> map.put(c.getId(), c), 
     			Map<Integer, TransactionCategory>::putAll
-    		);
+    		)
+    	);
     	
     	return TransactionList.newBuilder(query)
 	    	.clearTransactions()
 	    	.addAllTransactions(
-	    		() -> // convert from iterator to iterable
-	    		transactionStore.list(query)
-	    		.map((t) -> {
-	    			return Transaction.newBuilder(t)
-    					.setCategory(categories.compute(t.getCategoryId(), (k, v) -> v))
-    					.build();
-	    			}
-	    		).iterator()
+	    		transactionStore.withStream(query, (s) -> {
+	    			return s.map(
+	    				(t) -> Transaction.newBuilder(t)
+	    				.setCategory(categories.compute(t.getCategoryId(), (k, v) -> v))
+	    				.build()
+		    		).collect(
+		    			ArrayList<Transaction>::new,
+		    			List<Transaction>::add,
+		    			List::addAll
+		    		);
+	    		})
 	    	)
 	    .build();
     }
@@ -98,17 +95,18 @@ public class EventApi {
     		return UnsortedTransaction.newBuilder()
     				.setTransaction(transaction)
     				.addAllCategories(
-	    				transactionCategoryStore.stream()
-	    				.sorted((a,b) -> {
-	    			    	float result = 
-	    			    			suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value) 
-	    			    		  - suggestions.compute(a.getId(), (id, value) -> value == null ? 0 : value);
-	    			    	return result > 0 ? 1 : (result < 0 ? -1 : 0);
-						}).collect(
-		    			    	ArrayList<TransactionCategory>::new, 
-		    			    	ArrayList<TransactionCategory>::add, 
-		    			    	ArrayList<TransactionCategory>::addAll
-		    			)
+	    				transactionCategoryStore.withStream((s) -> 
+		    				s.sorted((a,b) -> {
+		    			    	float result = 
+		    			    			suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value) 
+		    			    		  - suggestions.compute(a.getId(), (id, value) -> value == null ? 0 : value);
+		    			    	return result > 0 ? 1 : (result < 0 ? -1 : 0);
+							}).collect(
+			    			    	ArrayList<TransactionCategory>::new, 
+			    			    	List<TransactionCategory>::add, 
+			    			    	List<TransactionCategory>::addAll
+			    			)
+	    				)
 	    			).build();
     	} else {
     		return UnsortedTransaction.getDefaultInstance();

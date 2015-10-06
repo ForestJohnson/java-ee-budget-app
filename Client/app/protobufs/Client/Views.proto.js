@@ -250,9 +250,21 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "repeated",
+                    "type": "Filter",
+                    "name": "filters",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "frequency",
+                    "id": 2
+                },
+                {
+                    "rule": "repeated",
                     "type": "ReportDataGroup",
                     "name": "series",
-                    "id": 1
+                    "id": 3
                 }
             ]
         },
@@ -261,9 +273,15 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "repeated",
+                    "type": "Filter",
+                    "name": "filters",
+                    "id": 1
+                },
+                {
+                    "rule": "repeated",
                     "type": "ReportDataPoint",
                     "name": "data",
-                    "id": 1
+                    "id": 2
                 }
             ]
         },

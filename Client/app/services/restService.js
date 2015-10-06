@@ -24,6 +24,10 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter, UnsortedT
     return protobufHTTP('POST', 'sortTransaction', null, event);
   };
 
+  this.reports = (reportQuery) => {
+    return protobufHTTP('POST', 'sortTransaction', null, reportQuery);
+  };
+
   function protobufHTTP (method, url, type, protocolBuffer) {
     var toReturn = $http({
       method: method,

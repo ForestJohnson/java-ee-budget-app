@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
@@ -160,7 +161,7 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public Stream<Transaction> list(TransactionList query) {
+	public <R> R withStream(TransactionList query, Function<Stream<Transaction>, R> action) {
 		List<Filter> filters = query.getFiltersList();
 		IRepositoryQuery<DateIDKey, Transaction> repoQuery = transactionsByDate.query(); 
 		if(!filters.isEmpty()) {
@@ -175,7 +176,7 @@ public class TransactionStore implements ITransactionStore {
 			}
 		}
 		
-		return repoQuery.stream();
+		return repoQuery.withStream(action);
 	}
 	
 	@Override
@@ -184,10 +185,12 @@ public class TransactionStore implements ITransactionStore {
 				new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
 				new CategoryDateIDKey(1, 0, ByteString.EMPTY)
 			)
-		.stream()
-		.filter((t) -> t.getCategoryId() == 0)
-		.findFirst()
-		.orElseGet(() -> Transaction.getDefaultInstance());
+		.withStream(
+			(s) -> s.filter((t) -> t.getCategoryId() == 0)
+			.findFirst()
+			.orElseGet(() -> Transaction.getDefaultInstance())
+		);
+		
 	}
 	
 	@Override
@@ -196,14 +199,15 @@ public class TransactionStore implements ITransactionStore {
 				new DateIDKey(start, ByteString.EMPTY), 
 				new DateIDKey(end, ByteString.EMPTY)
 			)
-		.stream()
-		.collect(
-			HashMap<Integer, Integer>::new, 
-			(map, t) -> map.compute(
-					t.getCategoryId(), 
-					(k,v) -> v == null ? t.getCents() : v + t.getCents()
-				), 
-			HashMap<Integer, Integer>::putAll
+		.withStream(
+			(s) -> s.collect(
+					HashMap<Integer, Integer>::new, 
+					(map, t) -> map.compute(
+							t.getCategoryId(), 
+							(k,v) -> v == null ? t.getCents() : v + t.getCents()
+						), 
+					HashMap<Integer, Integer>::putAll
+				)
 		);
 	}
 }

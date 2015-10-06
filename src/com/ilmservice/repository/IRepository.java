@@ -82,7 +82,7 @@ public interface IRepository<V> {
 	public interface IRepositoryQuery<K, V> {
 		public IRepositoryQuery<K, V> descending();
 		public IRepositoryQuery<K, V> range(K start, K end);
-		public Stream<V> stream();
+		<R> R withStream(Function<Stream<V>, R> action);
 	}
 
 	

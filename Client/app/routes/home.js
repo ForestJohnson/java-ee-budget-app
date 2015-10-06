@@ -1,7 +1,7 @@
 'use strict';
 
-var HomeController = ['TransactionList', 'RestService',
-function HomeController(TransactionList, RestService) {
+var HomeController = ['TransactionList', 'Filter', 'DateRangeFilter', 'RestService',
+function HomeController(TransactionList, Filter, DateRangeFilter, RestService) {
 
   this.transactionList = new TransactionList({
     filters: [
@@ -12,7 +12,7 @@ function HomeController(TransactionList, RestService) {
         })
       })
     ]
-  }); 
+  });
 
   RestService.getRecentTransactions(this.transactionList)
     .then((response) => {

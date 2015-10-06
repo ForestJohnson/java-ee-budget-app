@@ -3737,25 +3737,34 @@ public final class Views {
         int index);
 
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>optional uint32 frequency = 2;</code>
+     */
+    boolean hasFrequency();
+    /**
+     * <code>optional uint32 frequency = 2;</code>
+     */
+    int getFrequency();
+
+    /**
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> 
         getSeriesList();
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup getSeries(int index);
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     int getSeriesCount();
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     java.util.List<? extends com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder> 
         getSeriesOrBuilderList();
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder getSeriesOrBuilder(
         int index);
@@ -3820,10 +3829,15 @@ public final class Views {
               filters_.add(input.readMessage(com.ilmservice.personalbudget.protobufs.Views.Filter.PARSER, extensionRegistry));
               break;
             }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            case 16: {
+              bitField0_ |= 0x00000001;
+              frequency_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 series_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               series_.add(input.readMessage(com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.PARSER, extensionRegistry));
               break;
@@ -3839,7 +3853,7 @@ public final class Views {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           filters_ = java.util.Collections.unmodifiableList(filters_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           series_ = java.util.Collections.unmodifiableList(series_);
         }
         this.unknownFields = unknownFields.build();
@@ -3873,6 +3887,7 @@ public final class Views {
       return PARSER;
     }
 
+    private int bitField0_;
     public static final int FILTERS_FIELD_NUMBER = 1;
     private java.util.List<com.ilmservice.personalbudget.protobufs.Views.Filter> filters_;
     /**
@@ -3908,35 +3923,50 @@ public final class Views {
       return filters_.get(index);
     }
 
-    public static final int SERIES_FIELD_NUMBER = 2;
+    public static final int FREQUENCY_FIELD_NUMBER = 2;
+    private int frequency_;
+    /**
+     * <code>optional uint32 frequency = 2;</code>
+     */
+    public boolean hasFrequency() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint32 frequency = 2;</code>
+     */
+    public int getFrequency() {
+      return frequency_;
+    }
+
+    public static final int SERIES_FIELD_NUMBER = 3;
     private java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> series_;
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     public java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> getSeriesList() {
       return series_;
     }
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     public java.util.List<? extends com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder> 
         getSeriesOrBuilderList() {
       return series_;
     }
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     public int getSeriesCount() {
       return series_.size();
     }
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup getSeries(int index) {
       return series_.get(index);
     }
     /**
-     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+     * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
      */
     public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder getSeriesOrBuilder(
         int index) {
@@ -3945,6 +3975,7 @@ public final class Views {
 
     private void initFields() {
       filters_ = java.util.Collections.emptyList();
+      frequency_ = 0;
       series_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -3963,8 +3994,11 @@ public final class Views {
       for (int i = 0; i < filters_.size(); i++) {
         output.writeMessage(1, filters_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(2, frequency_);
+      }
       for (int i = 0; i < series_.size(); i++) {
-        output.writeMessage(2, series_.get(i));
+        output.writeMessage(3, series_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3979,9 +4013,13 @@ public final class Views {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, filters_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, frequency_);
+      }
       for (int i = 0; i < series_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, series_.get(i));
+          .computeMessageSize(3, series_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4108,9 +4146,11 @@ public final class Views {
         } else {
           filtersBuilder_.clear();
         }
+        frequency_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (seriesBuilder_ == null) {
           series_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           seriesBuilder_.clear();
         }
@@ -4141,6 +4181,7 @@ public final class Views {
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataSeries buildPartial() {
         com.ilmservice.personalbudget.protobufs.Views.ReportDataSeries result = new com.ilmservice.personalbudget.protobufs.Views.ReportDataSeries(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (filtersBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             filters_ = java.util.Collections.unmodifiableList(filters_);
@@ -4150,15 +4191,20 @@ public final class Views {
         } else {
           result.filters_ = filtersBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.frequency_ = frequency_;
         if (seriesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             series_ = java.util.Collections.unmodifiableList(series_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.series_ = series_;
         } else {
           result.series_ = seriesBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -4200,11 +4246,14 @@ public final class Views {
             }
           }
         }
+        if (other.hasFrequency()) {
+          setFrequency(other.getFrequency());
+        }
         if (seriesBuilder_ == null) {
           if (!other.series_.isEmpty()) {
             if (series_.isEmpty()) {
               series_ = other.series_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureSeriesIsMutable();
               series_.addAll(other.series_);
@@ -4217,7 +4266,7 @@ public final class Views {
               seriesBuilder_.dispose();
               seriesBuilder_ = null;
               series_ = other.series_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               seriesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getSeriesFieldBuilder() : null;
@@ -4493,12 +4542,44 @@ public final class Views {
         return filtersBuilder_;
       }
 
+      private int frequency_ ;
+      /**
+       * <code>optional uint32 frequency = 2;</code>
+       */
+      public boolean hasFrequency() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional uint32 frequency = 2;</code>
+       */
+      public int getFrequency() {
+        return frequency_;
+      }
+      /**
+       * <code>optional uint32 frequency = 2;</code>
+       */
+      public Builder setFrequency(int value) {
+        bitField0_ |= 0x00000002;
+        frequency_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 frequency = 2;</code>
+       */
+      public Builder clearFrequency() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        frequency_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> series_ =
         java.util.Collections.emptyList();
       private void ensureSeriesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           series_ = new java.util.ArrayList<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup>(series_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -4506,7 +4587,7 @@ public final class Views {
           com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder> seriesBuilder_;
 
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> getSeriesList() {
         if (seriesBuilder_ == null) {
@@ -4516,7 +4597,7 @@ public final class Views {
         }
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public int getSeriesCount() {
         if (seriesBuilder_ == null) {
@@ -4526,7 +4607,7 @@ public final class Views {
         }
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup getSeries(int index) {
         if (seriesBuilder_ == null) {
@@ -4536,7 +4617,7 @@ public final class Views {
         }
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder setSeries(
           int index, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup value) {
@@ -4553,7 +4634,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder setSeries(
           int index, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder builderForValue) {
@@ -4567,7 +4648,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder addSeries(com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup value) {
         if (seriesBuilder_ == null) {
@@ -4583,7 +4664,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder addSeries(
           int index, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup value) {
@@ -4600,7 +4681,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder addSeries(
           com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder builderForValue) {
@@ -4614,7 +4695,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder addSeries(
           int index, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder builderForValue) {
@@ -4628,7 +4709,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder addAllSeries(
           java.lang.Iterable<? extends com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup> values) {
@@ -4643,12 +4724,12 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder clearSeries() {
         if (seriesBuilder_ == null) {
           series_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           seriesBuilder_.clear();
@@ -4656,7 +4737,7 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public Builder removeSeries(int index) {
         if (seriesBuilder_ == null) {
@@ -4669,14 +4750,14 @@ public final class Views {
         return this;
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder getSeriesBuilder(
           int index) {
         return getSeriesFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder getSeriesOrBuilder(
           int index) {
@@ -4686,7 +4767,7 @@ public final class Views {
         }
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public java.util.List<? extends com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder> 
            getSeriesOrBuilderList() {
@@ -4697,14 +4778,14 @@ public final class Views {
         }
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder addSeriesBuilder() {
         return getSeriesFieldBuilder().addBuilder(
             com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.getDefaultInstance());
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder addSeriesBuilder(
           int index) {
@@ -4712,7 +4793,7 @@ public final class Views {
             index, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.getDefaultInstance());
       }
       /**
-       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 2;</code>
+       * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
        */
       public java.util.List<com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder> 
            getSeriesBuilderList() {
@@ -4725,7 +4806,7 @@ public final class Views {
           seriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup.Builder, com.ilmservice.personalbudget.protobufs.Views.ReportDataGroupOrBuilder>(
                   series_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           series_ = null;
@@ -6431,17 +6512,18 @@ public final class Views {
       "angeFilter\030\001 \001(\0132..com.ilmservice.person" +
       "albudget.DateRangeFilterH\000B\r\n\013filter_typ" +
       "e\"-\n\017DateRangeFilter\022\r\n\005start\030\001 \001(\003\022\013\n\003e" +
-      "nd\030\002 \001(\003\"\212\001\n\020ReportDataSeries\0226\n\007filters" +
+      "nd\030\002 \001(\003\"\235\001\n\020ReportDataSeries\0226\n\007filters" +
       "\030\001 \003(\0132%.com.ilmservice.personalbudget.F" +
-      "ilter\022>\n\006series\030\002 \003(\0132..com.ilmservice.p" +
-      "ersonalbudget.ReportDataGroup\"\207\001\n\017Report",
-      "DataGroup\0226\n\007filters\030\001 \003(\0132%.com.ilmserv" +
-      "ice.personalbudget.Filter\022<\n\004data\030\002 \003(\0132" +
-      "..com.ilmservice.personalbudget.ReportDa" +
-      "taPoint\"f\n\017ReportDataPoint\022D\n\010category\030\001" +
-      " \001(\01322.com.ilmservice.personalbudget.Tra" +
-      "nsactionCategory\022\r\n\005cents\030\002 \001(\021B)\n\'com.i" +
-      "lmservice.personalbudget.protobufs"
+      "ilter\022\021\n\tfrequency\030\002 \001(\r\022>\n\006series\030\003 \003(\013" +
+      "2..com.ilmservice.personalbudget.ReportD",
+      "ataGroup\"\207\001\n\017ReportDataGroup\0226\n\007filters\030" +
+      "\001 \003(\0132%.com.ilmservice.personalbudget.Fi" +
+      "lter\022<\n\004data\030\002 \003(\0132..com.ilmservice.pers" +
+      "onalbudget.ReportDataPoint\"f\n\017ReportData" +
+      "Point\022D\n\010category\030\001 \001(\01322.com.ilmservice" +
+      ".personalbudget.TransactionCategory\022\r\n\005c" +
+      "ents\030\002 \001(\021B)\n\'com.ilmservice.personalbud" +
+      "get.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6491,7 +6573,7 @@ public final class Views {
     internal_static_com_ilmservice_personalbudget_ReportDataSeries_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_ReportDataSeries_descriptor,
-        new java.lang.String[] { "Filters", "Series", });
+        new java.lang.String[] { "Filters", "Frequency", "Series", });
     internal_static_com_ilmservice_personalbudget_ReportDataGroup_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_com_ilmservice_personalbudget_ReportDataGroup_fieldAccessorTable = new

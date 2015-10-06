@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb15";
+	private final String fileName = "testLevelDb16";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	
@@ -110,7 +110,13 @@ public class LevelDbManager implements IDbManager {
 		}
 
 		@Override
-		public Stream<byte[]> stream( byte[] from, byte[] until, boolean descending) {
+		public <R> R withStream( 
+				byte[] from, 
+				byte[] until, 
+				boolean descending, 
+				Function<Stream<byte[]>, R> action
+			) {
+			R result = null;
 			try(DBIterator iterator = levelDb.iterator()) {
 				byte[] firstOfIndex = getKey(index, new byte[1]);
 				byte[] firstOfNextIndex = getKey((short)(index+1), new byte[1]);
@@ -125,11 +131,11 @@ public class LevelDbManager implements IDbManager {
 						descending
 					);
 					
-				return StreamSupport.stream(iterable.spliterator(), false);
+				result = action.apply(StreamSupport.stream(iterable.spliterator(), false));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return Stream.empty();
+			return result;
 		}
 		
 		private byte[] getKey (short index, byte[] keyValue) {

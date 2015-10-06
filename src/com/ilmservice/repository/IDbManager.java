@@ -16,7 +16,7 @@ public interface IDbManager  {
 		byte[] get(byte[] key);
 		void put(byte[] key, byte[] value);
 		void delete(byte[] key);
-		Stream<byte[]> stream( byte[] from, byte[] until, boolean descending);
+		<R> R withStream(byte[] from, byte[] until, boolean descending, Function<Stream<byte[]>, R> action);
 	}
 	
 	public interface IDbTransaction {
