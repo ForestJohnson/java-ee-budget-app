@@ -123,12 +123,12 @@ public class TransactionStore implements ITransactionStore {
 	public Transaction post(Transaction.Builder builder) throws IOException {
 		byte[] idBytes = sha.digest(builder.build().toByteArray());
 		builder.setId(ByteString.copyFrom(idBytes));
-		Optional<Transaction> existing = null;
+		Optional<Transaction> existing = Optional.empty();
 		try {
 			existing = transactionsByDate.get(new DateIDKey(builder.getDate(), builder.getId()));
-
 		} catch (IOException e) {
 			e.printStackTrace();
+			return builder.build();
 		}
 		if(!existing.isPresent()) {
 			return transactions.put(builder.build());
@@ -154,8 +154,8 @@ public class TransactionStore implements ITransactionStore {
 					}
 				}).collect(
 					ArrayList<Transaction>::new, 
-					ArrayList<Transaction>::add, 
-					ArrayList<Transaction>::addAll
+					List<Transaction>::add, 
+					List<Transaction>::addAll
 				)
 			).build();
 	}

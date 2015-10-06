@@ -33,7 +33,7 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("CategorySuggestionStore configuring            ");
+		System.out.println("CategorySuggestionStore configuring                  ");
 		suggestions.configure( 
 			scope,
 			(bytes) -> CategoryKeyword.parseFrom(bytes),

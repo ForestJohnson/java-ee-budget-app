@@ -72,7 +72,10 @@ public class EventApi {
 	    		transactionStore.withStream(query, (s) -> {
 	    			return s.map(
 	    				(t) -> Transaction.newBuilder(t)
-	    				.setCategory(categories.compute(t.getCategoryId(), (k, v) -> v))
+	    				.setCategory(categories.compute(
+	    						t.getCategoryId(), 
+	    						(k, v) -> v != null ? v : TransactionCategory.getDefaultInstance()
+	    					))
 	    				.build()
 		    		).collect(
 		    			ArrayList<Transaction>::new,

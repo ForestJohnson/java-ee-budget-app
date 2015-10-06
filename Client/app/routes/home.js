@@ -7,7 +7,7 @@ function HomeController(TransactionList, Filter, DateRangeFilter, RestService) {
     filters: [
       new Filter({
         dateRangeFilter: new DateRangeFilter({
-          start: new Date().getTime() - 1000*60*60*24*30,
+          start: null, 
           end: new Date().getTime()
         })
       })

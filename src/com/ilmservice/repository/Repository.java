@@ -94,11 +94,12 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public V put(V value) throws  IOException {
-		V oldValue = hasMutableIndex ? immutableIndex.getByValue(value).get() : null;
+		
+		Optional<V> oldValue = hasMutableIndex ? immutableIndex.getByValue(value) : Optional.empty();
 
 		indexes.forEach((k, index) -> {
 			byte[] newKey = index.getKeyBytesFromValue(value);
-			byte[] oldKey = oldValue != null ? index.getKeyBytesFromValue(oldValue) : null;
+			byte[] oldKey = oldValue.isPresent() ? index.getKeyBytesFromValue(oldValue.get()) : null;
 			if(oldKey != null && ByteArrayComparator.compare(oldKey, newKey) != 0) {
 				if(!index.mutable()) {
 					System.err.println("Index was marked mutable, but the key has changed.");
@@ -197,7 +198,13 @@ public class Repository<V> implements IRepository<V> {
 		@Override
 		public Optional<V> get (K key) throws IOException {
 			byte[] value = db.index(this.id).get(this.getKeyBytesFromKey(key));
-			return Optional.of(value == null ? this.parse(value) : null);
+			if(value != null) {
+				V parsed = this.parse(value);
+				if(parsed != null) {
+					return Optional.of(parsed);
+				}
+			}
+			return Optional.empty();
 		}
 	}
 	

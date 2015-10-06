@@ -2,6 +2,7 @@ package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -57,15 +58,13 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 	
 	@Override
 	public TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception {
-
-		builder.setId(
+		Optional<TransactionCategory> highestCategory = 
 				categoriesById.query().descending()
-				.withStream((s) -> 
-					s.map((c) -> c.getId())
-					.findFirst()
-					.orElse(1)
-				)
-			);
+				.withStream((s) -> s.findFirst() );
+		
+		int highestId = highestCategory.isPresent() ? highestCategory.get().getId() : 0;
+		
+		builder.setId(highestId+1);
 		return categories.put(builder.build());
 	}
 	
