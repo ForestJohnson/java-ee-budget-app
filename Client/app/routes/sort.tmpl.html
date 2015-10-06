@@ -13,11 +13,11 @@
   <hr/>
   <h3>Select Transaction Type</h3>
   <div class="container-fluid">
-    <div class="row">
-      <div class='col-xs-3'
-           ng-repeat="category in vm.toSort.categories track by $index"
-           ng-style='vm.getStyleForCategory(category)'>
-        <label class="big-label">
+    <div class="row-fluid">
+      <div class='col-md-3'
+           ng-repeat="category in vm.toSort.categories track by $index">
+        <label class="big-label"
+               ng-style='vm.getStyleForCategory(category)'>
           <input type="radio"
                   name="selectedCategory"
                   ng-value="category"
@@ -25,8 +25,9 @@
           <span ng-bind="category.name"></span>
         </label>
       </div>
-      <div class='col-xs-3'>
+      <div class='col-md-3 form-inline' >
         <input type="text"
+                class="form-control"
                 ng-change="vm.clearSelectedTransactionType()"
                 ng-model="vm.newTransactionType.name"/>
         <button class="btn btn-sm btn-info"

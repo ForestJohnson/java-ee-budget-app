@@ -46,14 +46,14 @@ public class EventStore implements IEventStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("eventstore configuring  ");
+		System.out.println("eventstore configuring   ");
 		events.configure( 
 			scope,
 			(bytes) -> Event.parseFrom(bytes),
 			(event) -> event.toByteArray(),
 			() -> {
 				try {
-					System.out.println("eventstore indexes");
+					System.out.println("eventstore indexes  ");
 					eventsByDateUser = events.configureIndex(
 						Indexes.EventsById.getValue(),
 						false,

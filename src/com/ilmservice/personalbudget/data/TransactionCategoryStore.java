@@ -77,11 +77,7 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 			highest = TransactionCategory.getDefaultInstance();
 			e.printStackTrace();
 		}
-		System.out.println("highest: "+ highest);
-		
 		builder.setId(highest.getId()+1);
-		
-		System.out.println("builder: "+ builder);
 		return categories.put(builder.build());
 	}
 	

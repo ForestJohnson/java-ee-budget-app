@@ -174,8 +174,6 @@ public class LevelDbManager implements IDbManager {
 					
 					next = descending ? underlying.prev() : underlying.next();
 					int nextKeyCompared = ByteArrayComparator.compare(next.getKey(), until);
-					System.out.println("hasNext: nextKeyCompared: " + nextKeyCompared);
-					System.out.println("hasNext: descending: " + descending);
 					if( (descending && nextKeyCompared >= 0) || (!descending && nextKeyCompared < 0)) {
 						return true;
 					}

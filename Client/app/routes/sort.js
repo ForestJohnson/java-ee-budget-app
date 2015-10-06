@@ -6,7 +6,7 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
                         TransactionCategory, $state) {
   this.toSort = new UnsortedTransaction({});
   this.toSort.loading = true;
-  this.event = {
+  this.event = { 
     date: new Date().getTime(),
     sortTransactionEvent: {}
   };

@@ -25,13 +25,9 @@ public class SortTransactionEventHandler implements ISortTransactionEventHandler
 	
 	@Override
 	public void sortTransaction(Event event) throws Exception {
-
 		eventStore.put(event);
 		SortTransactionEvent toSort = event.getSortTransactionEvent();
     	int desiredId = toSort.getCategory().getId();
-		System.out.println("desiredId: "+desiredId);
-		System.out.println("desiredId: "+ transactionCategoryStore.get(desiredId).getId());
-		
     	if(desiredId == 0 || transactionCategoryStore.get(desiredId).getId() != desiredId) {
     		desiredId = transactionCategoryStore.put(
     				TransactionCategory.newBuilder( toSort.getCategory() )
