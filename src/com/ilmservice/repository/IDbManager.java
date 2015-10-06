@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public interface IDbManager  {
 	
@@ -15,7 +16,7 @@ public interface IDbManager  {
 		byte[] get(byte[] key);
 		void put(byte[] key, byte[] value);
 		void delete(byte[] key);
-		void withIterator(byte[] from, byte[] until, boolean descending, Consumer<Iterator<byte[]>> action);
+		Stream<byte[]> stream( byte[] from, byte[] until, boolean descending);
 	}
 	
 	public interface IDbTransaction {

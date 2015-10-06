@@ -2,31 +2,17 @@ package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.google.protobuf.ByteString;
-import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
-import com.ilmservice.personalbudget.protobufs.Views.DateRangeFilter;
-import com.ilmservice.personalbudget.protobufs.Views.Filter;
-import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
-import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 import com.ilmservice.repository.IDbScope;
 import com.ilmservice.repository.IRepository;
 import com.ilmservice.repository.IRepository.IRepositoryIndex;
-import com.ilmservice.repository.IRepository.IRepositoryQuery;
 import com.ilmservice.repository.TransactionPerRequest;
 
 @Default
@@ -70,29 +56,24 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 	
 	@Override
 	public TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception {
-		TransactionCategory highest;
-		try {
-			highest = categoriesById.query().descending().firstOrDefault();
-		} catch (IOException e) {
-			highest = TransactionCategory.getDefaultInstance();
-			e.printStackTrace();
-		}
-		builder.setId(highest.getId()+1);
+
+		builder.setId(
+				categoriesById.query().descending()
+				.stream()
+				.map((c) -> c.getId())
+				.findFirst()
+				.orElse(1)
+			);
 		return categories.put(builder.build());
 	}
 	
 	@Override
-	public TransactionCategory get (int id ) {
-		try {
-			return categoriesById.query().atKey(id).firstOrDefault();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return TransactionCategory.getDefaultInstance();
+	public TransactionCategory get (int id) throws IOException {
+		return categoriesById.get(id).get();
 	}
 	
 	@Override
-	public List<TransactionCategory> getAll() {
-		return categoriesById.query().toArray();
+	public Stream<TransactionCategory> stream() {
+		return categoriesById.query().stream();
 	}
 }

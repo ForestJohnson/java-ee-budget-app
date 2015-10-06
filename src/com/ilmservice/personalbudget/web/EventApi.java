@@ -3,6 +3,7 @@ package com.ilmservice.personalbudget.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
@@ -25,6 +26,8 @@ import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.SortTransactionEvent;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
+import com.ilmservice.personalbudget.protobufs.Views.ReportDataGroup;
+import com.ilmservice.personalbudget.protobufs.Views.ReportDataSeries;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
 import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 import com.ilmservice.repository.TransactionPerRequest;
@@ -62,19 +65,26 @@ public class EventApi {
     @Produces("application/x-protobuf")
     @Consumes("application/x-protobuf")
     public TransactionList transactions(TransactionList query) throws Exception {
-    	List<TransactionCategory> categories = transactionCategoryStore.getAll();
-    	TransactionList.Builder builder = transactionStore.list(query);
-    	builder.getTransactionsBuilderList().forEach((transaction) -> {
-    		if(transaction.getCategoryId() > 0) {
-    			transaction.setCategory(
-    					categories.stream()
-    		    		.filter((category) ->  category.getId() == transaction.getCategoryId())
-    		    		.findFirst().orElse(null)
-    				);
-    		}
-    	});
-    	return builder.build();
+    	Map<Integer, TransactionCategory> categories = transactionCategoryStore.stream()
+    		.collect(
+    			HashMap<Integer, TransactionCategory>::new, 
+    			(map, c) -> map.put(c.getId(), c), 
+    			Map<Integer, TransactionCategory>::putAll
+    		);
     	
+    	return TransactionList.newBuilder(query)
+	    	.clearTransactions()
+	    	.addAllTransactions(
+	    		() -> // convert from iterator to iterable
+	    		transactionStore.list(query)
+	    		.map((t) -> {
+	    			return Transaction.newBuilder(t)
+    					.setCategory(categories.compute(t.getCategoryId(), (k, v) -> v))
+    					.build();
+	    			}
+	    		).iterator()
+	    	)
+	    .build();
     }
     
     @GET
@@ -88,7 +98,7 @@ public class EventApi {
     		return UnsortedTransaction.newBuilder()
     				.setTransaction(transaction)
     				.addAllCategories(
-	    				transactionCategoryStore.getAll().stream()
+	    				transactionCategoryStore.stream()
 	    				.sorted((a,b) -> {
 	    			    	float result = 
 	    			    			suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value) 
@@ -117,14 +127,22 @@ public class EventApi {
     		System.out.println(ex.toString());
     	}
     	
-    	
     	return Response.ok().build();
     }
 	
-    @POST
-    @Path("report")
-    @Produces("application/x-protobuf")
-    public UnsortedTransaction report() throws Exception {
-    	
-    }
+//    @POST
+//    @Path("dataSeries")
+//    @Produces("application/x-protobuf")
+//    @Consumes("application/x-protobuf")
+//    public ReportDataSeries dataSeries(ReportDataSeries input) throws Exception {
+//    	
+//    }
+//    
+//    @POST
+//    @Path("dataGroup")
+//    @Produces("application/x-protobuf")
+//    @Consumes("application/x-protobuf")
+//    public ReportDataGroup dataGroup(ReportDataGroup input) throws Exception {
+//    	
+//    }
 }

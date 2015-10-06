@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -93,7 +94,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public V put(V value) throws  IOException {
-		V oldValue = hasMutableIndex ? immutableIndex.getByValue(value) : null;
+		V oldValue = hasMutableIndex ? immutableIndex.getByValue(value).get() : null;
 
 		indexes.forEach((k, index) -> {
 			byte[] newKey = index.getKeyBytesFromValue(value);
@@ -112,7 +113,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public void delete (V value) throws IOException {
-		V usedValue = hasMutableIndex ? immutableIndex.getByValue(value) : value;
+		V usedValue = hasMutableIndex ? immutableIndex.getByValue(value).get() : value;
 		
 		indexes.forEach((k, index) -> {
 			db.index(k).delete(index.getKeyBytesFromValue(usedValue));
@@ -189,15 +190,14 @@ public class Repository<V> implements IRepository<V> {
 		}
 		
 		@Override
-		public V getByValue (V value) throws IOException {
+		public Optional<V> getByValue (V value) throws IOException {
 			return this.get(this.getKeyFrom(value));
 		}
 
 		@Override
-		public V get (K key) throws IOException {
-			return this.parse(
-					db.index(this.id).get(this.getKeyBytesFromKey(key))
-				);
+		public Optional<V> get (K key) throws IOException {
+			byte[] value = db.index(this.id).get(this.getKeyBytesFromKey(key));
+			return Optional.of(value == null ? this.parse(value) : null);
 		}
 	}
 	
@@ -205,8 +205,7 @@ public class Repository<V> implements IRepository<V> {
 
 		private ProtobufIndex<K, V> index;
 		private boolean descending;
-		private K key = null;
-		private byte[] fromBytes, toBytes, keyBytes = null;
+		private byte[] fromBytes, toBytes = null;
 		
 		public ProtobufQuery(ProtobufIndex<K, V> index) {
 			this.index = index;
@@ -245,30 +244,18 @@ public class Repository<V> implements IRepository<V> {
 		}
 
 		@Override
-		public void withStream(Consumer<Stream<V>> consumer) {
-			
-			db.index(index.getId()).withIterator(
-				fromBytes,
-				toBytes,
-				descending,
-				(iterator) -> {
-					Iterable<byte[]> iterable = () -> iterator;
-					Stream<V> targetStream = 
-						StreamSupport.stream(iterable.spliterator(), false)
-						.map((data) -> {
-							V result = null;
-							try {
-								result = index.parse(data);
-							} catch (IOException ex) {
-								ex.printStackTrace();
-							}
-							return result;
-						});
-					
-					consumer.accept(targetStream);
-
-				}
-			);
+		public Stream<V> stream() {
+			return db.index(index.getId())
+					.stream(fromBytes, toBytes, descending)
+					.map((data) -> {
+						V result = null;
+						try {
+							result = index.parse(data);
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+						return result;
+					});
 		}
 	}
 }

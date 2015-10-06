@@ -15,6 +15,8 @@ import java.util.WeakHashMap;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Singleton
 @Default
@@ -108,40 +110,26 @@ public class LevelDbManager implements IDbManager {
 		}
 
 		@Override
-		public void withIterator(
-				byte[] from, 
-				byte[] until, 
-				boolean descending, 
-				Consumer<Iterator<byte[]>> consumer) {
-
+		public Stream<byte[]> stream( byte[] from, byte[] until, boolean descending) {
 			try(DBIterator iterator = levelDb.iterator()) {
-				
-//				if(descending && from == null) {
-//					byte[] firstOfNextIndex = getKey((short)(index.getValue()+1), new byte[1]);
-//					iterator.seek(firstOfNextIndex);
-//					if(iterator.hasPrev()) {
-//						if(ByteArrayComparator.compare(iterator.peekPrev().getKey(), firstOfNextIndex) == 0) {
-//							from = iterator.prev().getKey();	
-//						}
-//					}
-//				}
-				
 				byte[] firstOfIndex = getKey(index, new byte[1]);
 				byte[] firstOfNextIndex = getKey((short)(index+1), new byte[1]);
 				
-				from = from != null ?  getKey(index, from) : (descending ? firstOfNextIndex : firstOfIndex);
-						
-				until = until != null ? getKey(index, until) : (descending ? firstOfIndex : firstOfNextIndex);
+				byte[] usedFrom = from != null ?  getKey(index, from) : (descending ? firstOfNextIndex : firstOfIndex);	
+				byte[] usedUntil = until != null ? getKey(index, until) : (descending ? firstOfIndex : firstOfNextIndex);
 				
-				consumer.accept(new LevelDbIterator(
+				Iterable<byte[]> iterable = () -> new LevelDbIterator(
 						iterator,
-						from,
-						until,
+						usedFrom,
+						usedUntil,
 						descending
-						));
+					);
+					
+				return StreamSupport.stream(iterable.spliterator(), false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return Stream.empty();
 		}
 		
 		private byte[] getKey (short index, byte[] keyValue) {

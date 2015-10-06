@@ -7,11 +7,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,7 +22,6 @@ import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Views.DateRangeFilter;
 import com.ilmservice.personalbudget.protobufs.Views.Filter;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
-import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 import com.ilmservice.repository.IDbScope;
 import com.ilmservice.repository.IRepository;
 import com.ilmservice.repository.IRepository.IRepositoryIndex;
@@ -122,17 +122,17 @@ public class TransactionStore implements ITransactionStore {
 	public Transaction post(Transaction.Builder builder) throws IOException {
 		byte[] idBytes = sha.digest(builder.build().toByteArray());
 		builder.setId(ByteString.copyFrom(idBytes));
-		Transaction existing = null;
+		Optional<Transaction> existing = null;
 		try {
-			existing = transactionsByDate.query()
-					.atKey(new DateIDKey(builder.getDate(), builder.getId())).firstOrNull();
+			existing = transactionsByDate.get(new DateIDKey(builder.getDate(), builder.getId()));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(existing == null) {
+		if(!existing.isPresent()) {
 			return transactions.put(builder.build());
 		} else {
-			return existing;
+			return existing.get();
 		}
 	}
 	
@@ -160,59 +160,50 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public TransactionList.Builder list(TransactionList query) {
+	public Stream<Transaction> list(TransactionList query) {
 		List<Filter> filters = query.getFiltersList();
-		IRepositoryQuery<DateIDKey, Transaction> repoQuery = null; 
+		IRepositoryQuery<DateIDKey, Transaction> repoQuery = transactionsByDate.query(); 
 		if(!filters.isEmpty()) {
 			Optional<Filter> dateRange = filters.stream()
 					.filter((filter) -> filter.hasDateRangeFilter()).findFirst();
 			if(dateRange.isPresent()) {
 				DateRangeFilter dateRangeFilter = dateRange.get().getDateRangeFilter();
-				repoQuery = transactionsByDate.query().range(
+				repoQuery = repoQuery.range(
 						new DateIDKey(dateRangeFilter.getStart(), ByteString.EMPTY), 
 						new DateIDKey(dateRangeFilter.getEnd(), ByteString.EMPTY)
 					);
 			}
 		}
-		if(repoQuery != null) {
-			repoQuery.limit(10);
-			
-			TransactionList.Builder builder = TransactionList.newBuilder(query);
-			builder.addAllTransactions(repoQuery.toArray());
-			return builder;
-		}
-		return TransactionList.newBuilder(query);
+		
+		return repoQuery.stream();
 	}
 	
 	@Override
 	public Transaction getUnsortedTransaction() {
-		try {
-			return transactionsByCategory.query().range(
-					new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
-					new CategoryDateIDKey(1, 0, ByteString.EMPTY)
-				)
-			.where((result) -> result.getCategoryId() == 0)
-			.limit(1)
-			.firstOrNull();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return transactionsByCategory.query().range(
+				new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
+				new CategoryDateIDKey(1, 0, ByteString.EMPTY)
+			)
+		.stream()
+		.filter((t) -> t.getCategoryId() == 0)
+		.findFirst()
+		.orElseGet(() -> Transaction.getDefaultInstance());
 	}
 	
 	@Override
-	public Map<Integer, Integer> aggregate() {
-		try {
-			return transactionsByCategory.query().range(
-					new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
-					new CategoryDateIDKey(1, 0, ByteString.EMPTY)
-				)
-			.where((result) -> result.getCategoryId() == 0)
-			.limit(1)
-			.firstOrNull();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Map<Integer, Integer> aggregate(Long start, Long end) {
+		return transactionsByDate.query().range(
+				new DateIDKey(start, ByteString.EMPTY), 
+				new DateIDKey(end, ByteString.EMPTY)
+			)
+		.stream()
+		.collect(
+			HashMap<Integer, Integer>::new, 
+			(map, t) -> map.compute(
+					t.getCategoryId(), 
+					(k,v) -> v == null ? t.getCents() : v + t.getCents()
+				), 
+			HashMap<Integer, Integer>::putAll
+		);
 	}
 }

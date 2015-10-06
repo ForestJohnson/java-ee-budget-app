@@ -2,6 +2,7 @@ package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder;
@@ -15,7 +16,7 @@ public interface ITransactionStore {
 	
 	TransactionList postAll(TransactionList transactions);
 	
-	TransactionList.Builder list(TransactionList query);
+	Stream<Transaction> list(TransactionList query);
 	
 	Transaction getUnsortedTransaction();
 

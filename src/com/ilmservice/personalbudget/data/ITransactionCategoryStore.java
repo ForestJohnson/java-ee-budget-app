@@ -10,8 +10,8 @@ public interface ITransactionCategoryStore {
 
 	TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception;
 	
-	TransactionCategory get(int id);
+	TransactionCategory get(int id) throws IOException;
 	
-	List<TransactionCategory> getAll();
+	Stream<TransactionCategory> stream();
 
 }

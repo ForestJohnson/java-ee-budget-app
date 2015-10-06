@@ -2,6 +2,7 @@ package com.ilmservice.repository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -69,8 +70,8 @@ public interface IRepository<V> {
 		boolean mutable();
 		public short getId();
 		public IRepositoryQuery<K, V> query();
-		public V getByValue (V value) throws IOException;
-		public V get (K key) throws IOException;
+		public Optional<V> getByValue (V value) throws IOException;
+		public Optional<V> get (K key) throws IOException;
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data) throws IOException;
 		public K getKeyFrom(V value);
@@ -81,7 +82,7 @@ public interface IRepository<V> {
 	public interface IRepositoryQuery<K, V> {
 		public IRepositoryQuery<K, V> descending();
 		public IRepositoryQuery<K, V> range(K start, K end);
-		public void withStream(Consumer<Stream<V>> consumer);
+		public Stream<V> stream();
 	}
 
 	

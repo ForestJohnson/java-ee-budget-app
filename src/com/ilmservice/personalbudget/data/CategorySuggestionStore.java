@@ -62,7 +62,7 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 		String[] terms = getTerms(transaction);
 		for (int i = 0; i < terms.length; i++) {
 			CategoryKeyword.Builder builder = CategoryKeyword.newBuilder(
-					suggestionsByKeyword.query().atKey(terms[i]).firstOrDefault()
+					suggestionsByKeyword.get(terms[i]).orElse(CategoryKeyword.getDefaultInstance())
 				);
 			
 			builder.setKeyword(terms[i]);
@@ -96,7 +96,9 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 		Map<Integer, Float> aggregator = new HashMap<Integer, Float>();
 		
 		for (int i = 0; i < terms.length; i++) {
-			CategoryKeyword keyword = suggestionsByKeyword.query().atKey(terms[i]).firstOrDefault();
+			CategoryKeyword keyword = suggestionsByKeyword.get(terms[i])
+					.orElse(CategoryKeyword.getDefaultInstance());
+			
 			int total = keyword.getSuggestionsList().stream()
 					.mapToInt((suggestion) -> suggestion.getPopularity())
 					.sum();
