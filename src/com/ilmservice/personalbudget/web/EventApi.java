@@ -78,14 +78,16 @@ public class EventApi {
     				.addAllCategories(
 	    				transactionCategoryStore.getAll().stream()
 	    				.sorted((a,b) -> {
-	    			    	float result = suggestions.get(a.getId()) - suggestions.get(b.getId());
+	    			    	float result = 
+	    			    			suggestions.compute(a.getId(), (id, value) -> value == null ? 0 : value) 
+	    			    		  - suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value);
 	    			    	return result > 0 ? 1 : (result < 0 ? -1 : 0);
-					}).collect(
-	    			    	ArrayList<TransactionCategory>::new, 
-	    			    	ArrayList<TransactionCategory>::add, 
-	    			    	ArrayList<TransactionCategory>::addAll
-	    			    )
-    				).build();
+						}).collect(
+		    			    	ArrayList<TransactionCategory>::new, 
+		    			    	ArrayList<TransactionCategory>::add, 
+		    			    	ArrayList<TransactionCategory>::addAll
+		    			)
+	    			).build();
     	} else {
     		return UnsortedTransaction.getDefaultInstance();
     	}
@@ -97,10 +99,9 @@ public class EventApi {
     public Response sortTransaction(Event event) throws Exception {
     	
     	try {
-    		System.out.println("sortTransactionHandler.sortTransaction(event);");
     		sortTransactionHandler.sortTransaction(event);
     	} catch (Exception ex) {
-    		System.out.println("sortTransaction");
+    		System.out.println("sortTransaction:");
     		System.out.println(ex.toString());
     	}
     	

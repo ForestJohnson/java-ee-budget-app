@@ -17,7 +17,6 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
   RestService.getUnsortedTransaction()
     .then((response) => {
       this.toSort = response.data;
-      debugger;
       this.sortEvent.transaction = response.data.transaction;
       this.sortEvent.category = this.toSort.categories[0];
     });

@@ -1,5 +1,6 @@
 package com.ilmservice.personalbudget.data;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
@@ -55,6 +56,7 @@ public class EventStore implements IEventStore {
 					System.out.println("eventstore indexes");
 					eventsByDateUser = events.configureIndex(
 						Indexes.EventsById.getValue(),
+						false,
 						(k) -> Event.newBuilder().setDate(k.date.getTime()).build(),
 						(v) -> new DateUserKey(new Date(v.getDate()), v.getUserId()),
 						(k) -> ByteBuffer.allocate(12).putLong(k.date.getTime()).putInt(k.userId).array()
@@ -66,7 +68,7 @@ public class EventStore implements IEventStore {
 		);
 	}
 
-	public void put (Event event) {
+	public void put (Event event) throws IOException {
 		events.put(event);
 	}
 }

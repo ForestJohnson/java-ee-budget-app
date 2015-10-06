@@ -60,6 +60,7 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 
 					suggestionsByKeyword = suggestions.configureIndex(
 						Indexes.TransactionCategoriesByKeyword.getValue(),
+						false,
 						(k) -> CategoryKeyword.newBuilder().setKeyword(k).build(),
 						(v) -> v.getKeyword(),
 						(k) -> k.getBytes()

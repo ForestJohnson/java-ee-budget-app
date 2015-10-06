@@ -25,6 +25,8 @@ public class Repository<V> implements IRepository<V> {
 
 	private IDbScope db;
 	
+	private boolean hasMutableIndex = false;
+	private IRepositoryIndex<?, V> immutableIndex;
 	private final Map<Short, IRepositoryIndex<?, V>> indexes;
 	private ParseFunction<byte[], V> parserFunction;
 	private Function<V, byte[]> serializerFunction;
@@ -49,6 +51,9 @@ public class Repository<V> implements IRepository<V> {
 		
 		isConfiguringIndexes = true;
 		configureIndexes.apply();
+		if(immutableIndex == null) {
+			throw new RuntimeException("You must have at least one immutable index.");
+		}
 		isConfiguringIndexes = false;
 		
 		// this is where you would run migrations
@@ -57,6 +62,7 @@ public class Repository<V> implements IRepository<V> {
 	@Override
 	public <K> IRepositoryIndex<K, V> configureIndex(
 			short index,
+			boolean mutable,
 			Function<K, V> defaultSupplier,
 			Function<V, K> getKeyFromValue, 
 			Function <K, byte[]> getKeyBytesFromKey) throws Exception 
@@ -66,27 +72,47 @@ public class Repository<V> implements IRepository<V> {
 		}
 		IRepositoryIndex<K, V> newIndex = new ProtobufIndex<K, V>(
 			index,
+			mutable,
 			parserFunction, 
 			defaultSupplier, 
 			getKeyFromValue, 
 			getKeyBytesFromKey
 		);
+		
+		if(!mutable && immutableIndex == null) {
+			immutableIndex = newIndex;
+		}
+		hasMutableIndex = hasMutableIndex || mutable;
+		
 		indexes.put(index, newIndex);
 		return newIndex;
 	}
 	
 	@Override
-	public V put(V value) {
+	public V put(V value) throws  IOException {
+		V oldValue = hasMutableIndex ? immutableIndex.get(value) : null;
+
 		indexes.forEach((k, index) -> {
-			db.index(k).put(index.getKeyBytesFromValue(value), serializerFunction.apply(value));
+			byte[] newKey = index.getKeyBytesFromValue(value);
+			byte[] oldKey = oldValue != null ? index.getKeyBytesFromValue(oldValue) : null;
+			if(oldKey != null && ByteArrayComparator.compare(oldKey, newKey) != 0) {
+				if(!index.mutable()) {
+					System.err.println("Index was marked mutable, but the key has changed.");
+				} else {
+					db.index(k).delete(oldKey);
+				}
+			}
+			db.index(k).put(newKey, serializerFunction.apply(value));
 		});
 		return value;
 	}
 	
 	@Override
-	public void delete (V value) {
+	public void delete (V value) throws IOException {
+		V usedValue = hasMutableIndex ? immutableIndex.get(value) : value;
+		
 		indexes.forEach((k, index) -> {
-			db.index(k).delete(index.getKeyBytesFromValue(value));
+			db.index(k).delete(index.getKeyBytesFromValue(usedValue));
 		});
 	}
 	
@@ -98,11 +124,13 @@ public class Repository<V> implements IRepository<V> {
 	public class ProtobufIndex<K, V> implements IRepositoryIndex<K, V> {
 		public ProtobufIndex (
 				short id,
+				boolean mutable,
 				ParseFunction<byte[], V> parser, 
 				Function<K, V> defaultSupplier,
 				Function<V, K> getKeyFromValue, 
 				Function <K, byte[]> getKeyBytesFromKey) 
 		{
+			this.mutable = mutable;
 			this.id = id;
 			this.defaultSupplier = defaultSupplier;
 			this.parserFunction = parser;
@@ -110,6 +138,7 @@ public class Repository<V> implements IRepository<V> {
 			this.getKeyBytesFromKeyFunction = getKeyBytesFromKey;
 		}
 		
+		private final boolean mutable;
 		private final short id;
 		private final Function<K, V> defaultSupplier;
 		private final ParseFunction<byte[], V> parserFunction;
@@ -119,6 +148,11 @@ public class Repository<V> implements IRepository<V> {
 		@Override
 		public short getId() {
 			return id;
+		}
+		
+		@Override
+		public boolean mutable() {
+			return mutable;
 		}
 		
 		@Override
@@ -150,7 +184,12 @@ public class Repository<V> implements IRepository<V> {
 		public IRepositoryQuery<K, V> query() {
 			return new ProtobufQuery<K, V>(this);
 		}
-
+		
+		@Override
+		public V get (V value) throws IOException {
+			return new ProtobufQuery<K, V>(this).atKey(this.getKeyFrom(value)).firstOrNull();
+		}
+		
 		@Override
 		public K max() {
 			// TODO Auto-generated method stub

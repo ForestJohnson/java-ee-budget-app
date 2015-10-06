@@ -55,6 +55,7 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 
 					categoriesById = categories.configureIndex(
 						Indexes.TransactionCategoriesById.getValue(),
+						false,
 						(k) -> TransactionCategory.getDefaultInstance(),
 						(v) -> v.getId(),
 						(k) -> ByteBuffer.allocate(4).putInt(k).array()
@@ -68,7 +69,7 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 	}
 	
 	@Override
-	public TransactionCategory put(TransactionCategory.Builder builder) {
+	public TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception {
 		TransactionCategory highest;
 		try {
 			highest = categoriesById.query().descending().firstOrDefault();
@@ -76,7 +77,11 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 			highest = TransactionCategory.getDefaultInstance();
 			e.printStackTrace();
 		}
+		System.out.println("highest: "+ highest);
+		
 		builder.setId(highest.getId()+1);
+		
+		System.out.println("builder: "+ builder);
 		return categories.put(builder.build());
 	}
 	

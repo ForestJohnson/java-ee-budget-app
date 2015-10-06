@@ -54,17 +54,20 @@ public interface IRepository<V> {
 	 */
 	public <K> IRepositoryIndex<K, V> configureIndex(
 		short index,
+		boolean mutable,
 		Function<K, V> defaultSupplier,
 		Function<V, K> getKeyFromValue, 
 		Function <K, byte[]> getKeyBytesFromKey
 	) throws Exception;
-	public V put(V value);
-	public void delete(V value);
+	public V put(V value) throws IOException;
+	public void delete(V value) throws IOException;
 
 	
 	public interface IRepositoryIndex<K, V> {
+		boolean mutable();
 		public short getId();
 		public IRepositoryQuery<K, V> query();
+		public V get (V value) throws IOException;
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data) throws IOException;
 		public K getKeyFrom(V value);

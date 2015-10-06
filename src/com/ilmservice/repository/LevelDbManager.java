@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb10";
+	private final String fileName = "testLevelDb12";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	
@@ -171,8 +171,11 @@ public class LevelDbManager implements IDbManager {
 			@Override
 			public boolean hasNext() {
 				if(descending ? underlying.hasPrev() : underlying.hasNext() ) {
+					
 					next = descending ? underlying.prev() : underlying.next();
 					int nextKeyCompared = ByteArrayComparator.compare(next.getKey(), until);
+					System.out.println("hasNext: nextKeyCompared: " + nextKeyCompared);
+					System.out.println("hasNext: descending: " + descending);
 					if( (descending && nextKeyCompared >= 0) || (!descending && nextKeyCompared < 0)) {
 						return true;
 					}

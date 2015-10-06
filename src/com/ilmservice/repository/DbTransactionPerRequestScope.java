@@ -24,7 +24,6 @@ public class DbTransactionPerRequestScope implements IDbScope {
 	}
 	
 	public IDbIndex index(short indexId) {
-		System.out.println("Transaction::index");
 		return transaction.index(indexId);
 	}
 	

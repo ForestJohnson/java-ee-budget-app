@@ -79,12 +79,13 @@ public class TransactionStore implements ITransactionStore {
 					
 					transactionsByDate = transactions.configureIndex(
 						Indexes.TransactionsByDate.getValue(),
+						false,
 						(k) -> Transaction.newBuilder().setDate(k.dateMs).setId(k.id).build(),
 						(v) -> new DateIDKey(v.getDate(), v.getId()),
 						(k) -> {
 							byte[] idByteArray = new byte[k.id.size()];
 							k.id.copyTo(idByteArray,0);
-							return ByteBuffer.allocate(k.id.size()+8)
+							return ByteBuffer.allocate(8+k.id.size())
 									.putLong(k.dateMs)
 									.put(idByteArray)
 									.array();
@@ -93,12 +94,13 @@ public class TransactionStore implements ITransactionStore {
 					
 					transactionsByCategory = transactions.configureIndex(
 						Indexes.TransactionsByCategory.getValue(),
+						true,
 						(k) -> Transaction.newBuilder().setCategoryId(k.categoryId).setId(k.id).build(),
 						(v) -> new CategoryIDKey(v.getCategoryId(), v.getId()),
 						(k) -> {
 							byte[] idByteArray = new byte[k.id.size()];
 							k.id.copyTo(idByteArray,0);
-							return ByteBuffer.allocate(k.id.size()+4)
+							return ByteBuffer.allocate(4+k.id.size())
 									.putInt(k.categoryId)
 									.put(idByteArray)
 									.array();
@@ -113,7 +115,7 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public Transaction post(Transaction.Builder builder) {
+	public Transaction post(Transaction.Builder builder) throws IOException {
 		byte[] idBytes = sha.digest(builder.build().toByteArray());
 		builder.setId(ByteString.copyFrom(idBytes));
 		Transaction existing = null;
@@ -131,7 +133,7 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public void put(Transaction transaction) {
+	public void put(Transaction transaction) throws IOException {
 		transactions.put(transaction);
 	}
 	
@@ -139,7 +141,12 @@ public class TransactionStore implements ITransactionStore {
 	public TransactionList postAll(TransactionList transactionList) {
 		return TransactionList.newBuilder().addAllTransactions(
 				transactionList.getTransactionsList().stream().map((transaction) -> {
-					return this.post(Transaction.newBuilder(transaction));
+					try {
+						return this.post(Transaction.newBuilder(transaction));
+					} catch (Exception e) {
+						e.printStackTrace();
+						return null;
+					}
 				}).collect(
 					ArrayList<Transaction>::new, 
 					ArrayList<Transaction>::add, 
