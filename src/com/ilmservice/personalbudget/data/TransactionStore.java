@@ -40,7 +40,7 @@ public class TransactionStore implements ITransactionStore {
 	private IRepository<Transaction> transactions;
 	
 	private IRepositoryIndex<DateIDKey, Transaction> transactionsByDate;
-	private IRepositoryIndex<CategoryIDKey, Transaction> transactionsByCategory;
+	private IRepositoryIndex<CategoryDateIDKey, Transaction> transactionsByCategory;
 	private MessageDigest sha;
 	
 	TransactionStore() throws NoSuchAlgorithmException {
@@ -56,12 +56,14 @@ public class TransactionStore implements ITransactionStore {
 			this.id = id;
 		}
 	}
-	public class CategoryIDKey {
+	public class CategoryDateIDKey {
 		public final int categoryId;
+		public final long dateMs;
 		public final ByteString id;
 		
-		public CategoryIDKey (int categoryId, ByteString id) {
+		public CategoryDateIDKey (int categoryId, long dateMs, ByteString id) {
 			this.categoryId = categoryId;
+			this.dateMs = dateMs;
 			this.id = id;
 		}
 	}
@@ -95,13 +97,15 @@ public class TransactionStore implements ITransactionStore {
 					transactionsByCategory = transactions.configureIndex(
 						Indexes.TransactionsByCategory.getValue(),
 						true,
-						(k) -> Transaction.newBuilder().setCategoryId(k.categoryId).setId(k.id).build(),
-						(v) -> new CategoryIDKey(v.getCategoryId(), v.getId()),
+						(k) -> Transaction.newBuilder()
+								.setCategoryId(k.categoryId).setDate(k.dateMs).setId(k.id).build(),
+						(v) -> new CategoryDateIDKey(v.getCategoryId(), v.getDate(), v.getId()),
 						(k) -> {
 							byte[] idByteArray = new byte[k.id.size()];
 							k.id.copyTo(idByteArray,0);
-							return ByteBuffer.allocate(4+k.id.size())
+							return ByteBuffer.allocate(4+8+k.id.size())
 									.putInt(k.categoryId)
+									.putLong(k.dateMs)
 									.put(idByteArray)
 									.array();
 						}
@@ -156,7 +160,7 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public TransactionList list(TransactionList query) {
+	public TransactionList.Builder list(TransactionList query) {
 		List<Filter> filters = query.getFiltersList();
 		IRepositoryQuery<DateIDKey, Transaction> repoQuery = null; 
 		if(!filters.isEmpty()) {
@@ -175,17 +179,17 @@ public class TransactionStore implements ITransactionStore {
 			
 			TransactionList.Builder builder = TransactionList.newBuilder(query);
 			builder.addAllTransactions(repoQuery.toArray());
-			return builder.build();
+			return builder;
 		}
-		return query;
+		return TransactionList.newBuilder(query);
 	}
 	
 	@Override
 	public Transaction getUnsortedTransaction() {
 		try {
 			return transactionsByCategory.query().range(
-					new CategoryIDKey(0, ByteString.EMPTY), 
-					new CategoryIDKey(1, ByteString.EMPTY)
+					new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
+					new CategoryDateIDKey(1, 0, ByteString.EMPTY)
 				)
 			.where((result) -> result.getCategoryId() == 0)
 			.limit(1)
@@ -196,23 +200,19 @@ public class TransactionStore implements ITransactionStore {
 		return null;
 	}
 	
-//	public Transaction test(int id) {
-//		Transaction modified = null;
-//		try {
-//			System.out.println("TransactionStore testing  ");
-//			Transaction result = transactionsById.query().atKey(id).firstOrDefault();
-//			System.out.println(result.toString());
-//			modified = Transaction.newBuilder(result)
-//									.setDescription(result.getDescription() + " :)  ").build();
-//			
-//			System.out.println(modified.toString());
-//			transactions.put(modified);
-//			
-//		} catch (IOException e) {
-//			System.out.println("TransactionStore testing failed ");
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return modified;
-//	}
+	@Override
+	public Map<Integer, Integer> aggregate() {
+		try {
+			return transactionsByCategory.query().range(
+					new CategoryDateIDKey(0, 0, ByteString.EMPTY), 
+					new CategoryDateIDKey(1, 0, ByteString.EMPTY)
+				)
+			.where((result) -> result.getCategoryId() == 0)
+			.limit(1)
+			.firstOrNull();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -14,20 +14,28 @@
       <tr>
         <th>Date</th>
         <th>$</th>
+        <th ng-if="vm.showCategory">Type</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="transaction in vm.list.transactions">
         <td class='date'>
-            <span ng-bind="vm.formater.formatDate(transaction.date)">
+            <span ng-bind="vm.formatter.formatter(transaction.date)">
             </span>
         </td>
         <td class='dollars'>
           <span class="label label-dollars"
                 ng-class="{'label-success' : transaction.cents > 0, 'label-danger' : transaction.cents < 0 }"
-                ng-bind="vm.formater.formatCents(transaction.cents)">
+                ng-bind="vm.formatter.formatCents(transaction.cents)">
           </span>
+        </td>
+        <td class='category'
+            ng-if="vm.showCategory">
+            <span class="label"
+                  ng-bind="transaction.category.name"
+                  ng-style="vm.formatter.getStyleForCategory(transaction.category)">
+            </span>
         </td>
         <td>
           <span ng-if="!vm.editable"

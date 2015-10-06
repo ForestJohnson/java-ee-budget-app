@@ -1,37 +1,21 @@
 package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.google.protobuf.ByteString;
 import com.ilmservice.personalbudget.protobufs.Data.CategoryKeyword;
 import com.ilmservice.personalbudget.protobufs.Data.CategorySuggestion;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
-import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
-import com.ilmservice.personalbudget.protobufs.Views.DateRangeFilter;
-import com.ilmservice.personalbudget.protobufs.Views.Filter;
-import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
-import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 import com.ilmservice.repository.IDbScope;
 import com.ilmservice.repository.IRepository;
 import com.ilmservice.repository.IRepository.IRepositoryIndex;
-import com.ilmservice.repository.IRepository.IRepositoryQuery;
 import com.ilmservice.repository.TransactionPerRequest;
 
 @Default
@@ -49,7 +33,7 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("CategorySuggestionStore configuring           ");
+		System.out.println("CategorySuggestionStore configuring       ");
 		suggestions.configure( 
 			scope,
 			(bytes) -> CategoryKeyword.parseFrom(bytes),
@@ -91,14 +75,18 @@ public class CategorySuggestionStore implements ICategorySuggestionStore {
 			if(!maybeSuggestionBuilder.isPresent()) {
 				suggestionBuilder = CategorySuggestion.newBuilder()
 						.setCategoryId(transaction.getCategoryId());
-				builder.addSuggestions(suggestionBuilder);
 			} else {
 				suggestionBuilder = maybeSuggestionBuilder.get();
 			}
 			
 			suggestionBuilder.setPopularity(suggestionBuilder.getPopularity()+1);
+			if(!maybeSuggestionBuilder.isPresent()) {
+				builder.addSuggestions(suggestionBuilder);
+			}
 			
-			suggestions.put(builder.build());
+			CategoryKeyword result = builder.build();
+			
+			suggestions.put(result);
 		}
 	}
 	

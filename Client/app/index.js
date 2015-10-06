@@ -9,6 +9,7 @@ import './services/services.module'
 
 var app = angular.module('client', [
   'template-cache',
+  'chart.js',
   'client.protobufs',
   'client.directives',
   'client.services',

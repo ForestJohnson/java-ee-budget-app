@@ -31,18 +31,17 @@ public final class Data {
     int getCategoryId();
 
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    boolean hasCategoryName();
+    boolean hasCategory();
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    java.lang.String getCategoryName();
+    com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory();
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    com.google.protobuf.ByteString
-        getCategoryNameBytes();
+    com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder();
 
     /**
      * <code>optional uint32 userId = 4;</code>
@@ -171,9 +170,16 @@ public final class Data {
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = category_.toBuilder();
+              }
+              category_ = input.readMessage(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(category_);
+                category_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000004;
-              categoryName_ = bs;
               break;
             }
             case 32: {
@@ -278,46 +284,25 @@ public final class Data {
       return categoryId_;
     }
 
-    public static final int CATEGORYNAME_FIELD_NUMBER = 3;
-    private java.lang.Object categoryName_;
+    public static final int CATEGORY_FIELD_NUMBER = 3;
+    private com.ilmservice.personalbudget.protobufs.Data.TransactionCategory category_;
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    public boolean hasCategoryName() {
+    public boolean hasCategory() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    public java.lang.String getCategoryName() {
-      java.lang.Object ref = categoryName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          categoryName_ = s;
-        }
-        return s;
-      }
+    public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory() {
+      return category_;
     }
     /**
-     * <code>optional string categoryName = 3;</code>
+     * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
      */
-    public com.google.protobuf.ByteString
-        getCategoryNameBytes() {
-      java.lang.Object ref = categoryName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        categoryName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder() {
+      return category_;
     }
 
     public static final int USERID_FIELD_NUMBER = 4;
@@ -467,7 +452,7 @@ public final class Data {
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       categoryId_ = 0;
-      categoryName_ = "";
+      category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
       userId_ = 0;
       date_ = 0L;
       cents_ = 0;
@@ -495,7 +480,7 @@ public final class Data {
         output.writeUInt32(2, categoryId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getCategoryNameBytes());
+        output.writeMessage(3, category_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt32(4, userId_);
@@ -534,7 +519,7 @@ public final class Data {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getCategoryNameBytes());
+          .computeMessageSize(3, category_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -669,6 +654,7 @@ public final class Data {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getCategoryFieldBuilder();
         }
       }
       private static Builder create() {
@@ -681,7 +667,11 @@ public final class Data {
         bitField0_ = (bitField0_ & ~0x00000001);
         categoryId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        categoryName_ = "";
+        if (categoryBuilder_ == null) {
+          category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+        } else {
+          categoryBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -734,7 +724,11 @@ public final class Data {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.categoryName_ = categoryName_;
+        if (categoryBuilder_ == null) {
+          result.category_ = category_;
+        } else {
+          result.category_ = categoryBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -781,10 +775,8 @@ public final class Data {
         if (other.hasCategoryId()) {
           setCategoryId(other.getCategoryId());
         }
-        if (other.hasCategoryName()) {
-          bitField0_ |= 0x00000004;
-          categoryName_ = other.categoryName_;
-          onChanged();
+        if (other.hasCategory()) {
+          mergeCategory(other.getCategory());
         }
         if (other.hasUserId()) {
           setUserId(other.getUserId());
@@ -902,80 +894,120 @@ public final class Data {
         return this;
       }
 
-      private java.lang.Object categoryName_ = "";
+      private com.ilmservice.personalbudget.protobufs.Data.TransactionCategory category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder> categoryBuilder_;
       /**
-       * <code>optional string categoryName = 3;</code>
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
        */
-      public boolean hasCategoryName() {
+      public boolean hasCategory() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string categoryName = 3;</code>
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
        */
-      public java.lang.String getCategoryName() {
-        java.lang.Object ref = categoryName_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            categoryName_ = s;
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory getCategory() {
+        if (categoryBuilder_ == null) {
+          return category_;
+        } else {
+          return categoryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder setCategory(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory value) {
+        if (categoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
           }
-          return s;
+          category_ = value;
+          onChanged();
         } else {
-          return (java.lang.String) ref;
+          categoryBuilder_.setMessage(value);
         }
-      }
-      /**
-       * <code>optional string categoryName = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getCategoryNameBytes() {
-        java.lang.Object ref = categoryName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          categoryName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string categoryName = 3;</code>
-       */
-      public Builder setCategoryName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        categoryName_ = value;
-        onChanged();
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional string categoryName = 3;</code>
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
        */
-      public Builder clearCategoryName() {
+      public Builder setCategory(
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder builderForValue) {
+        if (categoryBuilder_ == null) {
+          category_ = builderForValue.build();
+          onChanged();
+        } else {
+          categoryBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder mergeCategory(com.ilmservice.personalbudget.protobufs.Data.TransactionCategory value) {
+        if (categoryBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              category_ != com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance()) {
+            category_ =
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.newBuilder(category_).mergeFrom(value).buildPartial();
+          } else {
+            category_ = value;
+          }
+          onChanged();
+        } else {
+          categoryBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public Builder clearCategory() {
+        if (categoryBuilder_ == null) {
+          category_ = com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.getDefaultInstance();
+          onChanged();
+        } else {
+          categoryBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
-        categoryName_ = getDefaultInstance().getCategoryName();
-        onChanged();
         return this;
       }
       /**
-       * <code>optional string categoryName = 3;</code>
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
        */
-      public Builder setCategoryNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        categoryName_ = value;
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder getCategoryBuilder() {
+        bitField0_ |= 0x00000004;
         onChanged();
-        return this;
+        return getCategoryFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      public com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder getCategoryOrBuilder() {
+        if (categoryBuilder_ != null) {
+          return categoryBuilder_.getMessageOrBuilder();
+        } else {
+          return category_;
+        }
+      }
+      /**
+       * <code>optional .com.ilmservice.personalbudget.TransactionCategory category = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder> 
+          getCategoryFieldBuilder() {
+        if (categoryBuilder_ == null) {
+          categoryBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.ilmservice.personalbudget.protobufs.Data.TransactionCategory, com.ilmservice.personalbudget.protobufs.Data.TransactionCategory.Builder, com.ilmservice.personalbudget.protobufs.Data.TransactionCategoryOrBuilder>(
+                  getCategory(),
+                  getParentForChildren(),
+                  isClean());
+          category_ = null;
+        }
+        return categoryBuilder_;
       }
 
       private int userId_ ;
@@ -3911,20 +3943,21 @@ public final class Data {
   static {
     java.lang.String[] descriptorData = {
       "\n\nData.proto\022\035com.ilmservice.personalbud" +
-      "get\"\250\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
-      "oryId\030\002 \001(\r\022\024\n\014categoryName\030\003 \001(\t\022\016\n\006use" +
-      "rId\030\004 \001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents\030\006 \001(\021\022\023" +
-      "\n\013description\030\007 \001(\t\022\014\n\004card\030\010 \001(\t\022\023\n\013che" +
-      "ckNumber\030\t \001(\r\"d\n\023TransactionCategory\022\n\n" +
-      "\002id\030\001 \001(\r\0223\n\005color\030\002 \001(\0132$.com.ilmservic" +
-      "e.personalbudget.Color\022\014\n\004name\030\003 \001(\t\"(\n\005" +
-      "Color\022\t\n\001h\030\001 \001(\002\022\t\n\001s\030\002 \001(\002\022\t\n\001v\030\003 \001(\002\"j" +
-      "\n\017CategoryKeyword\022\017\n\007keyword\030\001 \001(\t\022F\n\013su",
-      "ggestions\030\002 \003(\01321.com.ilmservice.persona" +
-      "lbudget.CategorySuggestion\"<\n\022CategorySu" +
-      "ggestion\022\022\n\ncategoryId\030\001 \001(\r\022\022\n\npopulari" +
-      "ty\030\002 \001(\rB)\n\'com.ilmservice.personalbudge" +
-      "t.protobufs"
+      "get\"\330\001\n\013Transaction\022\n\n\002id\030\001 \001(\014\022\022\n\ncateg" +
+      "oryId\030\002 \001(\r\022D\n\010category\030\003 \001(\01322.com.ilms" +
+      "ervice.personalbudget.TransactionCategor" +
+      "y\022\016\n\006userId\030\004 \001(\r\022\014\n\004date\030\005 \001(\004\022\r\n\005cents" +
+      "\030\006 \001(\021\022\023\n\013description\030\007 \001(\t\022\014\n\004card\030\010 \001(" +
+      "\t\022\023\n\013checkNumber\030\t \001(\r\"d\n\023TransactionCat" +
+      "egory\022\n\n\002id\030\001 \001(\r\0223\n\005color\030\002 \001(\0132$.com.i" +
+      "lmservice.personalbudget.Color\022\014\n\004name\030\003" +
+      " \001(\t\"(\n\005Color\022\t\n\001h\030\001 \001(\002\022\t\n\001s\030\002 \001(\002\022\t\n\001v",
+      "\030\003 \001(\002\"j\n\017CategoryKeyword\022\017\n\007keyword\030\001 \001" +
+      "(\t\022F\n\013suggestions\030\002 \003(\01321.com.ilmservice" +
+      ".personalbudget.CategorySuggestion\"<\n\022Ca" +
+      "tegorySuggestion\022\022\n\ncategoryId\030\001 \001(\r\022\022\n\n" +
+      "popularity\030\002 \001(\rB)\n\'com.ilmservice.perso" +
+      "nalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3943,7 +3976,7 @@ public final class Data {
     internal_static_com_ilmservice_personalbudget_Transaction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_Transaction_descriptor,
-        new java.lang.String[] { "Id", "CategoryId", "CategoryName", "UserId", "Date", "Cents", "Description", "Card", "CheckNumber", });
+        new java.lang.String[] { "Id", "CategoryId", "Category", "UserId", "Date", "Cents", "Description", "Card", "CheckNumber", });
     internal_static_com_ilmservice_personalbudget_TransactionCategory_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_ilmservice_personalbudget_TransactionCategory_fieldAccessorTable = new

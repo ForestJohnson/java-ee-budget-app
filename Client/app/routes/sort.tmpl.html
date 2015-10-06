@@ -1,57 +1,63 @@
 
 <div class="sort">
-  <div ng-if="vm.sortEvent.transaction">
+  <div ng-if="!vm.sortEvent.transaction || !vm.sortEvent.transaction.id">
+    <h4>No transactions to sort.</h4>
+  </div>
+
+  <div ng-if="vm.sortEvent.transaction && vm.sortEvent.transaction.id">
     <h4>
-    <span ng-bind="vm.formatter.formatDate(vm.sortEvent.transaction.date)"> </span>
+    <span ng-bind="vm.formatter.formatter(vm.sortEvent.transaction.date)"> </span>
     <span class="label"
           ng-class="{'label-success' : vm.sortEvent.transaction.cents > 0, 'label-danger' : vm.sortEvent.transaction.cents < 0 }"
           ng-bind="vm.formatter.formatCents(vm.sortEvent.transaction.cents)">
     </span>
     <span ng-bind="vm.sortEvent.transaction.description"> </span>
     </h4>
-  </div>
-  <hr/>
-  <h3>Select Transaction Type</h3>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class='col-md-3'
-           ng-repeat="category in vm.toSort.categories track by $index">
-        <label class="big-label"
-               ng-style='vm.getStyleForCategory(category)'>
-          <input type="radio"
-                  name="selectedCategory"
-                  ng-value="category"
-                  ng-model="vm.sortEvent.category">
-          <span ng-bind="category.name"></span>
-        </label>
-      </div>
-      <div class='col-md-3 form-inline' >
-        <input type="text"
-                class="form-control"
-                ng-change="vm.clearSelectedTransactionType()"
-                ng-model="vm.newTransactionType.name"/>
-        <button class="btn btn-sm btn-info"
-                 ng-disabled="vm.nameAlreadyExists()"
-                 ng-click="vm.addTransactionType()">
-           Add
-        </button>
+
+    <hr/>
+    <h3>Select Transaction Type</h3>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class='col-md-3'
+             ng-repeat="category in vm.toSort.categories track by $index">
+          <label class="big-label"
+                 ng-style='vm.formatter.getStyleForCategory(category)'>
+            <input type="radio"
+                    name="selectedCategory"
+                    ng-value="category"
+                    ng-model="vm.sortEvent.category">
+            <span ng-bind="category.name"></span>
+          </label>
+        </div>
+        <div class='col-md-6'>
+          <div class="form-inline"
+               ng-style='vm.formatter.getStyleForCategory(vm.newTransactionCategory)'>
+               <input type="text"
+                       class="form-control"
+                       ng-change="vm.clearSelectedTransactionType()"
+                       ng-model="vm.newTransactionCategory.name"/>
+               <button class="btn btn-sm"
+                        ng-disabled="vm.addCategoryDisallowed()"
+                        ng-click="vm.addTransactionType()">
+                  Submit New
+               </button>
+          </div>
+
+        </div>
       </div>
     </div>
+
+    <hr/>
+    <button class="btn btn-primary"
+            ng-disabled="!vm.sortEvent.category"
+            ng-click="vm.submitTransactionType()">
+      Submit
+      <span class="label"
+             ng-class="{'label-success' : vm.sortEvent.transaction.cents > 0, 'label-danger' : vm.sortEvent.transaction.cents < 0 }"
+             ng-bind="vm.formatter.formatCents(vm.sortEvent.transaction.cents)">
+      </span>
+      <span ng-show="vm.sortEvent.category"> as </span>
+      <span ng-bind="vm.sortEvent.category.name"></span>
+    </button>
   </div>
-
-  <hr/>
-  <button class="btn btn-primary"
-          ng-disabled="!vm.sortEvent.category"
-          ng-click="vm.submitTransactionType()">
-    Submit
-    <span class="label"
-           ng-class="{'label-success' : vm.sortEvent.transaction.cents > 0, 'label-danger' : vm.sortEvent.transaction.cents < 0 }"
-           ng-bind="vm.formatter.formatCents(vm.sortEvent.transaction.cents)">
-    </span>
-    <span ng-show="vm.sortEvent.category"> as </span>
-    <span ng-bind="vm.sortEvent.category.name"></span>
-  </button>
-
-
-
 </div>

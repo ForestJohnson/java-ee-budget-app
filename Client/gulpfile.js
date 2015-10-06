@@ -15,8 +15,9 @@ var pathToProtobuf = '../protobufs';
 
 var html = pathToSrc+'index.html';
 var bootstrap = 'jspm_packages/github/twbs/bootstrap@3.3.5/css/bootstrap.css'
+var angularChartLess = 'jspm_packages/npm/angular-chart.js@0.8.4/angular-chart.less'
 var watchJs = pathToSrc+'**/*.js';
-var watchLess = pathToSrc+'**/*.less';
+var watchLess = [pathToSrc+'**/*.less', angularChartLess];
 var watchTemplates = pathToSrc+'**/*.tmpl.html';
 var watchProtobuf = pathToProtobuf+'/*.proto';
 var outputProtobuf = 'app/protobufs/fakeDir';

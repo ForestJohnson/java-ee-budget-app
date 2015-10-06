@@ -15,6 +15,7 @@ System.config({
 
   map: {
     "angular": "npm:angular@1.5.0-beta.0",
+    "angular-chart": "npm:angular-chart.js@0.8.4",
     "angular-ui-router": "npm:angular-ui-router@0.2.15",
     "angular-ui/bootstrap": "github:angular-ui/bootstrap@0.13.4",
     "babel": "npm:babel-core@5.8.25",
@@ -48,6 +49,9 @@ System.config({
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
+    "github:jspm/nodelibs-process@0.1.2": {
+      "process": "npm:process@0.11.2"
+    },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
     },
@@ -68,8 +72,16 @@ System.config({
       "longest": "npm:longest@1.0.1",
       "repeat-string": "npm:repeat-string@1.5.2"
     },
+    "npm:angular-chart.js@0.8.4": {
+      "angular": "npm:angular@1.4.7",
+      "chart.js": "npm:chart.js@1.0.2",
+      "fs": "github:jspm/nodelibs-fs@0.1.2"
+    },
     "npm:angular-ui-router@0.2.15": {
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:angular@1.4.7": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:angular@1.5.0-beta.0": {
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -114,6 +126,11 @@ System.config({
     },
     "npm:center-align@0.1.1": {
       "align-text": "npm:align-text@0.1.3"
+    },
+    "npm:chart.js@1.0.2": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:cliui@2.1.0": {
       "center-align": "npm:center-align@0.1.1",
@@ -186,6 +203,9 @@ System.config({
     "npm:path-is-absolute@1.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:process@0.11.2": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
     "npm:protobufjs@4.0.0": {
       "ascli": "npm:ascli@1.0.0",
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -231,7 +251,7 @@ System.config({
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
-      "process": "github:jspm/nodelibs-process@0.1.1"
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:window-size@0.1.2": {
       "process": "github:jspm/nodelibs-process@0.1.1",

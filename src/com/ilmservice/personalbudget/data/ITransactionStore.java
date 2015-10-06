@@ -1,11 +1,11 @@
 package com.ilmservice.personalbudget.data;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction.Builder;
 import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
-import com.ilmservice.personalbudget.protobufs.Views.UnsortedTransaction;
 
 public interface ITransactionStore {
 
@@ -15,8 +15,9 @@ public interface ITransactionStore {
 	
 	TransactionList postAll(TransactionList transactions);
 	
-	TransactionList list(TransactionList query);
+	TransactionList.Builder list(TransactionList query);
 	
 	Transaction getUnsortedTransaction();
 
+	Map<Integer, Integer> aggregate(Long start, Long end);
 }

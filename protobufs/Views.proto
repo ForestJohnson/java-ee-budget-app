@@ -34,4 +34,18 @@ message DateRangeFilter {
   optional int64 end = 2;
 }
 
+message ReportDataSeries {
+  repeated Filter filters = 1;
+  optional uint32 frequency = 2;
+  repeated ReportDataGroup series = 3;
+}
 
+message ReportDataGroup {
+  repeated Filter filters = 1;
+  repeated ReportDataPoint data = 2;
+}
+
+message ReportDataPoint {
+  optional TransactionCategory category = 1;
+  optional sint32 cents = 2;
+}

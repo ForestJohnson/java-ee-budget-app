@@ -21,8 +21,8 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 },
                 {
                     "rule": "optional",
-                    "type": "string",
-                    "name": "categoryName",
+                    "type": "TransactionCategory",
+                    "name": "category",
                     "id": 3
                 },
                 {

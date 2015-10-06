@@ -21,8 +21,8 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 },
                 {
                     "rule": "optional",
-                    "type": "string",
-                    "name": "categoryName",
+                    "type": "TransactionCategory",
+                    "name": "category",
                     "id": 3
                 },
                 {
@@ -241,6 +241,45 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "rule": "optional",
                     "type": "int64",
                     "name": "end",
+                    "id": 2
+                }
+            ]
+        },
+        {
+            "name": "ReportDataSeries",
+            "fields": [
+                {
+                    "rule": "repeated",
+                    "type": "ReportDataGroup",
+                    "name": "series",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "name": "ReportDataGroup",
+            "fields": [
+                {
+                    "rule": "repeated",
+                    "type": "ReportDataPoint",
+                    "name": "data",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "name": "ReportDataPoint",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "TransactionCategory",
+                    "name": "category",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "sint32",
+                    "name": "cents",
                     "id": 2
                 }
             ]

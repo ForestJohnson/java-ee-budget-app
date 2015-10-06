@@ -3,13 +3,19 @@ import tinycolor from 'tinycolor'
 
 let FormatHelper = function () {
 
+  this.getStyleForCategory = (category) => {
+    return {
+      backgroundColor: category && category.color ? this.formatColor(category.color) : '#555555'
+    };
+  };
+
   this.formatColor = (color) => {
-    debugger;
+    return tinycolor.fromRatio({ h: color.h, s: color.s, v: color.v }).toHexString();
   };
 
   this.formatCents = (cents) => '$'+Math.abs(cents*0.01).toFixed(2);
 
-  this.formatDate = (dateLong) => {
+  this.formatter = (dateLong) => {
     if(!dateLong || !dateLong.toNumber) {
       return 'not a long';
     }

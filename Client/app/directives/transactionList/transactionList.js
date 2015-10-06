@@ -9,12 +9,13 @@ export default function registerDirective(module) {
         templateUrl: "app/directives/transactionList/transactionList.tmpl.html",
         controllerAs: "vm",
         controller: ['FormatHelper', function(FormatHelper) {
-          this.formater = FormatHelper;
+          this.formatter = FormatHelper;
         }],
         bindToController: true,
         scope: {
           list: '=',
-          editable: '@?'
+          editable: '@?',
+          showCategory: '@?'
         }
       }
     }

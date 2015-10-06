@@ -62,7 +62,19 @@ public class EventApi {
     @Produces("application/x-protobuf")
     @Consumes("application/x-protobuf")
     public TransactionList transactions(TransactionList query) throws Exception {
-    	return transactionStore.list(query);
+    	List<TransactionCategory> categories = transactionCategoryStore.getAll();
+    	TransactionList.Builder builder = transactionStore.list(query);
+    	builder.getTransactionsBuilderList().forEach((transaction) -> {
+    		if(transaction.getCategoryId() > 0) {
+    			transaction.setCategory(
+    					categories.stream()
+    		    		.filter((category) ->  category.getId() == transaction.getCategoryId())
+    		    		.findFirst().orElse(null)
+    				);
+    		}
+    	});
+    	return builder.build();
+    	
     }
     
     @GET
@@ -79,8 +91,8 @@ public class EventApi {
 	    				transactionCategoryStore.getAll().stream()
 	    				.sorted((a,b) -> {
 	    			    	float result = 
-	    			    			suggestions.compute(a.getId(), (id, value) -> value == null ? 0 : value) 
-	    			    		  - suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value);
+	    			    			suggestions.compute(b.getId(), (id, value) -> value == null ? 0 : value) 
+	    			    		  - suggestions.compute(a.getId(), (id, value) -> value == null ? 0 : value);
 	    			    	return result > 0 ? 1 : (result < 0 ? -1 : 0);
 						}).collect(
 		    			    	ArrayList<TransactionCategory>::new, 
@@ -109,17 +121,10 @@ public class EventApi {
     	return Response.ok().build();
     }
 	
-//	@Inject private ITransactionStore transactionStore;
-//	
-//    @POST
-//    @Path("test")
-//    @Produces("application/x-protobuf")
-//    @Consumes("application/x-protobuf")
-//    public Response test(Transaction transaction) {
-//    	 
-//    	 transactionStore.test(transaction.getId());
-//
-//         return Response.ok().build();
-//    }
-	
+    @POST
+    @Path("report")
+    @Produces("application/x-protobuf")
+    public UnsortedTransaction report() throws Exception {
+    	
+    }
 }
