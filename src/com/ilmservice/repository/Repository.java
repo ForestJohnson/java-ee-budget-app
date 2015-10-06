@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -90,7 +93,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public V put(V value) throws  IOException {
-		V oldValue = hasMutableIndex ? immutableIndex.get(value) : null;
+		V oldValue = hasMutableIndex ? immutableIndex.getByValue(value) : null;
 
 		indexes.forEach((k, index) -> {
 			byte[] newKey = index.getKeyBytesFromValue(value);
@@ -109,7 +112,7 @@ public class Repository<V> implements IRepository<V> {
 	
 	@Override
 	public void delete (V value) throws IOException {
-		V usedValue = hasMutableIndex ? immutableIndex.get(value) : value;
+		V usedValue = hasMutableIndex ? immutableIndex.getByValue(value) : value;
 		
 		indexes.forEach((k, index) -> {
 			db.index(k).delete(index.getKeyBytesFromValue(usedValue));
@@ -186,14 +189,15 @@ public class Repository<V> implements IRepository<V> {
 		}
 		
 		@Override
-		public V get (V value) throws IOException {
-			return new ProtobufQuery<K, V>(this).atKey(this.getKeyFrom(value)).firstOrNull();
+		public V getByValue (V value) throws IOException {
+			return this.get(this.getKeyFrom(value));
 		}
-		
+
 		@Override
-		public K max() {
-			// TODO Auto-generated method stub
-			return null;
+		public V get (K key) throws IOException {
+			return this.parse(
+					db.index(this.id).get(this.getKeyBytesFromKey(key))
+				);
 		}
 	}
 	
@@ -203,8 +207,6 @@ public class Repository<V> implements IRepository<V> {
 		private boolean descending;
 		private K key = null;
 		private byte[] fromBytes, toBytes, keyBytes = null;
-		private int limit = -1;
-		private Predicate<V> predicate = null;
 		
 		public ProtobufQuery(ProtobufIndex<K, V> index) {
 			this.index = index;
@@ -243,77 +245,30 @@ public class Repository<V> implements IRepository<V> {
 		}
 
 		@Override
-		public IRepositoryQuery<K, V> atKey(K key) {
-			this.key = key;
-			this.keyBytes = index.getKeyBytesFromKey(key);
-			return this;
-		}
-		
-		@Override
-		public IRepositoryQuery<K, V> limit(int n) {
-			this.limit = n;
-			return this;
-		}
-
-		@Override
-		public IRepositoryQuery<K, V> where(Predicate<V> predicate) {
-			this.predicate = predicate;
-			return this;
-		}
-		
-		@Override
-		public V firstOrDefault() {
-			return getFirst(index.getDefault(key));
-		}
-		
-		@Override
-		public V firstOrNull()  {
-			return getFirst(null);
-		}
-		
-		private V getFirst(V defaultValue) {
-			if(key != null) {
-				try {
-					byte[] value = db.index(index.getId()).get(keyBytes);
-					return value != null ? index.parse(value) : defaultValue;
-				} catch (Exception e) {
-					return defaultValue;
-				}
-			} else {
-				limit = 1;
-				List<V> zeroOrOne = toArray();
-				return zeroOrOne.size() == 1 ? zeroOrOne.get(0) : defaultValue;
-			}
-		}
-
-		@Override
-		public List<V> toArray() {
-			return db.index(index.getId()).withIterator(
+		public void withStream(Consumer<Stream<V>> consumer) {
+			
+			db.index(index.getId()).withIterator(
 				fromBytes,
 				toBytes,
 				descending,
 				(iterator) -> {
-					List<V> results = new ArrayList<V>();
-					while( iterator.hasNext() && (limit == -1 || results.size() < limit) ) {
-						V nextElement;
-						byte[] nextEntry = iterator.next();
-						try {
-							nextElement = index.parse(nextEntry);
-							if(predicate == null || predicate.test(nextElement)) {
-								results.add(nextElement);
+					Iterable<byte[]> iterable = () -> iterator;
+					Stream<V> targetStream = 
+						StreamSupport.stream(iterable.spliterator(), false)
+						.map((data) -> {
+							V result = null;
+							try {
+								result = index.parse(data);
+							} catch (IOException ex) {
+								ex.printStackTrace();
 							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					return results;
+							return result;
+						});
+					
+					consumer.accept(targetStream);
+
 				}
 			);
 		}
-
-
 	}
-
-
-	
 }

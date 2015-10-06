@@ -13,13 +13,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Singleton
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb12";
+	private final String fileName = "testLevelDb15";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	
@@ -107,12 +108,12 @@ public class LevelDbManager implements IDbManager {
 		}
 
 		@Override
-		public <V> V withIterator(
+		public void withIterator(
 				byte[] from, 
 				byte[] until, 
 				boolean descending, 
-				Function<Iterator<byte[]>, V> action) {
-			V result = null;
+				Consumer<Iterator<byte[]>> consumer) {
+
 			try(DBIterator iterator = levelDb.iterator()) {
 				
 //				if(descending && from == null) {
@@ -132,7 +133,7 @@ public class LevelDbManager implements IDbManager {
 						
 				until = until != null ? getKey(index, until) : (descending ? firstOfIndex : firstOfNextIndex);
 				
-				result = action.apply(new LevelDbIterator(
+				consumer.accept(new LevelDbIterator(
 						iterator,
 						from,
 						until,
@@ -141,7 +142,6 @@ public class LevelDbManager implements IDbManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return result;
 		}
 		
 		private byte[] getKey (short index, byte[] keyValue) {

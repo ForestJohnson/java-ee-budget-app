@@ -2,8 +2,10 @@ package com.ilmservice.repository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 
 public interface IRepository<V> {
@@ -67,24 +69,19 @@ public interface IRepository<V> {
 		boolean mutable();
 		public short getId();
 		public IRepositoryQuery<K, V> query();
-		public V get (V value) throws IOException;
+		public V getByValue (V value) throws IOException;
+		public V get (K key) throws IOException;
 		public V getDefault(K keyOrNull);
 		public V parse(byte[] data) throws IOException;
 		public K getKeyFrom(V value);
 		public byte[] getKeyBytesFromKey(K key);
 		public byte[] getKeyBytesFromValue(V value);
-		public K max();
 	}
 	
 	public interface IRepositoryQuery<K, V> {
 		public IRepositoryQuery<K, V> descending();
 		public IRepositoryQuery<K, V> range(K start, K end);
-		public IRepositoryQuery<K, V> atKey (K key);
-		public IRepositoryQuery<K, V> where (Predicate<V> predicate);
-		public IRepositoryQuery<K, V> limit(int n);
-		public V firstOrDefault() throws IOException;
-		public V firstOrNull() throws IOException;
-		public List<V> toArray();
+		public void withStream(Consumer<Stream<V>> consumer);
 	}
 
 	

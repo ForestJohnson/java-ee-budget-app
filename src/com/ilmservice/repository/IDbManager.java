@@ -3,6 +3,7 @@ package com.ilmservice.repository;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface IDbManager  {
@@ -14,7 +15,7 @@ public interface IDbManager  {
 		byte[] get(byte[] key);
 		void put(byte[] key, byte[] value);
 		void delete(byte[] key);
-		<V> V withIterator(byte[] from, byte[] until, boolean descending, Function<Iterator<byte[]>, V> action);
+		void withIterator(byte[] from, byte[] until, boolean descending, Consumer<Iterator<byte[]>> action);
 	}
 	
 	public interface IDbTransaction {
