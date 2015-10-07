@@ -2,8 +2,10 @@ package com.ilmservice.personalbudget.events;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
@@ -15,9 +17,12 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import com.ilmservice.personalbudget.data.IEventStore;
+import com.ilmservice.personalbudget.data.ITransactionCategoryStore;
 import com.ilmservice.personalbudget.data.ITransactionStore;
 import com.ilmservice.personalbudget.protobufs.Data;
+import com.ilmservice.personalbudget.protobufs.Data.Color;
 import com.ilmservice.personalbudget.protobufs.Data.Transaction;
+import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
 import com.ilmservice.personalbudget.protobufs.Events.Event;
 import com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow;
 import com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent;
@@ -28,7 +33,7 @@ import com.ilmservice.personalbudget.protobufs.Views.TransactionList;
 public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHandler {
 	
 	@Inject private IEventStore eventStore;
-	//@Inject private ITransactionStore transactionStore;
+	@Inject private ITransactionCategoryStore transactionCategoryStore;
 	
 	private SpreadsheetParser[] parsers;
 	private Pattern bremerTimeRegex;
@@ -39,6 +44,10 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 	private Pattern bremerPurchaseRegex;
 	private Pattern bremerTerminalRegex;
 	
+	private final float goldenRatio = 1.61803f;
+	private final double nonCorrelatedSineFudgeFactor = 0.6934d;
+	private Map<String, TransactionCategory> categoriesByName;
+	
 	SpreadsheetUploadEventHandler () {
 		
 		bremerTimeRegex = Pattern.compile("\\d{1,2}:\\d{2} +(AM|PM)");
@@ -48,6 +57,8 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		bremerMerchantRegex = Pattern.compile("(^MERCHANT )|( MERCHANT )");
 		bremerPurchaseRegex = Pattern.compile("(^PURCHASE )|( PURCHASE )");
 		bremerTerminalRegex = Pattern.compile("(^TERMINAL )|( TERMINAL )");
+		
+		categoriesByName = new HashMap<String, TransactionCategory>();
 		
 		parsers = new SpreadsheetParser[] {
 			new SpreadsheetParser(
@@ -108,7 +119,76 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 						throw new RuntimeException(e);
 					}
 				}
-			)
+			),
+			new SpreadsheetParser(
+					UploadSpreadsheetEvent.SpreadsheetSource.GNUCASH_CUSTOM,
+					"DateCheck NumberDescriptionCategoryDollars",
+					1,
+					(builder, row) -> {
+						float dollars;
+						int checkNumber;
+						try(Scanner dollarsScanner = new Scanner(row.getFields(4))) {
+							dollars = dollarsScanner.hasNextFloat() ? dollarsScanner.nextFloat() : 0f;
+						}
+						try(Scanner checkNumberScanner = new Scanner(row.getFields(1))) {
+							checkNumber = checkNumberScanner.hasNextInt() ? checkNumberScanner.nextInt() : -1;
+						}
+						
+						String description = row.getFields(2);
+						
+						String categoryName = row.getFields(3);
+						
+						if(categoriesByName.keySet().isEmpty()) {
+							transactionCategoryStore.withStream(
+									(s) -> s.collect(
+											() -> { return categoriesByName; }, 
+											(map, category) -> { 
+												map.compute(category.getName(), (k, v) -> category);
+											}, 
+											Map::putAll
+										)
+								);
+						}
+						
+						if(!categoriesByName.containsKey(categoryName)) {
+							int colorId = categoriesByName.keySet().size()+1;
+							float fluctuation = (float)Math.sin(nonCorrelatedSineFudgeFactor*colorId);
+							float fluctuation2 = (float)Math.sin(nonCorrelatedSineFudgeFactor*goldenRatio*colorId);
+							TransactionCategory newCategory = 
+									TransactionCategory.newBuilder()
+									.setColor(
+											Color.newBuilder()
+											.setH((goldenRatio * colorId) % 1)
+											.setS(0.65f + fluctuation*0.3f)
+											.setV(0.7f + fluctuation2*0.3f)
+										)
+									.setName(categoryName)
+									.setId(categoriesByName.keySet().size()+1)
+									.build();
+							
+							try {
+								categoriesByName.put(categoryName, transactionCategoryStore.put(newCategory));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						
+						try {
+							builder.setCategoryId(categoriesByName.get(categoryName).getId());
+							builder.setCents(Math.round((dollars)*100f));
+							builder.setDate(
+								new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+									.parse(row.getFields(0)).getTime()
+							);
+							builder.setDescription(description);
+							if(checkNumber != -1) {
+								builder.setCheckNumber(checkNumber);
+							}
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+					}
+				)
 		};
 	}
 	
@@ -126,17 +206,14 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		SpreadsheetParser parser = getParser(spreadsheet);
 		
 		return TransactionList.newBuilder().addAllTransactions(
+			() ->
 			getRowsStream(spreadsheet)
 			.skip(parser.skip)
 			.map((row) -> {
 				Transaction.Builder builder = Transaction.newBuilder();
 				parser.mapper.accept(builder, row);
 				return builder.build();
-			}).collect(
-				ArrayList<Transaction>::new, 
-				ArrayList<Transaction>::add, 
-				ArrayList<Transaction>::addAll
-			) 
+			}).iterator() 
 		).build();
 	}
 
@@ -156,7 +233,7 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		);
 		
 		for(SpreadsheetParser parser : this.parsers) {
-			if(parser.headers == headersConcat || spreadsheet.getSource() == parser.source) {
+			if(parser.headers.equalsIgnoreCase(headersConcat) || spreadsheet.getSource() == parser.source) {
 				return parser;
 			}
 		}

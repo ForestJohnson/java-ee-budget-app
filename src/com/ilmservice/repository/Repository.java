@@ -1,6 +1,7 @@
 package com.ilmservice.repository;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,6 +110,7 @@ public class Repository<V> implements IRepository<V> {
 			}
 			db.index(k).put(newKey, serializerFunction.apply(value));
 		});
+		
 		return value;
 	}
 	

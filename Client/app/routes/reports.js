@@ -36,31 +36,31 @@ function ReportsController(RestService, ReportDataGroup, ReportDataSeries,
       this.summary.data = [
         {
           category: {
-            color: DefaultChartColors[0],
+            color: DefaultChartColors[2],
             name: 'Spending'
           },
           cents: totalSpending
         },
         {
           category: {
-            color: DefaultChartColors[1],
-            name: 'Debt Repayment'
-          },
-          cents: totalDebtRepayment
-        },
-        {
-          category: {
-            color: DefaultChartColors[2],
+            color: DefaultChartColors[4],
             name: 'Credit Extended'
           },
           cents: totalCreditExtended
         },
         {
           category: {
-            color: DefaultChartColors[3],
+            color: DefaultChartColors[0],
             name: 'Savings'
           },
           cents: totalSavings
+        },
+        {
+          category: {
+            color: DefaultChartColors[3],
+            name: 'Debt Repayment'
+          },
+          cents: totalDebtRepayment
         }
       ];
     });

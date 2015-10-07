@@ -29,7 +29,7 @@ public class SortTransactionEventHandler implements ISortTransactionEventHandler
 		SortTransactionEvent toSort = event.getSortTransactionEvent();
     	int desiredId = toSort.getCategory().getId();
     	if(desiredId == 0 || transactionCategoryStore.get(desiredId).getId() != desiredId) {
-    		desiredId = transactionCategoryStore.put(
+    		desiredId = transactionCategoryStore.post(
     				TransactionCategory.newBuilder( toSort.getCategory() )
     			).getId();
     	}

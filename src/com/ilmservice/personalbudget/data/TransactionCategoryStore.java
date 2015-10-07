@@ -57,14 +57,22 @@ public class TransactionCategoryStore implements ITransactionCategoryStore {
 	}
 	
 	@Override
-	public TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception {
+	public int getNextId() {
 		Optional<TransactionCategory> highestCategory = 
 				categoriesById.query().descending()
 				.withStream((s) -> s.findFirst() );
 		
-		int highestId = highestCategory.isPresent() ? highestCategory.get().getId() : 0;
-		
-		builder.setId(highestId+1);
+		return (highestCategory.isPresent() ? highestCategory.get().getId() : 0)+1;
+	}
+	
+	@Override
+	public TransactionCategory put(TransactionCategory category) throws IOException {
+		return categories.put(category);
+	}
+	
+	@Override
+	public TransactionCategory post(TransactionCategory.Builder builder) throws IOException {
+		builder.setId(this.getNextId());
 		return categories.put(builder.build());
 	}
 	

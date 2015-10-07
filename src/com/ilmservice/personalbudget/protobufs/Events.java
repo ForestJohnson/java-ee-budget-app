@@ -1123,22 +1123,40 @@ public final class Events {
     public enum SpreadsheetSource
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>BREMER = 0;</code>
+       * <code>UNKNOWN = 0;</code>
        */
-      BREMER(0, 0),
+      UNKNOWN(0, 0),
+      /**
+       * <code>BREMER = 1;</code>
+       */
+      BREMER(1, 1),
+      /**
+       * <code>GNUCASH_CUSTOM = 2;</code>
+       */
+      GNUCASH_CUSTOM(2, 2),
       ;
 
       /**
-       * <code>BREMER = 0;</code>
+       * <code>UNKNOWN = 0;</code>
        */
-      public static final int BREMER_VALUE = 0;
+      public static final int UNKNOWN_VALUE = 0;
+      /**
+       * <code>BREMER = 1;</code>
+       */
+      public static final int BREMER_VALUE = 1;
+      /**
+       * <code>GNUCASH_CUSTOM = 2;</code>
+       */
+      public static final int GNUCASH_CUSTOM_VALUE = 2;
 
 
       public final int getNumber() { return value; }
 
       public static SpreadsheetSource valueOf(int value) {
         switch (value) {
-          case 0: return BREMER;
+          case 0: return UNKNOWN;
+          case 1: return BREMER;
+          case 2: return GNUCASH_CUSTOM;
           default: return null;
         }
       }
@@ -1284,7 +1302,7 @@ public final class Events {
     }
 
     private void initFields() {
-      source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+      source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.UNKNOWN;
       filename_ = "";
       rows_ = java.util.Collections.emptyList();
     }
@@ -1449,7 +1467,7 @@ public final class Events {
 
       public Builder clear() {
         super.clear();
-        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.UNKNOWN;
         bitField0_ = (bitField0_ & ~0x00000001);
         filename_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1581,7 +1599,7 @@ public final class Events {
       }
       private int bitField0_;
 
-      private com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+      private com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.UNKNOWN;
       /**
        * <code>optional .com.ilmservice.personalbudget.UploadSpreadsheetEvent.SpreadsheetSource source = 2;</code>
        */
@@ -1611,7 +1629,7 @@ public final class Events {
        */
       public Builder clearSource() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.BREMER;
+        source_ = com.ilmservice.personalbudget.protobufs.Events.UploadSpreadsheetEvent.SpreadsheetSource.UNKNOWN;
         onChanged();
         return this;
       }
@@ -3175,18 +3193,19 @@ public final class Events {
       "t.UploadSpreadsheetEventH\000\022S\n\024sortTransa" +
       "ctionEvent\030\013 \001(\01323.com.ilmservice.person" +
       "albudget.SortTransactionEventH\000B\014\n\nevent" +
-      "_type\"\341\001\n\026UploadSpreadsheetEvent\022W\n\006sour" +
+      "_type\"\202\002\n\026UploadSpreadsheetEvent\022W\n\006sour" +
       "ce\030\002 \001(\0162G.com.ilmservice.personalbudget" +
       ".UploadSpreadsheetEvent.SpreadsheetSourc",
       "e\022\020\n\010filename\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com." +
       "ilmservice.personalbudget.SpreadsheetRow" +
-      "\"\037\n\021SpreadsheetSource\022\n\n\006BREMER\020\000\" \n\016Spr" +
-      "eadsheetRow\022\016\n\006fields\030\001 \003(\t\"\235\001\n\024SortTran" +
-      "sactionEvent\022?\n\013transaction\030\001 \001(\0132*.com." +
-      "ilmservice.personalbudget.Transaction\022D\n" +
-      "\010category\030\003 \001(\01322.com.ilmservice.persona" +
-      "lbudget.TransactionCategoryB)\n\'com.ilmse" +
-      "rvice.personalbudget.protobufs"
+      "\"@\n\021SpreadsheetSource\022\013\n\007UNKNOWN\020\000\022\n\n\006BR" +
+      "EMER\020\001\022\022\n\016GNUCASH_CUSTOM\020\002\" \n\016Spreadshee" +
+      "tRow\022\016\n\006fields\030\001 \003(\t\"\235\001\n\024SortTransaction" +
+      "Event\022?\n\013transaction\030\001 \001(\0132*.com.ilmserv" +
+      "ice.personalbudget.Transaction\022D\n\010catego" +
+      "ry\030\003 \001(\01322.com.ilmservice.personalbudget" +
+      ".TransactionCategoryB)\n\'com.ilmservice.p" +
+      "ersonalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

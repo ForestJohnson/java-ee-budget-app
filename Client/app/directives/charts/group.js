@@ -2,14 +2,16 @@
 
 export default function registerDirective(module) {
   module.directive(
-    'ilmDoughnutChart',
+    'ilmGroupChart',
     function ilmDoughnutChart() {
       return {
         restrict: 'AE',
         template: [
-          '<canvas class="chart chart-doughnut"',
+          '<canvas class="chart chart-base"',
+          '  chart-type="c.type"',
           '  chart-data="c.data"',
           '  chart-labels="c.labels"',
+          '  chart-series="c.series"',
           '  chart-legend="true"',
           '  chart-colours="c.colors"',
           '  chart-options="c.options">',
@@ -37,7 +39,8 @@ export default function registerDirective(module) {
         }],
         bindToController: true,
         scope: {
-          datagroup: '='
+          datagroup: '=',
+          type: '@'
         }
       }
     }

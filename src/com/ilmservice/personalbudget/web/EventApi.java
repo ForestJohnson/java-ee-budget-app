@@ -67,7 +67,7 @@ public class EventApi {
     	
     	TransactionList.Builder builder = TransactionList.newBuilder(query).clearTransactions();
     	
-    	transactionStore.withStream(query.getFiltersList(), true, (s) -> {
+    	transactionStore.withStream(query.getFiltersList(), false, (s) -> {
 			return builder.addAllTransactions(
 					() ->
 					s.map(

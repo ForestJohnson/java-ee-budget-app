@@ -9,10 +9,14 @@ import com.ilmservice.personalbudget.protobufs.Data.TransactionCategory;
 
 public interface ITransactionCategoryStore {
 
-	TransactionCategory put(TransactionCategory.Builder builder) throws IOException, Exception;
+	TransactionCategory post(TransactionCategory.Builder builder) throws IOException;
 	
 	TransactionCategory get(int id) throws IOException;
 	
 	<R> R withStream(Function<Stream<TransactionCategory>, R> action);
+
+	int getNextId();
+
+	TransactionCategory put(TransactionCategory category) throws IOException;
 
 }

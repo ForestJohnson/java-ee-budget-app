@@ -205,8 +205,16 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "name": "SpreadsheetSource",
                     "values": [
                         {
-                            "name": "BREMER",
+                            "name": "UNKNOWN",
                             "id": 0
+                        },
+                        {
+                            "name": "BREMER",
+                            "id": 1
+                        },
+                        {
+                            "name": "GNUCASH_CUSTOM",
+                            "id": 2
                         }
                     ]
                 }

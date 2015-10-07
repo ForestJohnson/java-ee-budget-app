@@ -17,7 +17,9 @@ message Event {
 
 message UploadSpreadsheetEvent {
   enum SpreadsheetSource {
-      BREMER = 0;
+      UNKNOWN = 0;
+      BREMER = 1;
+      GNUCASH_CUSTOM = 2;
   }
   optional SpreadsheetSource source = 2;
   optional string filename = 3;

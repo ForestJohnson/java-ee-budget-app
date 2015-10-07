@@ -8,6 +8,7 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
                         TransactionCategory, $state) {
   this.submitted = false;
   this.goldenRatio = 1.61803;
+  this.nonCorrelatedSineFudgeFactor = 0.6934;
   this.toSort = new UnsortedTransaction({});
   this.toSort.loading = true;
   this.event = {
@@ -18,8 +19,6 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
   this.formatter = FormatHelper;
   this.newTransactionCategory = new TransactionCategory({
     color:{
-      s: 0.6,
-      v: 0.8
     }
   });
 
@@ -51,7 +50,12 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
   };
 
   this.setNextCategoryColor = () => {
-    this.newTransactionCategory.color.h = (this.goldenRatio * (this.toSort.categories.length+1)) % 1;
+    var colorId = this.toSort.categories.length+1;
+    this.newTransactionCategory.color.h =
+      (this.goldenRatio * colorId) % 1;
+		this.newTransactionCategory.color.s =
+      0.5 + Math.sin(this.nonCorrelatedSineFudgeFactor*colorId)*0.4;
+    this.newTransactionCategory.color.v = 0.8;
   }
 
   this.submitTransactionType = () => {

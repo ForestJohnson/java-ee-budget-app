@@ -1,15 +1,19 @@
 
-<div>
+<div class="reports">
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class='col col-xs-12 col-sm-12 col-md-6 col-lg-6'>
-        <ilm-doughnut-chart datagroup="vm.spendingByCategory.data" >
-        </ilm-doughnut-chart>
+        <h3>Spending by Category</h3>
+        <ilm-group-chart datagroup="vm.spendingByCategory.data"
+                         type="Doughnut">
+        </ilm-group-chart>
       </div>
       <div class='col col-xs-12 col-sm-12 col-md-6 col-lg-6'>
-        <ilm-doughnut-chart datagroup="vm.summary.data" >
-        </ilm-doughnut-chart>
+        <h3>Summary</h3>
+        <ilm-group-chart datagroup="vm.summary.data"
+                         type="Doughnut">
+        </ilm-group-chart>
       </div>
     </div>
   </div>

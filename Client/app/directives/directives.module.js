@@ -3,11 +3,11 @@
 import angular from 'angular'
 
 import registerTransactionList from './transactionList/transactionList'
-import registerDoughnutChart from './charts/doughnut'
+import registerGroupChart from './charts/group'
 
 var module = angular.module('client.directives', []);
 
 registerTransactionList(module);
-registerDoughnutChart(module);
+registerGroupChart(module);
 
 export default module;
