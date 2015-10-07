@@ -10,6 +10,9 @@ function ReportsController(RestService, ReportDataGroup, ReportDataSeries,
   this.spendingByCategory = new ReportDataGroup({});
   this.summary = new ReportDataGroup({});
 
+  this.startDate = new Date(new Date().getTime() - 1000*60*60*24*31);
+  this.endDate = new Date();
+
   RestService.dataGroup(this.spendingByCategory)
     .then((response) => {
       var data = response.data.data;

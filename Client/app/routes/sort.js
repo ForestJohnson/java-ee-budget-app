@@ -51,11 +51,12 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
 
   this.setNextCategoryColor = () => {
     var colorId = this.toSort.categories.length+1;
-    this.newTransactionCategory.color.h =
-      (this.goldenRatio * colorId) % 1;
-		this.newTransactionCategory.color.s =
-      0.5 + Math.sin(this.nonCorrelatedSineFudgeFactor*colorId)*0.4;
-    this.newTransactionCategory.color.v = 0.8;
+    var fluctuation = Math.sin(this.nonCorrelatedSineFudgeFactor*colorId);
+    var slowFluctuation = Math.sin(this.nonCorrelatedSineFudgeFactor*this.goldenRatio*colorId);
+
+    this.newTransactionCategory.color.h = (this.goldenRatio * colorId) % 1;
+		this.newTransactionCategory.color.s = 0.65 + fluctuation*0.3;
+    this.newTransactionCategory.color.v = 0.7 + slowFluctuation*0.3;
   }
 
   this.submitTransactionType = () => {

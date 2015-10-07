@@ -1,7 +1,36 @@
 
 <div class="reports">
 
+
+
   <div class="container-fluid">
+    <div class="row-fluid">
+      <div class='col col-xs-6 col-sm-6 col-md-4 col-lg-4'>
+        <label>
+          From
+        </label>
+        <div>
+          <input type="text"
+                date-time
+                auto-close="true"
+                ng-model="vm.startDate"
+                min-view="month">
+        </div>
+      </div>
+      <div class='col col-xs-6 col-sm-6 col-md-4 col-lg-4'>
+        <label>
+          To
+        </label>
+        <div>
+          <input type="text"
+                date-time
+                auto-close="true"
+                ng-model="vm.endDate"
+                min-view="month">
+        </div>
+      </div>
+    </div>
+
     <div class="row-fluid">
       <div class='col col-xs-12 col-sm-12 col-md-6 col-lg-6'>
         <h3>Spending by Category</h3>
