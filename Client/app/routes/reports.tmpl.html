@@ -9,24 +9,16 @@
         <label>
           From
         </label>
-        <div>
-          <input type="text"
-                date-time
-                auto-close="true"
-                ng-model="vm.startDate"
-                min-view="month">
+        <div date-picker="vm.startDate"
+              min-view="month">
         </div>
       </div>
       <div class='col col-xs-6 col-sm-6 col-md-4 col-lg-4'>
         <label>
           To
         </label>
-        <div>
-          <input type="text"
-                date-time
-                auto-close="true"
-                ng-model="vm.endDate"
-                min-view="month">
+        <div date-picker="vm.endDate"
+              min-view="month">
         </div>
       </div>
     </div>
