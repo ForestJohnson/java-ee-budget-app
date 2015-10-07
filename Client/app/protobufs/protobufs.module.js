@@ -17,4 +17,7 @@ protobufs.value('Filter', Views.com.ilmservice.personalbudget.Filter);
 protobufs.value('DateRangeFilter', Views.com.ilmservice.personalbudget.DateRangeFilter);
 protobufs.value('UnsortedTransaction', Views.com.ilmservice.personalbudget.UnsortedTransaction);
 
+protobufs.value('ReportDataGroup', Views.com.ilmservice.personalbudget.ReportDataGroup);
+protobufs.value('ReportDataSeries', Views.com.ilmservice.personalbudget.ReportDataSeries);
+
 export default protobufs;

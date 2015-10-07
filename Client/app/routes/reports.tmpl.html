@@ -1,9 +1,18 @@
 
 <div>
 
-
-  <transaction-list list="vm.transactionList" show-category="true">
-  </transaction-list>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class='col col-xs-12 col-sm-12 col-md-6 col-lg-6'>
+        <ilm-doughnut-chart datagroup="vm.spendingByCategory.data" >
+        </ilm-doughnut-chart>
+      </div>
+      <div class='col col-xs-12 col-sm-12 col-md-6 col-lg-6'>
+        <ilm-doughnut-chart datagroup="vm.summary.data" >
+        </ilm-doughnut-chart>
+      </div>
+    </div>
+  </div>
 
 
 

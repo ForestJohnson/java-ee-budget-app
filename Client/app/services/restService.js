@@ -1,7 +1,9 @@
 
 let RestService = [
-        '$http', 'ApiBaseUrl', 'TransactionList', 'Filter', 'DateRangeFilter', 'UnsortedTransaction',
-function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter, UnsortedTransaction) {
+        '$http', 'ApiBaseUrl', 'TransactionList', 'Filter', 'DateRangeFilter',
+        'UnsortedTransaction', 'ReportDataGroup', 'ReportDataSeries',
+function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter,
+          UnsortedTransaction, ReportDataGroup, ReportDataSeries) {
 
   this.getRecentTransactions = (list) => {
     list.loading = true;
@@ -24,8 +26,12 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter, UnsortedT
     return protobufHTTP('POST', 'sortTransaction', null, event);
   };
 
-  this.reports = (reportQuery) => {
-    return protobufHTTP('POST', 'sortTransaction', null, reportQuery);
+  this.dataGroup = (dataGroup) => {
+    return protobufHTTP('POST', 'dataGroup', ReportDataGroup, dataGroup);
+  };
+
+  this.dataSeries = (dataSeries) => {
+    return protobufHTTP('POST', 'dataSeries', ReportDataSeries, dataSeries);
   };
 
   function protobufHTTP (method, url, type, protocolBuffer) {

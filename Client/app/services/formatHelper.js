@@ -10,10 +10,15 @@ let FormatHelper = function () {
   };
 
   this.formatColor = (color) => {
+    if(typeof color == 'string') {
+      return color;
+    }
     return tinycolor.fromRatio({ h: color.h, s: color.s, v: color.v }).toHexString();
   };
 
-  this.formatCents = (cents) => '$'+Math.abs(cents*0.01).toFixed(2);
+  this.centsToDollars = (cents) => Math.abs(cents*0.01).toFixed(2);
+
+  this.formatCents = (cents) => '$'+this.centsToDollars(cents);
 
   this.formatter = (dateLong) => {
     if(!dateLong || !dateLong.toNumber) {

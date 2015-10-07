@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -71,7 +70,7 @@ public class TransactionStore implements ITransactionStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("TransactionStore configuring     ");
+		System.out.println("TransactionStore configuring                               ");
 		transactions.configure( 
 			scope,
 			(bytes) -> Transaction.parseFrom(bytes),
@@ -161,20 +160,9 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public <R> R withStream(TransactionList query, Function<Stream<Transaction>, R> action) {
-		List<Filter> filters = query.getFiltersList();
-		IRepositoryQuery<DateIDKey, Transaction> repoQuery = transactionsByDate.query(); 
-		if(!filters.isEmpty()) {
-			Optional<Filter> dateRange = filters.stream()
-					.filter((filter) -> filter.hasDateRangeFilter()).findFirst();
-			if(dateRange.isPresent()) {
-				DateRangeFilter dateRangeFilter = dateRange.get().getDateRangeFilter();
-				repoQuery = repoQuery.range(
-						new DateIDKey(dateRangeFilter.getStart(), ByteString.EMPTY), 
-						new DateIDKey(dateRangeFilter.getEnd(), ByteString.EMPTY)
-					);
-			}
-		}
+	public <R> R withStream(List<Filter> filters, boolean descending, Function<Stream<Transaction>, R> action) {
+		
+		IRepositoryQuery<DateIDKey, Transaction> repoQuery = getQueryFromFilters(filters, descending);
 		
 		return repoQuery.withStream(action);
 	}
@@ -194,11 +182,8 @@ public class TransactionStore implements ITransactionStore {
 	}
 	
 	@Override
-	public Map<Integer, Integer> aggregate(Long start, Long end) {
-		return transactionsByDate.query().range(
-				new DateIDKey(start, ByteString.EMPTY), 
-				new DateIDKey(end, ByteString.EMPTY)
-			)
+	public Map<Integer, Integer> aggregate(List<Filter> filters) {
+		return getQueryFromFilters(filters, false)
 		.withStream(
 			(s) -> s.collect(
 					HashMap<Integer, Integer>::new, 
@@ -206,8 +191,31 @@ public class TransactionStore implements ITransactionStore {
 							t.getCategoryId(), 
 							(k,v) -> v == null ? t.getCents() : v + t.getCents()
 						), 
-					HashMap<Integer, Integer>::putAll
+					(a,b) -> b.keySet().stream().forEach( (bk) -> 
+								a.compute(bk, (ak, av) -> av == null ? b.get(bk) : av + b.get(bk))
+						)
 				)
 		);
+	}
+	
+	private IRepositoryQuery<DateIDKey, Transaction> getQueryFromFilters(List<Filter> filters, boolean descending) {
+		IRepositoryQuery<DateIDKey, Transaction> repoQuery = transactionsByDate.query(); 
+		if(descending) {
+			repoQuery.descending();
+		}
+		if(!filters.isEmpty()) {
+			Optional<Filter> dateRange = filters.stream()
+					.filter((filter) -> filter.hasDateRangeFilter()).findFirst();
+			if(dateRange.isPresent()) {
+				DateRangeFilter dateRangeFilter = dateRange.get().getDateRangeFilter();
+				repoQuery.range(
+						dateRangeFilter.getStart() != 0 
+							? new DateIDKey(dateRangeFilter.getStart(), ByteString.EMPTY) : null, 
+						dateRangeFilter.getEnd() != 0 
+							? new DateIDKey(dateRangeFilter.getEnd(), ByteString.EMPTY) : null
+					);
+			}
+		}
+		return repoQuery;
 	}
 }

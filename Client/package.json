@@ -19,10 +19,11 @@
   "jspm": {
     "dependencies": {
       "angular": "npm:angular@^1.5.0-beta.0",
-      "angular-chart": "npm:angular-chart.js@^0.8.4",
+      "angular-chart": "github:jtblin/angular-chart.js@^0.8.4",
       "angular-ui-router": "npm:angular-ui-router@^0.2.15",
       "angular-ui/bootstrap": "github:angular-ui/bootstrap@^0.13.4",
       "bootstrap": "npm:bootstrap@^3.3.5",
+      "chart": "github:nnnick/Chart.js@^1.0.2",
       "papaparse": "github:mholt/PapaParse@^4.1.2",
       "protobufjs": "npm:protobufjs@^4.0.0",
       "tinycolor": "github:bgrins/TinyColor@^1.2.1",
