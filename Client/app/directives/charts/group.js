@@ -11,7 +11,6 @@ export default function registerDirective(module) {
           '  chart-type="c.type"',
           '  chart-data="c.data"',
           '  chart-labels="c.labels"',
-          '  chart-series="c.series"',
           '  chart-legend="true"',
           '  chart-colours="c.colors"',
           '  chart-options="c.options">',

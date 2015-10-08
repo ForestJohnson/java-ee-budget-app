@@ -42,7 +42,7 @@ function SortController(UnsortedTransaction, Event, SortTransactionEvent, RestSe
   };
 
   this.addTransactionType = () => {
-    this.toSort.categories.push(TransactionCategory.decode(this.newTransactionCategory.encodeAB()));
+    this.toSort.categories.push(angular.extend({}, this.newTransactionCategory));
     this.sortEvent.category = this.toSort.categories[this.toSort.categories.length-1];
     this.newTransactionCategory.name = '';
     this.setNextCategoryColor();

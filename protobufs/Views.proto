@@ -36,7 +36,7 @@ message DateRangeFilter {
 
 message ReportDataSeries {
   repeated Filter filters = 1;
-  optional uint32 frequency = 2;
+  optional int64 frequency = 2;
   repeated ReportDataGroup series = 3;
 }
 

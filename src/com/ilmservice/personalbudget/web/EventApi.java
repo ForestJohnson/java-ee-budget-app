@@ -155,7 +155,7 @@ public class EventApi {
     			.findFirst().orElse(0L)
         	);
     	}
-    	if(end < start || (end-start) / input.getFrequency() > 100) {
+    	if(start > end || (end-start) / input.getFrequency() > 100) {
     		throw new Exception("Sanity check failed, make sure your filter and frequency is set up correctly!");
     	}
     	

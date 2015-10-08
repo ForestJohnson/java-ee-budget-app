@@ -3,15 +3,17 @@
 
 
 var ReportsController = ['$scope', 'RestService', 'ReportDataGroup', 'ReportDataSeries',
-                          'Filter', 'DateRangeFilter', 'DefaultChartColors',
+                          'Filter', 'DateRangeFilter', 'DefaultChartColors', 'ReportDataPoint',
 function ReportsController($scope, RestService, ReportDataGroup, ReportDataSeries,
-                            Filter, DateRangeFilter, DefaultChartColors) {
+                            Filter, DateRangeFilter, DefaultChartColors, ReportDataPoint) {
   var self = this;
 
   self.spendingByCategory = new ReportDataGroup({});
   self.summary = new ReportDataGroup({});
+  self.series = new ReportDataSeries({});
 
-  self.startDate = new Date(new Date().getTime() - 1000*60*60*24*31);
+  self.monthMs = 1000*60*60*24*31;
+  self.startDate = new Date(new Date().getTime() - self.monthMs * 12);
   self.endDate = new Date();
 
   self.dateRange = new DateRangeFilter({
@@ -33,61 +35,86 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
       return;
     }
     self.loading = true;
-    RestService.dataGroup(self.dateRange)
+    RestService.dataSeries(self.dateRange, self.monthMs)
       .then((response) => {
         self.loading = false;
 
-        var data = response.data.data;
-        var spending = data.filter((d) => d.cents < 0);
-        var income = data.filter((d) => d.cents > 0);
+        var seriesData = response.data.series;
 
-        var totalDebtRepayment = spending
-          .filter((d) => d.category.name.toLowerCase().indexOf('debt') != -1)
-          .reduce((total, d) => total + Math.abs(d.cents), 0);
-        var totalCreditExtended = spending
-          .filter((d) => d.category.name.toLowerCase().indexOf('credit') != -1)
-          .reduce((total, d) => total + Math.abs(d.cents), 0);
+        var aggregateData = []
+        seriesData.forEach((step) => {
+          step.data.forEach((p, i) => {
+            if(!aggregateData[i]) {
+              aggregateData[i] = angular.extend({}, p);
+            } else {
+              aggregateData[i].cents += p.cents;
+            }
+          });
+        });
 
-        var totalSpending = spending
-          .reduce((total, d) => total + Math.abs(d.cents), 0)
-          - (totalDebtRepayment + totalCreditExtended);
+        self.spendingByCategory.data = aggregateData.filter((d) => d.cents < 0);
+        self.summary.data = summarize(aggregateData);
 
-        var totalSavings = income
-          .reduce((total, d) => total + Math.abs(d.cents), 0)
-          - (totalDebtRepayment + totalCreditExtended + totalSpending);
+        self.series.data = seriesData.map((step) => {
+          return {
+            data: summarize(step.data),
+            filters: step.filters
+          };
+        });
 
-        self.spendingByCategory.data = spending;
+        function summarize (data) {
+          var spending = data.filter((d) => d.cents < 0);
+          var income = data.filter((d) => d.cents > 0);
 
-        self.summary.data = [
-          {
-            category: {
-              color: DefaultChartColors[2],
-              name: 'Spending'
+          var totalDebtRepayment = spending
+            .filter((d) => d.category.name.toLowerCase().indexOf('debt') != -1)
+            .reduce((total, d) => total + Math.abs(d.cents), 0);
+
+          var totalCreditExtended = spending
+            .filter((d) => d.category.name.toLowerCase().indexOf('credit') != -1)
+            .reduce((total, d) => total + Math.abs(d.cents), 0);
+
+          var totalSpending = spending
+            .reduce((total, d) => total + Math.abs(d.cents), 0)
+            - (totalDebtRepayment + totalCreditExtended);
+
+          var totalSavings = income
+            .reduce((total, d) => total + Math.abs(d.cents), 0)
+            - (totalDebtRepayment + totalCreditExtended + totalSpending);
+
+          return [
+            {
+              category: {
+                color: DefaultChartColors[2],
+                name: 'Spending'
+              },
+              cents: totalSpending
             },
-            cents: totalSpending
-          },
-          {
-            category: {
-              color: DefaultChartColors[4],
-              name: 'Credit Extended'
+            {
+              category: {
+                color: DefaultChartColors[4],
+                name: 'Credit Extended'
+              },
+              cents: totalCreditExtended
             },
-            cents: totalCreditExtended
-          },
-          {
-            category: {
-              color: DefaultChartColors[0],
-              name: 'Savings'
+            {
+              category: {
+                color: DefaultChartColors[0],
+                name: 'Savings'
+              },
+              cents: totalSavings
             },
-            cents: totalSavings
-          },
-          {
-            category: {
-              color: DefaultChartColors[3],
-              name: 'Debt Repayment'
-            },
-            cents: totalDebtRepayment
-          }
-        ];
+            {
+              category: {
+                color: DefaultChartColors[3],
+                name: 'Debt Repayment'
+              },
+              cents: totalDebtRepayment
+            }
+          ];
+        }
+
+
       });
   };
 

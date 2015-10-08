@@ -70,7 +70,7 @@ public class TransactionStore implements ITransactionStore {
 	
 	@PostConstruct
 	public void configure() {
-		System.out.println("TransactionStore configuring   ");
+		System.out.println("TransactionStore configuring                ");
 		transactions.configure( 
 			scope,
 			(bytes) -> Transaction.parseFrom(bytes),

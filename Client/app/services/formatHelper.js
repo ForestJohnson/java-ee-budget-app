@@ -20,6 +20,14 @@ let FormatHelper = function () {
 
   this.formatCents = (cents) => '$'+this.centsToDollars(cents);
 
+  this.getMonthYear = (date) => {
+    var monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return monthNames[date.getMonth()] + ' ' + date.getFullYear();
+  };
+
   this.formatter = (dateLong) => {
     if(!dateLong || !dateLong.toNumber) {
       return 'not a long';

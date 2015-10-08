@@ -256,7 +256,7 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 },
                 {
                     "rule": "optional",
-                    "type": "uint32",
+                    "type": "int64",
                     "name": "frequency",
                     "id": 2
                 },

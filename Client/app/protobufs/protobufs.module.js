@@ -19,5 +19,7 @@ protobufs.value('UnsortedTransaction', Views.com.ilmservice.personalbudget.Unsor
 
 protobufs.value('ReportDataGroup', Views.com.ilmservice.personalbudget.ReportDataGroup);
 protobufs.value('ReportDataSeries', Views.com.ilmservice.personalbudget.ReportDataSeries);
+protobufs.value('ReportDataPoint', Views.com.ilmservice.personalbudget.ReportDataPoint);
+
 
 export default protobufs;

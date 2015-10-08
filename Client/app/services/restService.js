@@ -27,12 +27,25 @@ function ($http, ApiBaseUrl, TransactionList, Filter, DateRangeFilter,
   };
 
   this.dataGroup = (filter) => {
-    var query = new ReportDataGroup({filters:[new Filter({dateRangeFilter: filter})]});
+    var query = new ReportDataGroup({
+      filters:[
+        new Filter({
+          dateRangeFilter: filter
+        })
+      ]
+    });
     return protobufHTTP('POST', 'dataGroup', ReportDataGroup, query);
   };
 
   this.dataSeries = (filter, frequency) => {
-    var query = new ReportDataSeries({filters:[new Filter({dateRangeFilter: filter})]});
+    var query = new ReportDataSeries({
+      frequency: frequency,
+      filters:[
+        new Filter({
+          dateRangeFilter: filter
+        })
+      ]
+    });
     return protobufHTTP('POST', 'dataSeries', ReportDataSeries, query);
   };
 

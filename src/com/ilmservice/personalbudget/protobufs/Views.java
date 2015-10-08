@@ -3737,13 +3737,13 @@ public final class Views {
         int index);
 
     /**
-     * <code>optional uint32 frequency = 2;</code>
+     * <code>optional int64 frequency = 2;</code>
      */
     boolean hasFrequency();
     /**
-     * <code>optional uint32 frequency = 2;</code>
+     * <code>optional int64 frequency = 2;</code>
      */
-    int getFrequency();
+    long getFrequency();
 
     /**
      * <code>repeated .com.ilmservice.personalbudget.ReportDataGroup series = 3;</code>
@@ -3831,7 +3831,7 @@ public final class Views {
             }
             case 16: {
               bitField0_ |= 0x00000001;
-              frequency_ = input.readUInt32();
+              frequency_ = input.readInt64();
               break;
             }
             case 26: {
@@ -3924,17 +3924,17 @@ public final class Views {
     }
 
     public static final int FREQUENCY_FIELD_NUMBER = 2;
-    private int frequency_;
+    private long frequency_;
     /**
-     * <code>optional uint32 frequency = 2;</code>
+     * <code>optional int64 frequency = 2;</code>
      */
     public boolean hasFrequency() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 frequency = 2;</code>
+     * <code>optional int64 frequency = 2;</code>
      */
-    public int getFrequency() {
+    public long getFrequency() {
       return frequency_;
     }
 
@@ -3975,7 +3975,7 @@ public final class Views {
 
     private void initFields() {
       filters_ = java.util.Collections.emptyList();
-      frequency_ = 0;
+      frequency_ = 0L;
       series_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -3995,7 +3995,7 @@ public final class Views {
         output.writeMessage(1, filters_.get(i));
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(2, frequency_);
+        output.writeInt64(2, frequency_);
       }
       for (int i = 0; i < series_.size(); i++) {
         output.writeMessage(3, series_.get(i));
@@ -4015,7 +4015,7 @@ public final class Views {
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, frequency_);
+          .computeInt64Size(2, frequency_);
       }
       for (int i = 0; i < series_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -4146,7 +4146,7 @@ public final class Views {
         } else {
           filtersBuilder_.clear();
         }
-        frequency_ = 0;
+        frequency_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (seriesBuilder_ == null) {
           series_ = java.util.Collections.emptyList();
@@ -4542,34 +4542,34 @@ public final class Views {
         return filtersBuilder_;
       }
 
-      private int frequency_ ;
+      private long frequency_ ;
       /**
-       * <code>optional uint32 frequency = 2;</code>
+       * <code>optional int64 frequency = 2;</code>
        */
       public boolean hasFrequency() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional uint32 frequency = 2;</code>
+       * <code>optional int64 frequency = 2;</code>
        */
-      public int getFrequency() {
+      public long getFrequency() {
         return frequency_;
       }
       /**
-       * <code>optional uint32 frequency = 2;</code>
+       * <code>optional int64 frequency = 2;</code>
        */
-      public Builder setFrequency(int value) {
+      public Builder setFrequency(long value) {
         bitField0_ |= 0x00000002;
         frequency_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 frequency = 2;</code>
+       * <code>optional int64 frequency = 2;</code>
        */
       public Builder clearFrequency() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        frequency_ = 0;
+        frequency_ = 0L;
         onChanged();
         return this;
       }
@@ -6514,7 +6514,7 @@ public final class Views {
       "e\"-\n\017DateRangeFilter\022\r\n\005start\030\001 \001(\003\022\013\n\003e" +
       "nd\030\002 \001(\003\"\235\001\n\020ReportDataSeries\0226\n\007filters" +
       "\030\001 \003(\0132%.com.ilmservice.personalbudget.F" +
-      "ilter\022\021\n\tfrequency\030\002 \001(\r\022>\n\006series\030\003 \003(\013" +
+      "ilter\022\021\n\tfrequency\030\002 \001(\003\022>\n\006series\030\003 \003(\013" +
       "2..com.ilmservice.personalbudget.ReportD",
       "ataGroup\"\207\001\n\017ReportDataGroup\0226\n\007filters\030" +
       "\001 \003(\0132%.com.ilmservice.personalbudget.Fi" +
