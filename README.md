@@ -1,19 +1,18 @@
 # JavaWebApp
 
-Install JDK 8
-Install Glassfish 4 && run it
-Install Glassfish Tools For Eclipse
+  - Install JDK 8
+  - Install Glassfish 4 && run it
+  - Install Glassfish Tools For Eclipse
+  - eclipse > Window > Show View > Servers
+  - Add the glassfish server
+  - Project > Build All
 
-eclipse > Window > Show View > Servers
-
-Add the glassfish server
-
-Project > Build All
-
+```
 cd ./Client
 npm install
 jspm install
 gulp
+```
 
 Right click on project and select "Run on Server"
 
