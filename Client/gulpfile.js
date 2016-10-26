@@ -35,18 +35,18 @@ gulp.task('bundle-templates', [], function() {
 });
 
 gulp.task('bundle-js', ['bundle-js-copy'], function () {
-  return del('../index.js*', {force: true});
+  return del(['../index.js*', '../vendor.js*'], {force: true});
 });
 
 gulp.task('bundle-js-copy', ['bundle-js-build'], function () {
-  return gulp.src('../index.js*')
+  return gulp.src(['../index.js*', '../vendor.js*'])
         .pipe(gulp.dest(pathToDist));
 });
 
 gulp.task('bundle-js-build', [], function () {
   var builder = new Builder('./', 'config.js')
 
-  return builder.buildStatic(pathToSrc+'index.js', '../'+'index.js', {
+  var buildVendor = builder.buildStatic(pathToSrc+'vendor.js', '../'+'vendor.js', {
 	  runtime: false,
     //minify: true,
 	  sourceMaps: true,
@@ -56,6 +56,19 @@ gulp.task('bundle-js-build', [], function () {
     console.log('Build error');
     console.log(err);
   });
+
+  var buildIndex = builder.buildStatic(pathToSrc+'index.js', '../'+'index.js', {
+	  runtime: false,
+    //minify: true,
+	  sourceMaps: true,
+    lowResSourceMaps: true
+  })
+  .catch(function(err) {
+    console.log('Build error');
+    console.log(err);
+  });
+
+  return Promise.all([buildVendor, buildIndex]);
 });
 
 gulp.task('protobufs', function () {

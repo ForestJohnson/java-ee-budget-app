@@ -1,7 +1,5 @@
 'use strict';
 
-import Chart from 'chart'
-import angular from 'angular'
 import 'angular-ui-router'
 import 'angular-datepicker'
 import 'angular-chart'

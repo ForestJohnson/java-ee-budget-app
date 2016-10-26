@@ -1,5 +1,5 @@
 
-import tinycolor from 'tinycolor'
+
 
 let FormatHelper = function () {
 

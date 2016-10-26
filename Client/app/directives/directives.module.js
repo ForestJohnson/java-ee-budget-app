@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular'
-
 import registerTransactionList from './transactionList/transactionList'
 import registerGroupChart from './charts/group'
 import registerSeriesChart from './charts/series'

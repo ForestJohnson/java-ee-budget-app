@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular'
-
 import registerRestService from './RestService.js'
 import registerFormatHelper from './FormatHelper.js'
 

@@ -10,3 +10,6 @@
 /WebContent/index.js
 /WebContent/index.js.map
 /WebContent/templates.js
+Client/app/protobufs/fakeDir/
+WebContent/vendor.js
+WebContent/vendor.js.map
