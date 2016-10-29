@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 @Default
 public class LevelDbManager implements IDbManager {
 
-	private final String fileName = "testLevelDb1";
+	private final String fileName = "testLevelDb2";
 	private final Map<Short, LevelDbIndex> indexes;
 	private final DB db;
 	

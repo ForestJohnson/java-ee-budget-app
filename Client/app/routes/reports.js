@@ -73,8 +73,7 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
           };
         });
 
-        self.avgSavingsRate = self.savingsRate.data.reduce((total, x) => total + x.data[0].cents, 0) / self.savingsRate.data.length;
-        self.avgSavingsRate = Math.round(self.avgSavingsRate)+'%';
+
 
         self.incomeSpending.data = seriesData.map((step) => {
           return {
@@ -83,8 +82,19 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
           };
         });
 
+        var totals = self.incomeSpending.data.reduce(
+          (totals, x) => {
+            totals.income +=  x.data[0].cents;
+            totals.spending +=  x.data[1].cents;
+            return totals;
+          },
+          {income:0,spending:0}
+        );
+        self.avgSavingsRate = Math.round(((totals.income-totals.spending)/totals.income)*100)+'%';
+
         function getSavingsRate (data) {
-          var spending = data.filter((d) => d.cents < 0);
+          var spending = data.filter((d) => d.category.name.toLowerCase().indexOf('debt') == -1)
+            .filter((d) => d.cents < 0);
           var income = data.filter((d) => d.cents > 0);
 
           var totalSpending = spending
@@ -120,7 +130,8 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
                 color: DefaultChartColors[2],
                 name: 'Spending'
               },
-              cents: data.filter((d) => d.cents < 0)
+              cents: data.filter((d) => d.category.name.toLowerCase().indexOf('debt') == -1)
+                .filter((d) => d.cents < 0)
                 .reduce((total, d) => total + Math.abs(d.cents), 0)
             }
           ];
