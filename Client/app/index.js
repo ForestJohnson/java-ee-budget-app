@@ -20,6 +20,6 @@ var app = angular.module('client', [
   'client.routes'
 ]);
 
-app.value('ApiBaseUrl', 'api/');
+app.value('ApiBaseUrl', 'http://localhost:8080/Budget/api/');
 
 app.value('DefaultChartColors', Chart.defaults.global.colours);

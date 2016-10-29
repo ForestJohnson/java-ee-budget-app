@@ -21,6 +21,12 @@
               min-view="month">
         </div>
       </div>
+      <div class='col col-xs-6 col-sm-6 col-md-4 col-lg-4'>
+        <h3>Avg Savings Rate</h3>
+        <div class="single-number">
+          {{vm.avgSavingsRate}}
+        </div>
+      </div>
     </div>
 
     <div class="row-fluid">
@@ -40,11 +46,31 @@
 
     <div class="row-fluid">
       <div class='col col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-        <ilm-series-chart dataseries="vm.series.data"
+        <h3>Summary</h3>
+        <ilm-series-chart dataseries="vm.series.data" unit="$" abs="true"
                          type="Line">
         </ilm-series-chart>
       </div>
     </div>
+
+    <div class="row-fluid">
+      <div class='col col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <h3>Savings Rate</h3>
+        <ilm-series-chart dataseries="vm.savingsRate.data"
+                         type="Line">
+        </ilm-series-chart>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class='col col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <h3>Income and Spending</h3>
+        <ilm-series-chart dataseries="vm.incomeSpending.data" unit="$" abs="true"
+                         type="Line">
+        </ilm-series-chart>
+      </div>
+    </div>
+
   </div>
 
 

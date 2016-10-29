@@ -11,6 +11,8 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
   self.spendingByCategory = new ReportDataGroup({});
   self.summary = new ReportDataGroup({});
   self.series = new ReportDataSeries({});
+  self.savingsRate = new ReportDataSeries({});
+  self.incomeSpending = new ReportDataSeries({});
 
   self.monthMs = 1000*60*60*24*31;
   self.startDate = new Date(new Date().getTime() - self.monthMs * 12);
@@ -52,7 +54,9 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
           });
         });
 
-        self.spendingByCategory.data = aggregateData.filter((d) => d.cents < 0);
+        self.spendingByCategory.data = aggregateData
+          .filter((d) => d.category.name.toLowerCase().indexOf('debtrepayment') == -1)
+          .filter((d) => d.cents < 0);
         self.summary.data = summarize(aggregateData);
 
         self.series.data = seriesData.map((step) => {
@@ -61,6 +65,66 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
             filters: step.filters
           };
         });
+
+        self.savingsRate.data = seriesData.map((step) => {
+          return {
+            data: getSavingsRate(step.data),
+            filters: step.filters
+          };
+        });
+
+        self.avgSavingsRate = self.savingsRate.data.reduce((total, x) => total + x.data[0].cents, 0) / self.savingsRate.data.length;
+        self.avgSavingsRate = Math.round(self.avgSavingsRate)+'%';
+
+        self.incomeSpending.data = seriesData.map((step) => {
+          return {
+            data: getIncomeSpending(step.data),
+            filters: step.filters
+          };
+        });
+
+        function getSavingsRate (data) {
+          var spending = data.filter((d) => d.cents < 0);
+          var income = data.filter((d) => d.cents > 0);
+
+          var totalSpending = spending
+            .reduce((total, d) => total + Math.abs(d.cents), 0);
+          var totalIncome = income
+            .reduce((total, d) => total + Math.abs(d.cents), 0);
+
+          var savingsRate = ((totalIncome-totalSpending)/totalIncome)*100;
+
+          return [
+            {
+              category: {
+                color: DefaultChartColors[0],
+                name: 'SavingsRate'
+              },
+              cents: totalIncome == 0 ? 0 : savingsRate
+            }
+          ];
+        };
+
+        function getIncomeSpending (data) {
+          return [
+            {
+              category: {
+                color: DefaultChartColors[0],
+                name: 'Income'
+              },
+              cents: data.filter((d) => d.cents > 0)
+                .reduce((total, d) => total + Math.abs(d.cents), 0)
+            },
+            {
+              category: {
+                color: DefaultChartColors[2],
+                name: 'Spending'
+              },
+              cents: data.filter((d) => d.cents < 0)
+                .reduce((total, d) => total + Math.abs(d.cents), 0)
+            }
+          ];
+        };
 
         function summarize (data) {
           var spending = data.filter((d) => d.cents < 0);

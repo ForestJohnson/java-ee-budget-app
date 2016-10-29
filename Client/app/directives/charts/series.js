@@ -33,7 +33,16 @@ export default function registerDirective(module) {
                     if(!self.data[seriesId]) {
                       self.data[seriesId] = [];
                     }
-                    self.data[seriesId][stepId] = FormatHelper.centsToDollars(Math.abs(d.cents));
+                    var value = d.cents;
+                    if(self.abs == "true") {
+                      value = Math.abs(value);
+                    }
+                    if(self.unit == "$") {
+                      self.data[seriesId][stepId] = FormatHelper.centsToDollars(value);
+                    } else {
+                      self.data[seriesId][stepId] = Math.round(value*100)/100;
+                    }
+
                   }
                 )
               );
@@ -60,6 +69,8 @@ export default function registerDirective(module) {
         bindToController: true,
         scope: {
           dataseries: '=',
+          abs: '@',
+          unit: '@',
           type: '@'
         }
       }

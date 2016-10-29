@@ -21,7 +21,7 @@ import javax.ws.rs.ext.Provider;
 import com.google.protobuf.Message;
 
 @ApplicationPath("/api")
-public class JaxRsConfiguration extends Application {
+public class JaxRsProtobufConfiguration extends Application {
 	
     @Provider
     @Consumes("application/x-protobuf")
