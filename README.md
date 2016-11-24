@@ -5,6 +5,8 @@
   - Install Glassfish Tools For Eclipse
   - eclipse > Window > Show View > Servers
   - Add the glassfish server
+  - download protoc version 2 and place it in the tools folder. 
+    - (if you arent on windows you might have to change the ant build in the tools folder since it references protoc.exe)
   - Project > Build All
 
 ```
@@ -18,13 +20,13 @@ Right click on project and select "Run on Server"
 
 
 ## Import from your bank
-![Import from your bank](https://github.com/forestjohnsonilm/JavaWebApp/blob/master/budget3.jpg)
+![Import from your bank](budget3.jpg)
 
 ## Categorize your transactions
-![Categorize your transactions](https://github.com/forestjohnsonilm/JavaWebApp/blob/master/budget4.jpg)
+![Categorize your transactions](budget4.jpg)
 
 ## List transactions
-![Import from your bank](https://github.com/forestjohnsonilm/JavaWebApp/blob/master/budget2.jpg)
+![Import from your bank](budget2.jpg)
 
 ## Interactive reporting 
-![Import from your bank](https://github.com/forestjohnsonilm/JavaWebApp/blob/master/budget1.jpg)
+![Import from your bank](budget1.jpg)
