@@ -1134,6 +1134,10 @@ public final class Events {
        * <code>GNUCASH_CUSTOM = 2;</code>
        */
       GNUCASH_CUSTOM(2, 2),
+      /**
+       * <code>GNUCASH_ASSET_EXPORT = 3;</code>
+       */
+      GNUCASH_ASSET_EXPORT(3, 3),
       ;
 
       /**
@@ -1148,6 +1152,10 @@ public final class Events {
        * <code>GNUCASH_CUSTOM = 2;</code>
        */
       public static final int GNUCASH_CUSTOM_VALUE = 2;
+      /**
+       * <code>GNUCASH_ASSET_EXPORT = 3;</code>
+       */
+      public static final int GNUCASH_ASSET_EXPORT_VALUE = 3;
 
 
       public final int getNumber() { return value; }
@@ -1157,6 +1165,7 @@ public final class Events {
           case 0: return UNKNOWN;
           case 1: return BREMER;
           case 2: return GNUCASH_CUSTOM;
+          case 3: return GNUCASH_ASSET_EXPORT;
           default: return null;
         }
       }
@@ -1966,6 +1975,15 @@ public final class Events {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>optional int32 index = 2;</code>
+     */
+    boolean hasIndex();
+    /**
+     * <code>optional int32 index = 2;</code>
+     */
+    int getIndex();
+
+    /**
      * <code>repeated string fields = 1;</code>
      */
     com.google.protobuf.ProtocolStringList
@@ -2038,11 +2056,16 @@ public final class Events {
             }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 fields_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               fields_.add(bs);
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              index_ = input.readInt32();
               break;
             }
           }
@@ -2053,7 +2076,7 @@ public final class Events {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           fields_ = fields_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -2087,6 +2110,22 @@ public final class Events {
       return PARSER;
     }
 
+    private int bitField0_;
+    public static final int INDEX_FIELD_NUMBER = 2;
+    private int index_;
+    /**
+     * <code>optional int32 index = 2;</code>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 index = 2;</code>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
     public static final int FIELDS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList fields_;
     /**
@@ -2117,6 +2156,7 @@ public final class Events {
     }
 
     private void initFields() {
+      index_ = 0;
       fields_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
@@ -2135,6 +2175,9 @@ public final class Events {
       for (int i = 0; i < fields_.size(); i++) {
         output.writeBytes(1, fields_.getByteString(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(2, index_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2152,6 +2195,10 @@ public final class Events {
         }
         size += dataSize;
         size += 1 * getFieldsList().size();
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, index_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2270,8 +2317,10 @@ public final class Events {
 
       public Builder clear() {
         super.clear();
-        fields_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        index_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        fields_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2299,11 +2348,17 @@ public final class Events {
       public com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow buildPartial() {
         com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow result = new com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           fields_ = fields_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.fields_ = fields_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -2319,10 +2374,13 @@ public final class Events {
 
       public Builder mergeFrom(com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow other) {
         if (other == com.ilmservice.personalbudget.protobufs.Events.SpreadsheetRow.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
         if (!other.fields_.isEmpty()) {
           if (fields_.isEmpty()) {
             fields_ = other.fields_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureFieldsIsMutable();
             fields_.addAll(other.fields_);
@@ -2356,11 +2414,43 @@ public final class Events {
       }
       private int bitField0_;
 
+      private int index_ ;
+      /**
+       * <code>optional int32 index = 2;</code>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 index = 2;</code>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>optional int32 index = 2;</code>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 index = 2;</code>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.LazyStringList fields_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureFieldsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           fields_ = new com.google.protobuf.LazyStringArrayList(fields_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -2431,7 +2521,7 @@ public final class Events {
        */
       public Builder clearFields() {
         fields_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -3193,19 +3283,20 @@ public final class Events {
       "t.UploadSpreadsheetEventH\000\022S\n\024sortTransa" +
       "ctionEvent\030\013 \001(\01323.com.ilmservice.person" +
       "albudget.SortTransactionEventH\000B\014\n\nevent" +
-      "_type\"\202\002\n\026UploadSpreadsheetEvent\022W\n\006sour" +
+      "_type\"\234\002\n\026UploadSpreadsheetEvent\022W\n\006sour" +
       "ce\030\002 \001(\0162G.com.ilmservice.personalbudget" +
       ".UploadSpreadsheetEvent.SpreadsheetSourc",
       "e\022\020\n\010filename\030\003 \001(\t\022;\n\004rows\030\004 \003(\0132-.com." +
       "ilmservice.personalbudget.SpreadsheetRow" +
-      "\"@\n\021SpreadsheetSource\022\013\n\007UNKNOWN\020\000\022\n\n\006BR" +
-      "EMER\020\001\022\022\n\016GNUCASH_CUSTOM\020\002\" \n\016Spreadshee" +
-      "tRow\022\016\n\006fields\030\001 \003(\t\"\235\001\n\024SortTransaction" +
-      "Event\022?\n\013transaction\030\001 \001(\0132*.com.ilmserv" +
-      "ice.personalbudget.Transaction\022D\n\010catego" +
-      "ry\030\003 \001(\01322.com.ilmservice.personalbudget" +
-      ".TransactionCategoryB)\n\'com.ilmservice.p" +
-      "ersonalbudget.protobufs"
+      "\"Z\n\021SpreadsheetSource\022\013\n\007UNKNOWN\020\000\022\n\n\006BR" +
+      "EMER\020\001\022\022\n\016GNUCASH_CUSTOM\020\002\022\030\n\024GNUCASH_AS" +
+      "SET_EXPORT\020\003\"/\n\016SpreadsheetRow\022\r\n\005index\030" +
+      "\002 \001(\005\022\016\n\006fields\030\001 \003(\t\"\235\001\n\024SortTransactio" +
+      "nEvent\022?\n\013transaction\030\001 \001(\0132*.com.ilmser" +
+      "vice.personalbudget.Transaction\022D\n\010categ" +
+      "ory\030\003 \001(\01322.com.ilmservice.personalbudge" +
+      "t.TransactionCategoryB)\n\'com.ilmservice.",
+      "personalbudget.protobufs"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3237,7 +3328,7 @@ public final class Events {
     internal_static_com_ilmservice_personalbudget_SpreadsheetRow_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_ilmservice_personalbudget_SpreadsheetRow_descriptor,
-        new java.lang.String[] { "Fields", });
+        new java.lang.String[] { "Index", "Fields", });
     internal_static_com_ilmservice_personalbudget_SortTransactionEvent_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_com_ilmservice_personalbudget_SortTransactionEvent_fieldAccessorTable = new

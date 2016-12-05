@@ -219,7 +219,8 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "rule": "optional",
                     "type": "DateRangeFilter",
                     "name": "dateRangeFilter",
-                    "id": 1
+                    "id": 1,
+                    "oneof": "filter_type"
                 }
             ],
             "oneofs": {

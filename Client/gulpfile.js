@@ -21,7 +21,7 @@ var watchJs = pathToSrc+'**/*.js';
 var watchLess = [pathToSrc+'**/*.less', angularChartLess, datePickerCss];
 var watchTemplates = pathToSrc+'**/*.tmpl.html';
 var watchProtobuf = pathToProtobuf+'/*.proto';
-var outputProtobuf = 'app/protobufs/fakeDir';
+var outputProtobuf = 'app/protobufs';
 
 gulp.task('bundle-templates', [], function() {
   return gulp.src(watchTemplates)

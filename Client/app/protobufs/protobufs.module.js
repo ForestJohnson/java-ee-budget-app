@@ -1,8 +1,8 @@
 'use strict';
 
-import Data from './Client/Data.proto.js'
-import Events from './Client/Events.proto.js'
-import Views from './Client/Views.proto.js'
+import Data from './Data.proto.js'
+import Events from './Events.proto.js'
+import Views from './Views.proto.js'
 
 var protobufs = angular.module('client.protobufs', []);
 

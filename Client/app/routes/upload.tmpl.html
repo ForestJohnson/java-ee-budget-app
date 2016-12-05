@@ -1,16 +1,8 @@
 
 <div ng-if='!vm.transactionList.transactions.length'>
-  <div>
-    <h4>CSV - paste</h4>
-    <textarea ng-model="vm.csvString" rows="7" cols="40"></textarea>
-  </div>
-
-  <hr/>
-  <button class="btn btn-primary"
-          ng-disabled=" !vm.csvString"
-          ng-click="vm.uploadSpreadsheet()">
-    Parse Transactions
-  </button>
+  <drag-and-drop-file callback="vm.uploadSpreadsheet(dataTransfer)">
+    Drop CSV File(s) Here
+  </drag-and-drop-file>
 </div>
 <div ng-if='vm.transactionList.transactions.length'>
 

@@ -15,14 +15,28 @@ function UploadController($state, TransactionList, Event, UploadSpreadsheetEvent
   this.transactionList = new TransactionList({});
   this.csvString = '';
 
-  this.uploadSpreadsheet = () => {
-    var spreadsheetEvent = csvToSpreadsheetEvent(this.csvString);
-    if(spreadsheetEvent) {
-      RestService.postSpreadsheetEvent(spreadsheetEvent)
-        .then((response) => {
-          this.transactionList = response.data;
-        });
+  this.uploadSpreadsheet = (dataTransfer) => {
+
+    if(dataTransfer.files.length > 1) {
+      throw new Error("ERROR: ONLY SUPPORTS ONE FILE AT A TIME");
     }
+    Array.prototype.forEach.call(dataTransfer.files, file => {
+      var reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = (resultEvent) => {
+        var spreadsheetEvent = csvToSpreadsheetEvent(resultEvent.target.result);
+        if(spreadsheetEvent) {
+          RestService.postSpreadsheetEvent(spreadsheetEvent)
+            .then((response) => {
+              this.transactionList = response.data;
+            });
+        }
+      };
+      reader.onerror = (errorEvent) => {
+        throw new Error("ERROR:  FILE READ ERROR " + errorEvent);
+      };
+    });
+
   };
 
   this.postAllTransactions = () => {
@@ -39,8 +53,9 @@ function UploadController($state, TransactionList, Event, UploadSpreadsheetEvent
       return new Event({
         date: new Date().getTime(),
         uploadSpreadsheetEvent: new UploadSpreadsheetEvent({
-          rows: parseResult.data.map((stringArray) => new SpreadsheetRow({
-            fields: stringArray
+          rows: parseResult.data.map((stringArray, i) => new SpreadsheetRow({
+            fields: stringArray,
+            index: i
           }))
         })
       });

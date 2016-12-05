@@ -20,6 +20,7 @@ message UploadSpreadsheetEvent {
       UNKNOWN = 0;
       BREMER = 1;
       GNUCASH_CUSTOM = 2;
+      GNUCASH_ASSET_EXPORT = 3;
   }
   optional SpreadsheetSource source = 2;
   optional string filename = 3;
@@ -27,6 +28,7 @@ message UploadSpreadsheetEvent {
 }
 
 message SpreadsheetRow {
+  optional int32 index = 2;
   repeated string fields = 1;
 }
 

@@ -162,13 +162,15 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                     "rule": "optional",
                     "type": "UploadSpreadsheetEvent",
                     "name": "uploadSpreadsheetEvent",
-                    "id": 10
+                    "id": 10,
+                    "oneof": "event_type"
                 },
                 {
                     "rule": "optional",
                     "type": "SortTransactionEvent",
                     "name": "sortTransactionEvent",
-                    "id": 11
+                    "id": 11,
+                    "oneof": "event_type"
                 }
             ],
             "oneofs": {
@@ -215,6 +217,10 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                         {
                             "name": "GNUCASH_CUSTOM",
                             "id": 2
+                        },
+                        {
+                            "name": "GNUCASH_ASSET_EXPORT",
+                            "id": 3
                         }
                     ]
                 }
@@ -223,6 +229,12 @@ module.exports = require("protobufjs").newBuilder({})['import']({
         {
             "name": "SpreadsheetRow",
             "fields": [
+                {
+                    "rule": "optional",
+                    "type": "int32",
+                    "name": "index",
+                    "id": 2
+                },
                 {
                     "rule": "repeated",
                     "type": "string",

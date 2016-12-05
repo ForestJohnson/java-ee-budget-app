@@ -1,5 +1,6 @@
 package com.ilmservice.personalbudget.events;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -65,7 +67,8 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 				UploadSpreadsheetEvent.SpreadsheetSource.BREMER,
 				"<Date><CheckNum><Description><Withdrawal Amount><Deposit Amount><Additional Info>",
 				1,
-				(builder, row) -> {
+				(row) -> {
+					Transaction.Builder builder = Transaction.newBuilder();
 					float outDollars;
 					float inDollars;
 					int checkNumber;
@@ -118,76 +121,51 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
+					return builder.build();
 				}
 			),
+			new SpreadsheetParser(
+					UploadSpreadsheetEvent.SpreadsheetSource.GNUCASH_ASSET_EXPORT,
+					"DateAccount NameNumberDescriptionNotesMemoCategoryTypeActionReconcileTo With SymFrom With SymTo Num.From Num.To Rate/PriceFrom Rate/Price",
+					1,
+					(row) -> {
+						//System.out.println("" + (row.hasIndex() ? row.getIndex() : -1));
+						if(row.hasIndex() && row.getIndex() % 3 == 1) {
+							String account = row.getFields(1);
+							//System.out.println(account);
+							
+							if(account.equals("fidelity") || account.equals("Bremer") || account.equals("AmericanFunds")) {
+								SpreadsheetRow.Builder newRow = SpreadsheetRow.newBuilder();
+								newRow.addFields(row.getFields(0)); // date
+								newRow.addFields(row.getFields(2)); // check num
+								newRow.addFields(row.getFields(3)+" "+row.getFields(4)); //description
+								String partialCategory = row.getFields(6);
+								String category = account+":"+partialCategory;
+								float dollars = 0f;
+								String dollarsString = row.getFields(10).replace("$", "").replace(",", "");
+								try(Scanner dollarsScanner = new Scanner(dollarsString)) {
+									dollars = dollarsScanner.hasNextFloat() ? dollarsScanner.nextFloat() : 0f;
+								}
+								if(account.equals("AmericanFunds") || account.equals("fidelity")) {
+									category = "payroll:401k"; 
+									dollars = -dollars;
+							    }
+								newRow.addFields(category);
+								newRow.addFields(NumberFormat.getInstance().format(dollars));
+								
+								//System.out.println(newRow.getFields(0) + ", " + newRow.getFields(1) + ", " + newRow.getFields(2) + ", " + newRow.getFields(3) + ", " + newRow.getFields(4));
+								
+								return this.basicMapper(newRow.build());
+						    }
+						}
+						return null;
+					}
+				),
 			new SpreadsheetParser(
 					UploadSpreadsheetEvent.SpreadsheetSource.GNUCASH_CUSTOM,
 					"DateCheck NumberDescriptionCategoryDollars",
 					1,
-					(builder, row) -> {
-						float dollars;
-						int checkNumber;
-						try(Scanner dollarsScanner = new Scanner(row.getFields(4))) {
-							dollars = dollarsScanner.hasNextFloat() ? dollarsScanner.nextFloat() : 0f;
-						}
-						try(Scanner checkNumberScanner = new Scanner(row.getFields(1))) {
-							checkNumber = checkNumberScanner.hasNextInt() ? checkNumberScanner.nextInt() : -1;
-						}
-						
-						String description = row.getFields(2);
-						
-						String categoryName = row.getFields(3);
-						
-						if(categoriesByName.keySet().isEmpty()) {
-							transactionCategoryStore.withStream(
-									(s) -> s.collect(
-											() -> { return categoriesByName; }, 
-											(map, category) -> { 
-												map.compute(category.getName(), (k, v) -> category);
-											}, 
-											Map::putAll
-										)
-								);
-						}
-						
-						if(!categoriesByName.containsKey(categoryName)) {
-							int colorId = categoriesByName.keySet().size()+1;
-							float fluctuation = (float)Math.sin(nonCorrelatedSineFudgeFactor*colorId);
-							float fluctuation2 = (float)Math.sin(nonCorrelatedSineFudgeFactor*goldenRatio*colorId);
-							TransactionCategory newCategory = 
-									TransactionCategory.newBuilder()
-									.setColor(
-											Color.newBuilder()
-											.setH((goldenRatio * colorId) % 1)
-											.setS(0.65f + fluctuation*0.3f)
-											.setV(0.7f + fluctuation2*0.3f)
-										)
-									.setName(categoryName)
-									.setId(categoriesByName.keySet().size()+1)
-									.build();
-							
-							try {
-								categoriesByName.put(categoryName, transactionCategoryStore.put(newCategory));
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						
-						try {
-							builder.setCategoryId(categoriesByName.get(categoryName).getId());
-							builder.setCents(Math.round((dollars)*100f));
-							builder.setDate(
-								new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-									.parse(row.getFields(0)).getTime()
-							);
-							builder.setDescription(description);
-							if(checkNumber != -1) {
-								builder.setCheckNumber(checkNumber);
-							}
-						} catch (Exception e) {
-							throw new RuntimeException(e);
-						}
-					}
+					this::basicMapper
 				)
 		};
 	}
@@ -205,18 +183,86 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		
 		SpreadsheetParser parser = getParser(spreadsheet);
 		
+		//System.out.println(parser.headers);
+		
 		return TransactionList.newBuilder().addAllTransactions(
 			() ->
 			getRowsStream(spreadsheet)
 			.skip(parser.skip)
-			.map((row) -> {
-				Transaction.Builder builder = Transaction.newBuilder();
-				parser.mapper.accept(builder, row);
-				return builder.build();
-			}).iterator() 
+			.map(parser.mapper)
+			.filter(x -> x != null)
+			.iterator() 
 		).build();
 	}
 
+	private Transaction basicMapper (SpreadsheetRow row) {  
+		Transaction.Builder builder = Transaction.newBuilder();
+		float dollars;
+		int checkNumber;
+		try(Scanner dollarsScanner = new Scanner(row.getFields(4))) {
+			dollars = dollarsScanner.hasNextFloat() ? dollarsScanner.nextFloat() : 0f;
+		}
+		try(Scanner checkNumberScanner = new Scanner(row.getFields(1))) {
+			checkNumber = checkNumberScanner.hasNextInt() ? checkNumberScanner.nextInt() : -1;
+		}
+		
+		String description = row.getFields(2);
+		
+		String categoryName = row.getFields(3);
+		
+		if(categoriesByName.keySet().isEmpty()) {
+			transactionCategoryStore.withStream(
+					(s) -> s.collect(
+							() -> { return categoriesByName; }, 
+							(map, category) -> { 
+								map.compute(category.getName(), (k, v) -> category);
+							}, 
+							Map::putAll
+						)
+				);
+		}
+		
+		if(!categoriesByName.containsKey(categoryName)) {
+			int colorId = categoriesByName.keySet().size()+1;
+			float fluctuation = (float)Math.sin(nonCorrelatedSineFudgeFactor*colorId);
+			float fluctuation2 = (float)Math.sin(nonCorrelatedSineFudgeFactor*goldenRatio*colorId);
+			TransactionCategory newCategory = 
+					TransactionCategory.newBuilder()
+					.setColor(
+							Color.newBuilder()
+							.setH((goldenRatio * colorId) % 1)
+							.setS(0.65f + fluctuation*0.3f)
+							.setV(0.7f + fluctuation2*0.3f)
+						)
+					.setName(categoryName)
+					.setId(categoriesByName.keySet().size()+1)
+					.build();
+			
+			try {
+				categoriesByName.put(categoryName, transactionCategoryStore.put(newCategory));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			builder.setCategoryId(categoriesByName.get(categoryName).getId());
+			builder.setCents(Math.round((dollars)*100f));
+			builder.setDate(
+				new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+					.parse(row.getFields(0)).getTime()
+			);
+			builder.setDescription(description);
+			if(checkNumber != -1) {
+				builder.setCheckNumber(checkNumber);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return builder.build();
+	}
+	
+	
 	private Stream<SpreadsheetRow> getRowsStream(UploadSpreadsheetEvent spreadsheet) {
 		return spreadsheet.getRowsList()
 			.stream()
@@ -245,13 +291,13 @@ public class SpreadsheetUploadEventHandler implements ISpreadsheetUploadEventHan
 		public final UploadSpreadsheetEvent.SpreadsheetSource source;
 		public final String headers;
 		public final int skip;
-		public final BiConsumer<Transaction.Builder, SpreadsheetRow> mapper;
+		public final Function<SpreadsheetRow, Transaction> mapper;
 		
 		private SpreadsheetParser (
 				UploadSpreadsheetEvent.SpreadsheetSource source,
 				String headers, 
 				int skip,
-				BiConsumer<Transaction.Builder, SpreadsheetRow> mapper
+				Function<SpreadsheetRow, Transaction> mapper
 			) {
 			this.source = source;
 			this.headers = headers;
