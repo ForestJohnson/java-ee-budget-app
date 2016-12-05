@@ -25,7 +25,11 @@ let FormatHelper = function () {
       "Jan", "Feb", "Mar", "Apr", "May", "June",
       "July", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-    return monthNames[date.getMonth()] + ' ' + date.getFullYear();
+    var monthIndex = date.getMonth();
+    if(date.getDate() > 15) {
+      monthIndex += 1;
+    }
+    return monthNames[monthIndex] + ' ' + date.getFullYear();
   };
 
   this.formatter = (dateLong) => {

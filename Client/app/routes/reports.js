@@ -14,7 +14,7 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
   self.savingsRate = new ReportDataSeries({});
   self.incomeSpending = new ReportDataSeries({});
 
-  self.monthMs = 1000*60*60*24*31;
+  self.monthMs = 1000*2628000;
   self.startDate = new Date(new Date().getTime() - self.monthMs * 12);
   self.endDate = new Date();
 
@@ -43,20 +43,29 @@ function ReportsController($scope, RestService, ReportDataGroup, ReportDataSerie
 
         var seriesData = response.data.series;
 
-        var aggregateData = []
+        var aggregateData = [];
         seriesData.forEach((step) => {
           step.data.forEach((p, i) => {
-            if(!aggregateData[i]) {
-              aggregateData[i] = angular.extend({}, p);
-            } else {
-              aggregateData[i].cents += p.cents;
-            }
+            aggregateData.push(p);
           });
         });
 
         self.spendingByCategory.data = aggregateData
           .filter((d) => d.category.name.toLowerCase().indexOf('debtrepayment') == -1)
-          .filter((d) => d.cents < 0);
+          .filter((d) => d.cents < 0)
+          .reduce(
+            (list, d) => {
+              var result = list.filter(x => x.category.name == d.category.name)[0];
+              if(!result) {
+                list.push(angular.extend({}, d));
+              } else {
+                result.cents += d.cents;
+              }
+              return list;
+            },
+            []
+          );
+
         self.summary.data = summarize(aggregateData);
 
         self.series.data = seriesData.map((step) => {
