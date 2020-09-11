@@ -1,3 +1,7 @@
+# DEPRECATED
+
+For the continuation of this project, see https://git.sequentialread.com/forest/LibreBookKeeper
+
 # JavaWebApp
 
   - Install JDK 8
